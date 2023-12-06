@@ -139,14 +139,17 @@ function App() {
 
 function WSW({ children }) {
   // WSW stands for WebSiteWrap, it is meant to wrap all the routes in the NPT website.
-  // I will make a different wrapper for the admin panel.
   return (
     <div>
-      <div className="p-1 min-h-screen h-screen w-screen">
-        <div className="mx-auto border rounded-lg shadow-md">
-          <Header />
-          <div className="p-4">{children}</div>
-          <Footer />
+      <div className="py-1 w-11/12 mx-auto h-full">
+        <div className="border rounded-lg shadow-md h-full">
+          <div>
+            <Header />
+            <div>
+              <div className="p-2">{children}</div>
+            </div>
+            <Footer />
+          </div>
         </div>
       </div>
     </div>

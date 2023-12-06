@@ -76,6 +76,17 @@ export async function getServices() {
   }
 }
 
+export async function getWebsite() {
+  const url = publicUrl + "/website";
+  try {
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    handleErrorReporting(error);
+    throw error;
+  }
+}
+
 export async function postAppointment(appointment) {
   const requestBody = {
     ...appointment,
@@ -120,6 +131,49 @@ export async function reportError(error) {
     await axios.post(errorReportingUrl, requestBody);
   } catch (error) {
     console.log("An error occured while trying to report the error: " + error);
+    throw error;
+  }
+}
+
+export async function authenticate(user) {
+  // http://localhost:8765/security-service/api/v1/public/authenticate
+  const authenticationUrl = authUrl + "/authenticate";
+  const requestBody = {
+    ...user,
+  };
+  try {
+    const response = await axios.post(authenticationUrl, requestBody);
+    return response.data.token;
+  } catch (error) {
+    handleErrorReporting(error);
+    // console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+export async function validate(token) {
+  const validationUrl = authUrl + "/validate/" + token;
+  try {
+    const response = await axios.get(validationUrl);
+    return response.data;
+  } catch (error) {
+    handleErrorReporting(error);
+    // console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+export async function validateAction(token, action) {
+  const registerUrl = authUrl + "/validate-action/" + token;
+  const requestBody = {
+    ...action,
+  };
+  try {
+    const response = await axios.post(registerUrl, requestBody);
+    return response.data;
+  } catch (error) {
+    handleErrorReporting(error);
+    // console.error("Error fetching data:", error);
     throw error;
   }
 }

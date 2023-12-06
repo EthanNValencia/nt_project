@@ -1,7 +1,7 @@
-# docker-compose-001.yaml  launch.sh	 nt-naming-server     sql
-# docker-compose.yaml	 MySQL.txt	 nt-security-service
-# email_service		 npt-server	 postgres-data
-# error_service		 nt-api-gateway  sms_service
+# admin_front  docker-compose.yaml  naming_server  postgres_data     sql
+# api_gateway  email_service        npt            README.md
+# curl.sh      error_service        npt_front      security_service
+# dev.sh       launch.sh            old_data       sms_service
 #!/bin/sh
 #ls
 
@@ -17,8 +17,8 @@ terminator --new-tab -e "cd email_service/; bash -c 'echo -ne \"\033]0;Email\007
 terminator --new-tab -e "cd error_service/; bash -c 'echo -ne \"\033]0;Error\007\"'; mvn spring-boot:run" &
 terminator --new-tab -e "cd npt/; bash -c 'echo -ne \"\033]0;NPT\007\"'; mvn spring-boot:run" &
 # sleep 10
-terminator --new-tab -e "cd admin_front/; bash -c 'echo -ne \"\033]0;Admin\007\"'; npm run dev" &
-terminator --new-tab -e "cd npt_front/; bash -c 'echo -ne \"\033]0;Npt\007\"'; npm run dev" &
+terminator --new-tab -e "cd admin_front/; bash -c 'echo -ne \"\033]0;Admin-Front\007\"'; npm run dev" &
+terminator --new-tab -e "cd npt_front/; bash -c 'echo -ne \"\033]0;Npt-Front\007\"'; npm run dev" &
 sleep 5
 firefox --new-tab http://localhost:5050 &
 firefox --new-tab http://localhost:4001/login &
