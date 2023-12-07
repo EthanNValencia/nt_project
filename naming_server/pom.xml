@@ -8,11 +8,11 @@
 		<version>3.1.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.nephew.ns</groupId>
-	<artifactId>nt-naming-server</artifactId>
+	<groupId>com.nephew.namingserver</groupId>
+	<artifactId>naming-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>nt-naming-server</name>
-	<description>Demo project for Spring Boot</description>
+	<name>naming-server</name>
+	<description>Naming Server</description>
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2022.0.4</spring-cloud.version>
