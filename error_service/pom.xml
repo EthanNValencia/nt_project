@@ -9,7 +9,7 @@
 		<version>3.1.3</version>
 		<relativePath />
 	</parent>
-	<groupId>com.nephew.es</groupId>
+	<groupId>com.nephew.error</groupId>
 	<artifactId>error-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>error-service</name>

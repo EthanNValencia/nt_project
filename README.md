@@ -3,7 +3,7 @@
 ## Run Docker Compose
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ## Connecting to pgAdmin

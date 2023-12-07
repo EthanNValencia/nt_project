@@ -9,10 +9,10 @@
 		<version>3.1.3</version>
 		<relativePath /> 
 	</parent>
-	<groupId>com.common</groupId>
+	<groupId>com.nephew.common</groupId>
 	<artifactId>common</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<description>Common library for nt project entities and other things.</description>
+	<description>Common library for entities and other things.</description>
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2022.0.4</spring-cloud.version>
