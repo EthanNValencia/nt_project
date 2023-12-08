@@ -1,8 +1,9 @@
 import React from "react";
 
-function ApiError() {
+function ApiError(props) {
+  const { response } = props;
   return (
-    <div className="flex">
+    <div className="flex text-red-600">
       <svg
         className="w-16 h-16 px-2 py-2"
         viewBox="0 0 16 16"
@@ -25,8 +26,7 @@ function ApiError() {
         </g>
       </svg>
       <div className="w-48">
-        Ops! It looks like there was an error. We apologize for this problem and
-        we are working to fix it.
+        {response ? response : "Ops! It looks like there was an error."}
       </div>
     </div>
   );

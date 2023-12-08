@@ -24,24 +24,29 @@ public class PendingCredential implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column(length = 50)
 	private String firstName;
+	@Column(length = 50)
 	private String lastName;
 	@Column(unique = true)
 	private String email;
 	private String password;
-	private String serviceName;
+	@Column(length = 50)
+	private String companyName;
 	@Enumerated(EnumType.STRING)
 	private Role role;
-	
+	@Column(length = 50)
 	private String pendingCode;
+	@Column(length = 50)
+	private String approvalCode;
 
-	public PendingCredential(String firstName, String lastName, String email, String password, String serviceName, Role role) {
+	public PendingCredential(String firstName, String lastName, String email, String password, String companyName, Role role) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
-		this.serviceName = serviceName;
+		this.companyName = companyName;
 		this.role = role;
 	}
 	
@@ -55,6 +60,21 @@ public class PendingCredential implements UserDetails {
 
 	public void setPendingCode(String pendingCode) {
 		this.pendingCode = pendingCode;
+	}
+	
+	public void generateApprovalCode() {
+		int minValue = 1;
+        int maxValue = 10000;
+        double randomValue = Math.random() * (maxValue - minValue + 1) + minValue;
+		this.approvalCode = String.valueOf(hashCode() + (int) randomValue);
+	}
+
+	public String getApprovalCode() {
+		return approvalCode;
+	}
+
+	public void setApprovalCode(String approvalCode) {
+		this.approvalCode = approvalCode;
 	}
 
 	public PendingCredential() {
@@ -102,12 +122,12 @@ public class PendingCredential implements UserDetails {
 		this.password = password;
 	}
 
-	public String getServiceName() {
-		return serviceName;
+	public String getCompanyName() {
+		return companyName;
 	}
 
-	public void setServiceName(String serviceName) {
-		this.serviceName = serviceName;
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
 	public Role getRole() {
@@ -150,7 +170,7 @@ public class PendingCredential implements UserDetails {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, firstName, id, lastName, password, role, serviceName);
+		return Objects.hash(email, firstName, id, lastName, password, role, companyName);
 	}
 
 	@Override
@@ -165,15 +185,14 @@ public class PendingCredential implements UserDetails {
 		return Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName)
 				&& Objects.equals(id, other.id) && Objects.equals(lastName, other.lastName)
 				&& Objects.equals(password, other.password) && Objects.equals(pendingCode, other.pendingCode)
-				&& role == other.role && Objects.equals(serviceName, other.serviceName);
+				&& role == other.role && Objects.equals(companyName, other.companyName);
 	}
 
 	@Override
 	public String toString() {
 		return "PendingCredential [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email="
-				+ email + ", serviceName=" + serviceName + ", role=" + role + ", pendingCode=" + pendingCode + "]";
+				+ email + ", companyName=" + companyName + ", role=" + role + ", pendingCode=" + pendingCode
+				+ ", approvalCode=" + approvalCode + "]";
 	}
-	
-	
 
 }

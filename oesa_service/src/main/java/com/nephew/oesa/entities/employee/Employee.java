@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nephew.oesa.entities.Appointment;
 import com.nephew.oesa.entities.Office;
 import com.nephew.oesa.entities.OfficeDailySchedule;
 import com.nephew.oesa.entities.Services;
+import com.nephew.oesa.entities.website.Website;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -49,7 +51,7 @@ public class Employee {
 	private String workPhone;
 	@Column(length = 20, nullable = true)
 	private String personalPhone;
-	private String subject;  // her
+	private String subject; // her
 	private String possessive; // she, she has something (possessive)
 
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
@@ -60,7 +62,7 @@ public class Employee {
 	@OneToMany(mappedBy = "employee", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, orphanRemoval = true)
 	@JsonIgnoreProperties("employee")
 	private List<Appointment> appointments = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@JsonIgnoreProperties("employee")
 	private Set<EmployeeDailySchedule> schedule = new HashSet<>();
@@ -69,41 +71,35 @@ public class Employee {
 	@JoinColumn(name = "employee_id", referencedColumnName = "office_id")
 	@JsonIgnoreProperties("employees")
 	private Office office;
-	
+
 	@OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnoreProperties("employee")
 	private EmployeeContent employeeContent;
-	
+
 	@OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnoreProperties("employee")
 	private EmployeeSocialMediaProfile profile;
-	
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JsonIgnoreProperties("employee")
-    private List<BiographicalText> biographicalTexts = new ArrayList<>();
-    
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JsonIgnoreProperties("employee")
-    private List<InformationalText> informationalTexts = new ArrayList<>();
-	
+
+	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@JsonIgnoreProperties("employee")
+	private List<BiographicalText> biographicalTexts = new ArrayList<>();
+
+	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@JsonIgnoreProperties("employee")
+	private List<InformationalText> informationalTexts = new ArrayList<>();
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, img, meta, firstName, middleName, lastName, services, role, role_id);
 	}
 
-
-
 	public EmployeeSocialMediaProfile getProfile() {
 		return profile;
 	}
 
-
-
 	public void setProfile(EmployeeSocialMediaProfile profile) {
 		this.profile = profile;
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -122,7 +118,7 @@ public class Employee {
 	public List<BiographicalText> getBiographicalTexts() {
 		return biographicalTexts;
 	}
-	
+
 	public List<InformationalText> getInformationalTexts() {
 		return informationalTexts;
 	}
@@ -251,7 +247,6 @@ public class Employee {
 	public String getImg() {
 		return img;
 	}
-	
 
 	public void setImg(String img) {
 		this.img = img;
@@ -280,7 +275,7 @@ public class Employee {
 	public void setMeta(String meta) {
 		this.meta = meta;
 	}
-	
+
 	public Set<Services> getServices() {
 		return services;
 	}
@@ -288,7 +283,7 @@ public class Employee {
 	public void setServices(Set<Services> services) {
 		this.services = services;
 	}
-	
+
 	public void convertServicesListToSet(List<Services> services) {
 		this.services = new HashSet<Services>(services);
 	}
@@ -296,30 +291,30 @@ public class Employee {
 	public void assignSpecialtiesWithEmployeeId(Set<Services> specialties) {
 		this.services = assignEmployeeToElements(specialties);
 	}
-	
+
 	public void assignSpecialtiesWithEmployeeId(List<Services> specialtiesList) {
 		this.services = assignEmployeeToElements(new HashSet<>(specialtiesList));
 	}
-	
+
 	public Set<Long> returnServicesIdAsSet() {
 		Set<Long> serviceIds = new HashSet<>();
-		for(Services service: services) {
+		for (Services service : services) {
 			serviceIds.add(service.getId());
 		}
 		return serviceIds;
 	}
-	
+
 	private Set<Services> assignEmployeeToElements(Set<Services> specialties) {
-		for(Services specialty : specialties) {
+		for (Services specialty : specialties) {
 			Set<Employee> employees = new HashSet<>();
 			employees.add(new Employee(this.getId()));
-		    specialty.setEmployees(employees);
+			specialty.setEmployees(employees);
 		}
 		return specialties;
 	}
 
 	public void generateScheduleFromOffice(Set<OfficeDailySchedule> officeDailySchedule) {
-		for(OfficeDailySchedule officeSchedule: officeDailySchedule) {
+		for (OfficeDailySchedule officeSchedule : officeDailySchedule) {
 			EmployeeDailySchedule employeeSchedule = new EmployeeDailySchedule();
 			employeeSchedule.setDay(officeSchedule.getDay());
 			employeeSchedule.setBeginTime(officeSchedule.getBeginTime());
@@ -329,19 +324,15 @@ public class Employee {
 		}
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "Employee [id=" + id + ", firstName=" + firstName + ", middleName=" + middleName + ", lastName="
 				+ lastName + ", img=" + img + ", role_id=" + role_id + ", role=" + role + ", meta=" + meta + ", email="
 				+ email + ", workPhone=" + workPhone + ", personalPhone=" + personalPhone + ", subject=" + subject
-				+ ", possessive=" + possessive + ", services=" + services.size() + ", appointments=" + appointments.size()
-				+ ", schedule=" + schedule.size() + ", office=" + office + ", employeeContent=" + employeeContent
-				+ ", profile=" + profile + ", biographicalTexts=" + biographicalTexts.size() + ", informationalTexts="
-				+ informationalTexts.size() + "]";
+				+ ", possessive=" + possessive + ", services=" + services.size() + ", appointments="
+				+ appointments.size() + ", schedule=" + schedule.size() + ", office=" + office + ", employeeContent="
+				+ employeeContent + ", profile=" + profile + ", biographicalTexts=" + biographicalTexts.size()
+				+ ", informationalTexts=" + informationalTexts.size() + "]";
 	}
-
-
 
 }

@@ -1,0 +1,76 @@
+DROP TABLE IF EXISTS appointment, employee, employee_content, employee_daily_schedule, employee_service,informational_text, biographical_text, employee_social_media_profile, faqs, office, office_daily_schedule, office_social_media_profile, services, website, website_social_media_profile, page, page_text;
+
+DROP TABLE IF EXISTS credential, pending_credential;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO faqs (question, answer, question_is_answered) 
+VALUES 
+('When is my payment due? ', 'When appointment is made.', true) 
+,('Do I meed to be concerned about my Credit Card security?', 'Your Card info is stored in our HIPAA compliant software. Once saved, we can only see the last 4 digits.', true) 
+,('Will this process thru my insurance?', 'Nope.', true) 
+,('What is your Cancellation Policy?', 'Caroline has your time slot reserved JUST FOR YOU. Sorry, no refunds for cancellations.', true) 
+,('What virtual meeting platform do you use for appointments?', 'ZOOM. We’ll email you a link after scheduling. Come to appointment ready with all your questions!', true);
+
+# 127.19.0.1
+
+create schema auth_db;
+
+CREATE USER 'auth_user'@'localhost' IDENTIFIED BY 'ujejkhg892uj';
+
+GRANT SELECT, INSERT, UPDATE, DELETE, ALTER, CREATE, REFERENCES ON auth_db.* TO 'auth_user'@'localhost';
+   
+FLUSH PRIVILEGES;
+
+
+I should probably create the databases manually and then create the schemas within those databases? Or not even use schemas? 
+
+CREATE ROLE analytics_user LOGIN PASSWORD '123ejju3723h2';
+
+
+// sudo git commit -m "Added analytics services."
+
+
+SELECT * FROM employee_social_media_profile;
+
+SELECT * FROM biographical_text;
+
+SELECT * FROM employee_daily_schedule;
+
+DROP TABLE IF EXISTS appointment, employee, employee_content, employee_daily_schedule, employee_service,informational_text, biographical_text, employee_social_media_profile, faqs, office, office_daily_schedule, office_social_media_profile, services, website, website_social_media_profile, page, page_text;
+
+SELECT * FROM biographical_text ORDER BY position
+
+
+
+CREATE DATABASE exam;
+
+CREATE USER exam_user WITH PASSWORD '5841resad854w2';
+
+GRANT ALL PRIVILEGES ON DATABASE exam TO exam_user;
+
+
+-- SCHEMA: public
+
+-- DROP SCHEMA IF EXISTS public ;
+
+CREATE SCHEMA IF NOT EXISTS public
+    AUTHORIZATION pg_database_owner;
+
+COMMENT ON SCHEMA public
+    IS 'standard public schema';
+
+GRANT USAGE ON SCHEMA public TO PUBLIC;
+
+GRANT ALL ON SCHEMA public TO pg_database_owner;

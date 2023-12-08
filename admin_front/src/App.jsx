@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import Login from "./routes/Login";
 import Options from "./routes/Options";
 import SignUp from "./routes/SignUp";
+import Approve from "./routes/Approve";
 import { AuthContext } from "./contexts/context";
 
 const PrivateRoute = ({ children }) => {
@@ -46,11 +47,17 @@ function App() {
               <Route
                 path="login"
                 element={
-                  <PrivateRoute>
-                    <LW>
-                      <Login />
-                    </LW>
-                  </PrivateRoute>
+                  <LW>
+                    <Login />
+                  </LW>
+                }
+              />
+              <Route
+                path="approve"
+                element={
+                  <LW>
+                    <Approve />
+                  </LW>
                 }
               />
               <Route
@@ -66,11 +73,9 @@ function App() {
               <Route
                 path="signup"
                 element={
-                  <PrivateRoute>
-                    <LW>
-                      <SignUp />
-                    </LW>
-                  </PrivateRoute>
+                  <LW>
+                    <SignUp />
+                  </LW>
                 }
               />
             </Routes>

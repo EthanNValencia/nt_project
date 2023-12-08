@@ -9,5 +9,6 @@ import com.nephew.security.entities.PendingCredential;
 public interface PendingCredentialRepository extends JpaRepository<PendingCredential, Long>{
 	
     Optional<PendingCredential> findByPendingCode(String pendingCode);
+    Optional<PendingCredential> findByApprovalCode(String pendingCode);
     
 }

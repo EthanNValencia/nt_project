@@ -7,16 +7,16 @@ public class RegisterRequest {
 	private String lastName;
 	private String email; // user name
 	private String password;
-	private String serviceName; // NPT, AUTH, ...
+	private String companyName;
 	private Role role;
 
-	public RegisterRequest(String firstName, String lastName, String email, String password, String serviceName) {
+	public RegisterRequest(String firstName, String lastName, String email, String password, String companyName) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
-		this.serviceName = serviceName;
+		this.companyName = companyName;
 	}
 
 	public RegisterRequest() {
@@ -63,18 +63,18 @@ public class RegisterRequest {
 		this.password = password;
 	}
 
-	public String getServiceName() {
-		return serviceName;
+	public String getCompanyName() {
+		return companyName;
 	}
 
-	public void setServiceName(String serviceName) {
-		this.serviceName = serviceName;
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
 	@Override
 	public String toString() {
 		return "RegisterRequest [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password="
-				+ password + ", serviceName=" + serviceName + "]";
+				+ password + ", companyName=" + companyName + "]";
 	}
 
 }

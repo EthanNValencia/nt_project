@@ -23,22 +23,25 @@ public class Credential implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column(length = 50)
 	private String firstName;
+	@Column(length = 50)
 	private String lastName;
 	@Column(unique = true)
 	private String email;
 	private String password;
-	private String serviceName;
+	@Column(length = 50)
+	private String companyName;
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
-	public Credential(String firstName, String lastName, String email, String password, String serviceName, Role role) {
+	public Credential(String firstName, String lastName, String email, String password, String companyName, Role role) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
-		this.serviceName = serviceName;
+		this.companyName = companyName;
 		this.role = role;
 	}
 
@@ -87,14 +90,12 @@ public class Credential implements UserDetails {
 		this.password = password;
 	}
 
-
-
-	public String getServiceName() {
-		return serviceName;
+	public String getCompanyName() {
+		return companyName;
 	}
 
-	public void setServiceName(String serviceName) {
-		this.serviceName = serviceName;
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
 	public Role getRole() {

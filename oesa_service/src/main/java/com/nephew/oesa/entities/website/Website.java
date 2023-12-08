@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.nephew.oesa.entities.FAQs;
+import com.nephew.oesa.entities.Office;
+import com.nephew.oesa.entities.employee.Employee;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -28,15 +32,15 @@ public class Website {
 	private String name;
 
 	@Column(length = 80)
-	private String homeUrl;
+	private String url;
 
 	@OneToOne(mappedBy = "website", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("website")
 	private WebsiteSocialMediaProfile profile;
-	
+
 	@OneToMany(mappedBy = "website", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JsonIgnoreProperties("website")
-    private List<Page> pages = new ArrayList<>();
+	@JsonIgnoreProperties("website")
+	private List<Page> pages = new ArrayList<>();
 
 	public Website() {
 		super();
@@ -50,12 +54,12 @@ public class Website {
 		this.id = id;
 	}
 
-	public String getHomeUrl() {
-		return homeUrl;
+	public String getUrl() {
+		return url;
 	}
 
-	public void setHomeUrl(String homeUrl) {
-		this.homeUrl = homeUrl;
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public String getName() {
@@ -84,7 +88,7 @@ public class Website {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(homeUrl, id, name, pages, profile);
+		return Objects.hash(url, id, name, pages, profile);
 	}
 
 	@Override
@@ -96,20 +100,18 @@ public class Website {
 		if (getClass() != obj.getClass())
 			return false;
 		Website other = (Website) obj;
-		return Objects.equals(homeUrl, other.homeUrl) && id == other.id && Objects.equals(name, other.name)
+		return Objects.equals(url, other.url) && id == other.id && Objects.equals(name, other.name)
 				&& Objects.equals(pages, other.pages) && Objects.equals(profile, other.profile);
 	}
 
 	@Override
 	public String toString() {
-		return "Website [id=" + id + ", name=" + name + ", homeUrl=" + homeUrl + ", profile=" + profile + ", pages="
+		return "Website [id=" + id + ", name=" + name + ", homeUrl=" + url + ", profile=" + profile + ", pages="
 				+ pages.size() + "]";
 	}
 
 	public void addPage(Page page) {
 		pages.add(page);
 	}
-	
-	
 
 }

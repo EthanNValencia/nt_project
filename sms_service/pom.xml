@@ -13,7 +13,7 @@
 	<artifactId>sms-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>sms-service</name>
-	<description>Sms service for the nt server. </description>
+	<description>Sms service for the nt server.</description>
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2022.0.4</spring-cloud.version>

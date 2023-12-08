@@ -19,6 +19,17 @@ export async function register(user) {
   }
 }
 
+export async function approveApprovalCodeApi(approvalCode) {
+  const url = authUrl + "/register/approve/" + approvalCode;
+  try {
+    const response = await axios.post(url);
+    return response.data.token;
+  } catch (error) {
+    handleErrorReporting(error);
+    throw error;
+  }
+}
+
 export async function authenticate(user) {
   const authenticationUrl = authUrl + "/authenticate";
   const requestBody = {

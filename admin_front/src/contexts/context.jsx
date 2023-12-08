@@ -1,6 +1,12 @@
 import React, { useContext, useState } from "react";
 import { createContext } from "react";
-import { authenticate, validate, validateAction, register } from "../axios/api";
+import {
+  authenticate,
+  validate,
+  validateAction,
+  register,
+  approveApprovalCodeApi,
+} from "../axios/api";
 
 export const UserContext = createContext();
 
@@ -216,6 +222,19 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const approveApprovalCode = async (approvalCode) => {
+    try {
+      const validated = await approveApprovalCodeApi(approvalCode);
+      if (validated) {
+        setAuth(true);
+      }
+    } catch (error) {
+      console.error("Error validating admin route:", error);
+      setAuth(false);
+      throw error;
+    }
+  };
+
   const validateToken = async () => {
     try {
       const validated = await validate(token);
@@ -238,6 +257,7 @@ export function AuthProvider({ children }) {
         validateAdminRoute,
         authenticateCredentials,
         registerNewAccount,
+        approveApprovalCode,
       }}
     >
       {children}

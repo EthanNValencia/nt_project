@@ -247,7 +247,7 @@ class NptServiceApplicationTests {
 			Website website = new Website();
 			website.setId(1L);
 			website.setName("Nephew Physical Therapy");
-			website.setHomeUrl(""); // home url
+			website.setUrl(""); 
 			website = websiteRepository.save(website);
 			WebsiteSocialMediaProfile profile = new WebsiteSocialMediaProfile();
 			profile.setWebsite(website);

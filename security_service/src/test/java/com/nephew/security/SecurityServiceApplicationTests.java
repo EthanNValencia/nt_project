@@ -128,7 +128,7 @@ class SecurityServiceApplicationTests {
 		assertEquals(TEST_LAST_NAME, user.getLastName());
 		assertEquals(TEST_ADMIN_EMAIL, user.getEmail());
 		assertEquals(TEST_USER_PASSWORD, user.getPassword());
-		assertEquals(TEST_SERVICE, user.getServiceName());
+		assertEquals(TEST_SERVICE, user.getCompanyName());
 		assertEquals(Role.ADMIN, user.getRole());
 	}
 
@@ -141,7 +141,7 @@ class SecurityServiceApplicationTests {
 		assertEquals(TEST_LAST_NAME, request.getLastName());
 		assertEquals(TEST_ADMIN_EMAIL, request.getEmail());
 		assertEquals(TEST_USER_PASSWORD, request.getPassword());
-		assertEquals(TEST_SERVICE, request.getServiceName());
+		assertEquals(TEST_SERVICE, request.getCompanyName());
 	}
 
 	@Order(903)

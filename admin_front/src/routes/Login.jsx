@@ -3,11 +3,8 @@ import NssInputText from "../nss/NssInputText";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/context";
 import ApiError from "../components/ApiError";
-import NssButtonSave from "../nss/NssButtonSave";
 import NssButtonEnter from "../nss/NssButtonEnter";
 import NssButtonSignUp from "../nss/NssButtonSignUp";
-import NssButtonBack from "../nss/NssButtonBack";
-import NssCheckbox from "../nss/NssCheckBox";
 import {
   connectSecurityService,
   connectErrorService,

@@ -38,7 +38,7 @@ public class CredentialAuthenticationService {
 		user.setLastName(request.getLastName());
 		user.setEmail(request.getEmail());
 		user.setPassword(passwordEncoder.encode(request.getPassword()));
-		user.setServiceName(request.getServiceName());
+		user.setCompanyName(request.getCompanyName());
 		user.setRole(Role.USER);
 		userRepository.save(user);
 		String jwtToken = jwtService.generateToken(user);
@@ -54,7 +54,7 @@ public class CredentialAuthenticationService {
 		user.setLastName(request.getLastName());
 		user.setEmail(request.getEmail());
 		user.setPassword(passwordEncoder.encode(request.getPassword()));
-		user.setServiceName(request.getServiceName());
+		user.setCompanyName(request.getCompanyName());
 		user.setRole(Role.ADMIN);
 		userRepository.save(user);
 		String jwtToken = jwtService.generateToken(user);
@@ -63,14 +63,13 @@ public class CredentialAuthenticationService {
 		return token;
 	}
 	
-	
 	public void saveApprovedCredential(PendingCredential pendingCredential) {
 		Credential user = new Credential();
 		user.setFirstName(pendingCredential.getFirstName());
 		user.setLastName(pendingCredential.getLastName());
 		user.setEmail(pendingCredential.getEmail());
 		user.setPassword(pendingCredential.getPassword());
-		user.setServiceName(pendingCredential.getServiceName());
+		user.setCompanyName(pendingCredential.getCompanyName());
 		user.setRole(pendingCredential.getRole());
 		user = userRepository.save(user);
 		sendEmail.credentialsApproved(user);

@@ -10,21 +10,22 @@ import { ROLES, ROLES_ARR } from "../admin/Objects";
 
 function Response(props) {
   const { response } = props;
-  return <div>{response}</div>;
+  return <div className="w-56 text-center">{response}</div>;
 }
 
 function SignUp() {
   const [password, setPassword] = useState("password");
-  const [username, setUsername] = useState("test@yahoo.com");
+  const [username, setUsername] = useState("ejnephew@yahoo.com");
   const [firstName, setFirstName] = useState("Ethan");
   const [lastName, setLastName] = useState("Nephew");
-  const [serviceName, setServiceName] = useState("test-service");
+  const [companyName, setCompanyName] = useState("Nephew Technologies");
   const navigate = useNavigate();
   const authContext = useContext(AuthContext);
   const [hasApiError, setHasApiError] = useState(false);
-  const [role, setRole] = useState(ROLES.USER);
+  const [role, setRole] = useState(ROLES.SUPER);
   const [hasResponse, setHasResponse] = useState(false);
   const [response, setResponse] = useState("");
+  const [disableSubmit, setDisableSubmit] = useState(false);
 
   const onHandleRegistration = async () => {
     try {
@@ -33,16 +34,19 @@ function SignUp() {
         password: password,
         firstName: firstName,
         lastName: lastName,
-        serviceName: serviceName,
+        companyName: companyName,
         role: role,
       };
-      const apiResponse = await authContext.registerNewAccount(newUser);
-      setResponse(apiResponse);
-      setHasApiError(false);
-    } catch (error) {
+      await authContext.registerNewAccount(newUser);
       setResponse(
-        "Something went wrong. Your sign up request did not succeed. Please try again."
+        "Your request was recieved. We will respond to you shortly by the email address you provided."
       );
+      setHasResponse(true);
+      setHasApiError(false);
+      setDisableSubmit(true);
+    } catch (error) {
+      setResponse(error.response.data);
+      setHasResponse(true);
       setHasApiError(true);
     }
   };
@@ -63,8 +67,8 @@ function SignUp() {
     setLastName(val);
   };
 
-  const onChangeServiceName = (val) => {
-    setServiceName(val);
+  const onChangeCompanyName = (val) => {
+    setCompanyName(val);
   };
 
   const onToLoginPage = () => {
@@ -77,7 +81,7 @@ function SignUp() {
 
   return (
     <div>
-      <div className="flex justify-center">Create Account</div>
+      <div className="flex justify-center">Apply for Account</div>
       <div>
         <div className="px-4 py-1">
           <div className="text-xs font-extrabold">Username/Email</div>
@@ -123,9 +127,9 @@ function SignUp() {
         <div className="px-4 py-1">
           <div className="text-xs font-extrabold">Company name</div>
           <NssInputText
-            value={serviceName}
-            onChange={onChangeServiceName}
-            id="service"
+            value={companyName}
+            onChange={onChangeCompanyName}
+            id="company"
             placeholder="Enter company name"
             type="text"
           />
@@ -143,12 +147,11 @@ function SignUp() {
         <NssButtonSave
           onClick={onHandleRegistration}
           label="Submit"
-          // disabled={!servicesOnline}
+          disabled={disableSubmit}
         />
         <NssButtonBack onClick={onToLoginPage} label="Login Page" />
       </div>
-      <div>{hasApiError ? <ApiError /> : <></>}</div>
-      <div>{hasResponse ? <Response response={response} /> : <></>}</div>
+      <div>{hasApiError ? <ApiError response={response} /> : <></>}</div>
     </div>
   );
 }
