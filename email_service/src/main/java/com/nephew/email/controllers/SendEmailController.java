@@ -27,9 +27,22 @@ public class SendEmailController {
 	@PostMapping("/send/")
 	public ResponseEntity<Void> sendEmail(@RequestBody EmailDto emailDto) throws IOException {
 		System.out.println(emailDto);
-		Email from = new Email("nephewtechnologies@gmail.com");
+		Email from = new Email();
+		
+		if(emailDto.getFrom() == null) {
+			from = new Email("nephewtechnologies@gmail.com");
+		} else {
+			from = new Email(emailDto.getFrom());
+		}
+		
+		Email to = new Email();
+		if(emailDto.getTo() == null) {
+			to = new Email("nephewtechnologies@gmail.com");
+		} else {
+			to = new Email(emailDto.getFrom());
+		}
+		
 		String subject = emailDto.getSubject();
-		Email to = new Email(emailDto.getTo());
 		Content content = new Content("text/html", emailDto.getHtml());
 		Mail mail = new Mail(from, subject, to, content);
 		SendGrid sg = new SendGrid(SENDGRID);

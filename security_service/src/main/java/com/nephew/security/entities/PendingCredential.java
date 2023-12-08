@@ -167,6 +167,12 @@ public class PendingCredential implements UserDetails {
 				&& Objects.equals(password, other.password) && Objects.equals(pendingCode, other.pendingCode)
 				&& role == other.role && Objects.equals(serviceName, other.serviceName);
 	}
+
+	@Override
+	public String toString() {
+		return "PendingCredential [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email="
+				+ email + ", serviceName=" + serviceName + ", role=" + role + ", pendingCode=" + pendingCode + "]";
+	}
 	
 	
 

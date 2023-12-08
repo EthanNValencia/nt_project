@@ -6,6 +6,7 @@ public class RegisterRequest {
 	private String email; // user name
 	private String password;
 	private String serviceName; // NPT, AUTH, ...
+	private String role;
 
 	public RegisterRequest(String firstName, String lastName, String email, String password, String serviceName) {
 		super();
@@ -18,6 +19,14 @@ public class RegisterRequest {
 
 	public RegisterRequest() {
 		super();
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public String getFirstName() {

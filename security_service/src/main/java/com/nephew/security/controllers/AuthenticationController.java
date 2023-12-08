@@ -2,6 +2,7 @@ package com.nephew.security.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import com.nephew.security.dto.RegisterRequest;
 import com.nephew.security.dto.Token;
 import com.nephew.security.entities.Role;
 import com.nephew.security.services.CredentialAuthenticationService;
+import com.nephew.security.services.RegistrationService;
 import com.nephew.security.services.ReportingService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,17 +29,17 @@ import jakarta.servlet.http.HttpServletRequest;
 public class AuthenticationController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
-
-	private final ReportingService reportingService;
 	
-	private final CredentialAuthenticationService authenticationService;
+	@Autowired
+	private ReportingService reportingService;
+	
+	@Autowired
+	private CredentialAuthenticationService authenticationService;
+	
+	@Autowired
+	private RegistrationService registrationService;
 
-	public AuthenticationController(ReportingService reportingService, CredentialAuthenticationService authenticationService) {
-		super();
-		this.reportingService = reportingService;
-		this.authenticationService = authenticationService;
-	}
-
+	/*
 	@PostMapping("/register/{type}")
 	public ResponseEntity<Token> register(@RequestBody RegisterRequest request,
 			@PathVariable(value = "type") String type) {
@@ -46,6 +48,13 @@ public class AuthenticationController {
 		} else if (type.equals(Role.ADMIN.toString().toLowerCase())) {
 			return ResponseEntity.ok(authenticationService.registerAdmin(request));
 		}
+		return null;
+	}
+	*/
+	
+	@PostMapping("/register")
+	public ResponseEntity<Token> register(@RequestBody RegisterRequest request) {
+		registrationService.savePendingCredential(request);
 		return null;
 	}
 
