@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { createContext } from "react";
-import { authenticate, validate, validateAction } from "../axios/api";
+import { authenticate, validate, validateAction, register } from "../axios/api";
 
 export const UserContext = createContext();
 
@@ -179,9 +179,9 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const registerNewAccount = async (newUser, type) => {
+  const registerNewAccount = async (newUser) => {
     try {
-      await register(newUser, type);
+      await register(newUser);
     } catch (error) {
       console.error("Error creating new account:", error);
       throw error;

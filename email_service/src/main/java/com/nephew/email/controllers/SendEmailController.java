@@ -24,7 +24,7 @@ import com.sendgrid.helpers.mail.objects.Email;
 public class SendEmailController {
 	private static final String SENDGRID = System.getenv("SENDGRID_API_KEY");
 
-	@PostMapping("/send/")
+	@PostMapping("/send")
 	public ResponseEntity<Void> sendEmail(@RequestBody EmailDto emailDto) throws IOException {
 		System.out.println(emailDto);
 		Email from = new Email();

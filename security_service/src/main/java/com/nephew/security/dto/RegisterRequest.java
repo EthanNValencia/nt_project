@@ -1,12 +1,14 @@
 package com.nephew.security.dto;
 
+import com.nephew.security.entities.Role;
+
 public class RegisterRequest {
 	private String firstName;
 	private String lastName;
 	private String email; // user name
 	private String password;
 	private String serviceName; // NPT, AUTH, ...
-	private String role;
+	private Role role;
 
 	public RegisterRequest(String firstName, String lastName, String email, String password, String serviceName) {
 		super();
@@ -21,11 +23,11 @@ public class RegisterRequest {
 		super();
 	}
 
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 

@@ -5,8 +5,8 @@ const privateUrl = "http://localhost:8765/oesa-service/api/v1/auth";
 const errorReportingUrl =
   "http://localhost:8765/error-service/api/v1/public/error/";
 
-export async function register(user, type) {
-  const registerUrl = authUrl + "/register/" + type;
+export async function register(user) {
+  const registerUrl = authUrl + "/register";
   const requestBody = {
     ...user,
   };
@@ -15,13 +15,11 @@ export async function register(user, type) {
     return response.data.token;
   } catch (error) {
     handleErrorReporting(error);
-    // console.error("Error fetching data:", error);
     throw error;
   }
 }
 
 export async function authenticate(user) {
-  // http://localhost:8765/security-service/api/v1/public/authenticate
   const authenticationUrl = authUrl + "/authenticate";
   const requestBody = {
     ...user,
@@ -31,7 +29,6 @@ export async function authenticate(user) {
     return response.data.token;
   } catch (error) {
     handleErrorReporting(error);
-    // console.error("Error fetching data:", error);
     throw error;
   }
 }
@@ -43,7 +40,6 @@ export async function validate(token) {
     return response.data;
   } catch (error) {
     handleErrorReporting(error);
-    // console.error("Error fetching data:", error);
     throw error;
   }
 }
@@ -58,7 +54,6 @@ export async function validateAction(token, action) {
     return response.data;
   } catch (error) {
     handleErrorReporting(error);
-    // console.error("Error fetching data:", error);
     throw error;
   }
 }
@@ -71,11 +66,9 @@ export async function adminGetEmployees(token) {
   };
   try {
     const response = await axios.get(adminEmployeeUrl, { headers });
-    // console.log(JSON.stringify(response.data));
     return response.data;
   } catch (error) {
     handleErrorReporting(error);
-    // console.error("Error fetching data:", error);
     throw error;
   }
 }
@@ -94,7 +87,6 @@ export async function adminGetUnansweredQuestions(token) {
     return response.data;
   } catch (error) {
     handleErrorReporting(error);
-    // console.error("Error fetching data:", error);
     throw error;
   }
 }
@@ -167,7 +159,6 @@ export async function adminGetWebsite(token) {
     return response.data;
   } catch (error) {
     handleErrorReporting(error);
-    // console.error("Error fetching data:", error);
     throw error;
   }
 }
@@ -199,7 +190,6 @@ export async function adminCreatePage(website, token) {
     return response.data;
   } catch (error) {
     handleErrorReporting(error);
-    // console.error("Error fetching data:", error);
     throw error;
   }
 }
@@ -215,7 +205,6 @@ export async function adminCreateParagraph(page, token) {
     return response.data;
   } catch (error) {
     handleErrorReporting(error);
-    // console.error("Error fetching data:", error);
     throw error;
   }
 }
@@ -231,7 +220,6 @@ export async function adminNotifyAppointment(appointment, token) {
     return response.data;
   } catch (error) {
     handleErrorReporting(error);
-    // console.error("Error fetching data:", error);
     throw error;
   }
 }
@@ -337,8 +325,6 @@ export async function employeeAddInformationalText(position, employee, token) {
   }
 }
 
-// /services/
-
 export async function adminGetServices(token) {
   const servicesUrl = privateUrl + "/services/";
 
@@ -353,12 +339,9 @@ export async function adminGetServices(token) {
     return response.data;
   } catch (error) {
     handleErrorReporting(error);
-    // console.error("Error fetching data:", error);
     throw error;
   }
 }
-
-// adminPutServices
 
 export async function adminPutServices(services, token) {
   const servicesUrl = privateUrl + "/services/";
@@ -373,7 +356,6 @@ export async function adminPutServices(services, token) {
     return response.data;
   } catch (error) {
     handleErrorReporting(error);
-    // console.error("Error fetching data:", error);
     throw error;
   }
 }
@@ -391,7 +373,6 @@ export async function adminDeleteService(id, token) {
     return response.data;
   } catch (error) {
     handleErrorReporting(error);
-    // console.error("Error fetching data:", error);
     throw error;
   }
 }
@@ -405,13 +386,10 @@ export async function adminGetOffices(token) {
   };
 
   try {
-    //console.log("Token: " + token);
     const response = await axios.get(servicesUrl, { headers });
-    //console.log(JSON.stringify(response.data));
     return response.data;
   } catch (error) {
     handleErrorReporting(error);
-    // console.error("Error fetching data:", error);
     throw error;
   }
 }
@@ -425,13 +403,10 @@ export async function adminPostOffice(office, token) {
   };
 
   try {
-    //console.log("Token: " + token);
     const response = await axios.post(servicesUrl, office, { headers });
-    //console.log(JSON.stringify(response.data));
     return response.data;
   } catch (error) {
     handleErrorReporting(error);
-    // console.error("Error fetching data:", error);
     throw error;
   }
 }
@@ -447,7 +422,6 @@ export async function connectSecurityService() {
   const url = "http://localhost:8765/security-service/api/v1/public/health";
   try {
     const response = await axios.get(url);
-    // console.log(response.data);
     return validateResponse(response.data);
   } catch (error) {
     return false;
@@ -458,7 +432,6 @@ export async function connectErrorService() {
   const url = "http://localhost:8765/error-service/api/v1/public/health";
   try {
     const response = await axios.get(url);
-    // console.log(response.data);
     return validateResponse(response.data);
   } catch (error) {
     return false;

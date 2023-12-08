@@ -1,19 +1,10 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useState, useContext } from "react";
 import NssInputText from "../nss/NssInputText";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/context";
 import ApiError from "../components/ApiError";
 import NssButtonSave from "../nss/NssButtonSave";
 import NssButtonBack from "../nss/NssButtonBack";
-import NssCheckbox from "../nss/NssCheckBox";
-import {
-  connectSecurityService,
-  connectErrorService,
-  connectOesaService,
-  connectEmailService,
-  connectSmsService,
-  connectGatewayService,
-} from "../axios/api";
 import Options from "../admin/Options";
 import { ROLES, ROLES_ARR } from "../admin/Objects";
 
@@ -24,10 +15,10 @@ function Response(props) {
 
 function SignUp() {
   const [password, setPassword] = useState("password");
-  const [username, setUsername] = useState("ejnephew@yahoo.com");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [serviceName, setServiceName] = useState("");
+  const [username, setUsername] = useState("test@yahoo.com");
+  const [firstName, setFirstName] = useState("Ethan");
+  const [lastName, setLastName] = useState("Nephew");
+  const [serviceName, setServiceName] = useState("test-service");
   const navigate = useNavigate();
   const authContext = useContext(AuthContext);
   const [hasApiError, setHasApiError] = useState(false);
@@ -43,8 +34,9 @@ function SignUp() {
         firstName: firstName,
         lastName: lastName,
         serviceName: serviceName,
+        role: role,
       };
-      const apiResponse = await authContext.registerNewAccount(newUser, role);
+      const apiResponse = await authContext.registerNewAccount(newUser);
       setResponse(apiResponse);
       setHasApiError(false);
     } catch (error) {

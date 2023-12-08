@@ -20,7 +20,7 @@ import com.nephew.security.dto.Token;
 import com.nephew.security.entities.Role;
 import com.nephew.security.services.CredentialAuthenticationService;
 import com.nephew.security.services.RegistrationService;
-import com.nephew.security.services.ReportingService;
+import com.nephew.security.services.ErrorService;
 
 import jakarta.servlet.http.HttpServletRequest;
 // http://localhost:8000/api/v1/public/health
@@ -31,30 +31,23 @@ public class AuthenticationController {
 	private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 	
 	@Autowired
-	private ReportingService reportingService;
+	private ErrorService reportingService;
 	
 	@Autowired
 	private CredentialAuthenticationService authenticationService;
 	
 	@Autowired
 	private RegistrationService registrationService;
-
-	/*
-	@PostMapping("/register/{type}")
-	public ResponseEntity<Token> register(@RequestBody RegisterRequest request,
-			@PathVariable(value = "type") String type) {
-		if (type.equals(Role.USER.toString().toLowerCase())) {
-			return ResponseEntity.ok(authenticationService.registerUser(request));
-		} else if (type.equals(Role.ADMIN.toString().toLowerCase())) {
-			return ResponseEntity.ok(authenticationService.registerAdmin(request));
-		}
-		return null;
-	}
-	*/
 	
 	@PostMapping("/register")
 	public ResponseEntity<Token> register(@RequestBody RegisterRequest request) {
 		registrationService.savePendingCredential(request);
+		return null;
+	}
+	
+	@PostMapping("/register/{code}")
+	public ResponseEntity<Void> approvePendingCredentials(@PathVariable(value = "code") String code) {
+		registrationService.approvePendingCredentials(code);
 		return null;
 	}
 
@@ -82,7 +75,6 @@ public class AuthenticationController {
 		return ResponseEntity.ok(token);
 	}
 	
-	// http://localhost:8765/security-service/api/v1/public/validate/eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlam5lcGhld0B5YWhvby5jb20iLCJpYXQiOjE2OTkwMjc3MjIsImV4cCI6MTY5OTA3MDkyMn0.YyHTGAo4hHsYVNQMev38HyqwD6dejlQ6IGtNoa9mJKKMR6kwOTn2M6W76PrtCHlW7Y8FnQYJhG8E5rOoqBKhvA
 	
 	@GetMapping("/validate/{jwt}")
 	public ResponseEntity<Boolean> validateToken(@PathVariable(value = "jwt") String jwt) {

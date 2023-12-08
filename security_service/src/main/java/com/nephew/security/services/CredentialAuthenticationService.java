@@ -1,5 +1,6 @@
 package com.nephew.security.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,25 +13,25 @@ import com.nephew.security.dto.AuthenticationRequest;
 import com.nephew.security.dto.RegisterRequest;
 import com.nephew.security.dto.Token;
 import com.nephew.security.entities.Credential;
+import com.nephew.security.entities.PendingCredential;
 import com.nephew.security.entities.Role;
 import com.nephew.security.repositories.CredentialRepository;
 
 @Service
 public class CredentialAuthenticationService {
 
-	public CredentialAuthenticationService(PasswordEncoder passwordEncoder, CredentialRepository userRepository, JwtService jwtService, AuthenticationManager authenticationManager) {
-		super();
-		this.passwordEncoder = passwordEncoder;
-		this.userRepository = userRepository;
-		this.jwtService = jwtService;
-		this.authenticationManager = authenticationManager;
-	}
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private CredentialRepository userRepository;
+	@Autowired
+	private JwtService jwtService;
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	@Autowired
+	private SendEmailService sendEmail;
 
-	private final PasswordEncoder passwordEncoder;
-	private final CredentialRepository userRepository;
-	private final JwtService jwtService;
-	private final AuthenticationManager authenticationManager;
-
+	@Deprecated
 	public Token registerUser(RegisterRequest request) {
 		Credential user = new Credential();
 		user.setFirstName(request.getFirstName());
@@ -46,6 +47,7 @@ public class CredentialAuthenticationService {
 		return token;
 	}
 	
+	@Deprecated
 	public Token registerAdmin(RegisterRequest request) {
 		Credential user = new Credential();
 		user.setFirstName(request.getFirstName());
@@ -59,6 +61,19 @@ public class CredentialAuthenticationService {
 		Token token = new Token();
 		token.setToken(jwtToken);
 		return token;
+	}
+	
+	
+	public void saveApprovedCredential(PendingCredential pendingCredential) {
+		Credential user = new Credential();
+		user.setFirstName(pendingCredential.getFirstName());
+		user.setLastName(pendingCredential.getLastName());
+		user.setEmail(pendingCredential.getEmail());
+		user.setPassword(pendingCredential.getPassword());
+		user.setServiceName(pendingCredential.getServiceName());
+		user.setRole(pendingCredential.getRole());
+		user = userRepository.save(user);
+		sendEmail.credentialsApproved(user);
 	}
 
 	public Token generateToken(AuthenticationRequest request) {

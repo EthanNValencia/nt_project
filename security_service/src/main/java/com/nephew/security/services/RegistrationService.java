@@ -1,5 +1,7 @@
 package com.nephew.security.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +26,9 @@ public class RegistrationService {
 	@Autowired
 	private SendEmailService sendEmailService;
 	
+	@Autowired
+	private CredentialAuthenticationService credAuthService;
+	
 	public void savePendingCredential(RegisterRequest request) {
 		PendingCredential user = new PendingCredential();
 		user.setFirstName(request.getFirstName());
@@ -31,24 +36,34 @@ public class RegistrationService {
 		user.setEmail(request.getEmail());
 		user.setPassword(passwordEncoder.encode(request.getPassword()));
 		user.setServiceName(request.getServiceName());
-		
-		if (request.getRole().equals(Role.USER.toString().toLowerCase())) {
-			user.setRole(Role.USER);
-		} else if (request.getRole().equals(Role.ADMIN.toString().toLowerCase())) {
-			user.setRole(Role.ADMIN);
-		} else if (request.getRole().equals(Role.ERROR.toString().toLowerCase())) {
-			user.setRole(Role.ERROR);
-		} else if (request.getRole().equals(Role.SUPER.toString().toLowerCase())) {
-			user.setRole(Role.SUPER);
-		}
-		
+		user.setRole(request.getRole());
 		user = repo.save(user);
 		user.generatePendingCode();
 		user = repo.save(user);
-		
-		sendEmailService.sendRegistration(user);
-		
+		sendEmailService.credentialsPending(user);
+	}
+
+	public void approvePendingCredentials(String code) {
+		Optional<PendingCredential> user = repo.findByPendingCode(code);
+		if(user.isPresent()) {
+			credAuthService.saveApprovedCredential(user.get());
+		} else {
+			
+		}
 	}
 	
 	
 }
+
+/*
+doesn't work
+if (request.getRole().equals(Role.USER.toString().toLowerCase())) {
+	user.setRole(Role.USER);
+} else if (request.getRole().equals(Role.ADMIN.toString().toLowerCase())) {
+	user.setRole(Role.ADMIN);
+} else if (request.getRole().equals(Role.ERROR.toString().toLowerCase())) {
+	user.setRole(Role.ERROR);
+} else if (request.getRole().equals(Role.SUPER.toString().toLowerCase())) {
+	user.setRole(Role.SUPER);
+}
+*/

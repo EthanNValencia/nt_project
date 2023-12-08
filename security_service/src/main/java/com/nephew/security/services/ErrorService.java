@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nephew.security.dto.InvalidLogin;
 
 @Service
-public class ReportingService {
+public class ErrorService {
 
 	@Autowired
 	private RestTemplate restTemplate;
@@ -30,8 +30,7 @@ public class ReportingService {
 		try {
 		    String json = objectMapper.writeValueAsString(invalidLogin);
 			HttpEntity<String> request = new HttpEntity<>(json, headers);
-			// ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, request, String.class);
-			// String responseBody = response.getBody();
+			// restTemplate.exchange(url, HttpMethod.POST, request, String.class);
 		} catch (JsonProcessingException e) {
 		    e.printStackTrace();
 		}
