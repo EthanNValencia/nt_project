@@ -140,7 +140,7 @@ function App() {
 function WSW({ children }) {
   // WSW stands for WebSiteWrap, it is meant to wrap all the routes in the NPT website.
   return (
-    <div>
+    <div className="font-lato">
       <div className="py-1 w-11/12 mx-auto h-full">
         <div className="border rounded-lg shadow-md h-full">
           <div>

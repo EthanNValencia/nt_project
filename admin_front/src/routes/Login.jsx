@@ -15,6 +15,8 @@ import {
 } from "../axios/api";
 import NssButtonChevronMini from "../nss/NssButtonChevronMini";
 import { Transition } from "@headlessui/react";
+import NssMenuSignUp from "../nss/menu/NssMenuSignUp";
+import NssMenu from "../nss/menu/NssMenu";
 
 const ConnectIcons = (props) => {
   const { status, connected, name } = props;
@@ -233,7 +235,7 @@ function Login() {
       <div>
         <div className="flex justify-center">Login</div>
         <div>
-          <div className="px-4 py-1">
+          <div className="px-4">
             <div className="text-xs font-extrabold">Username/Email</div>
             <NssInputText
               value={username}
@@ -269,7 +271,10 @@ function Login() {
         </div>
 
         {auth ? <div>Authenticated!</div> : <></>}
-        <ConnectStatus setServicesOnline={setServicesOnline} />
+        <div className="flex justify-between">
+          <ConnectStatus setServicesOnline={setServicesOnline} />
+          <NssMenu />
+        </div>
       </div>
       <div>{hasApiError ? <ApiError /> : <></>}</div>
     </div>

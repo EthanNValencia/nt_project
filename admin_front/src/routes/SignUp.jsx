@@ -46,7 +46,7 @@ function SignUp() {
       setDisableSubmit(true);
     } catch (error) {
       setResponse(error.response.data);
-      setHasResponse(true);
+      setHasResponse(false);
       setHasApiError(true);
     }
   };
@@ -152,6 +152,13 @@ function SignUp() {
         <NssButtonBack onClick={onToLoginPage} label="Login Page" />
       </div>
       <div>{hasApiError ? <ApiError response={response} /> : <></>}</div>
+      {hasResponse ? (
+        <div className="flex justify-center">
+          <div className="w-56">{response}</div>
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

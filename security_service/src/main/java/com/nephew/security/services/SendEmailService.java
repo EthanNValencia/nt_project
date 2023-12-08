@@ -27,7 +27,7 @@ public class SendEmailService {
 		EmailDto email = new EmailDto();
 		email.setTo(null);
 		email.setHtml(user.toString());
-		email.setSubject("New Pending User: Approval Requested");
+		email.setSubject("New Pending User: " + user.getEmail() +  " ~ Approval Requested");
 		sendEmailToService(email);
 	}
 	
