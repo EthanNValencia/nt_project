@@ -12,7 +12,7 @@ const Options = (props) => {
     return (
       <div className="">
         <div className="flex gap-1">
-          <div className="text-sm">{name}:</div>
+          <div className="text-sm">{name ? name + ":" : <></>}</div>
           <select
             id="selectInput"
             value={selected}

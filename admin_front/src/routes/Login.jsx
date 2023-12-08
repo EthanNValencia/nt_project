@@ -15,7 +15,6 @@ import {
 } from "../axios/api";
 import NssButtonChevronMini from "../nss/NssButtonChevronMini";
 import { Transition } from "@headlessui/react";
-import NssMenuSignUp from "../nss/menu/NssMenuSignUp";
 import NssMenu from "../nss/menu/NssMenu";
 
 const ConnectIcons = (props) => {

@@ -23,6 +23,30 @@ export const ROLES = {
 
 export const ROLES_ARR = Object.values(ROLES);
 
+// ai, io, .info, .site, .me, .
+export const DOMAINS = {
+  org: ".org",
+  com: ".com",
+  net: ".net",
+  co: ".co",
+  us: ".us",
+  ai: ".ai",
+  io: ".io",
+  info: ".info",
+  site: ".site",
+  me: ".me",
+};
+
+export const DOMAINS_ARR = Object.values(DOMAINS);
+
+export const FONT_FAMILY = {
+  sans: "font-sans",
+  serif: "font-serif",
+  mono: "font-mono",
+};
+
+export const FONT_FAMILY_ARR = Object.values(FONT_FAMILY);
+
 export const Profile = {
   linkedin: "",
   youtube: "",

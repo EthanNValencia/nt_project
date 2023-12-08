@@ -6,7 +6,7 @@ import ApiError from "../components/ApiError";
 import NssButtonSave from "../nss/NssButtonSave";
 import NssButtonBack from "../nss/NssButtonBack";
 import Options from "../admin/Options";
-import { ROLES, ROLES_ARR } from "../admin/Objects";
+import { ROLES, ROLES_ARR, DOMAINS } from "../admin/Objects";
 
 function Response(props) {
   const { response } = props;

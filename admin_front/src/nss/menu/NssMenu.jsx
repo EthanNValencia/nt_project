@@ -47,7 +47,7 @@ function NssMenu() {
           <div className="absolute top-7 left-0 h-32 w-32">
             <div className="border bg-nss-300 rounded shadow-lg text-white">
               <NssMenuSignUp onClick={onSignUp} label="Sign Up" />
-              <NSSMenuEnter onClick={onActivationCode} label="Approve Code" />
+              <NSSMenuEnter onClick={onActivationCode} label="Approval Code" />
               <NssMenuAdd onClick={onCreateWebsite} label="Create Website" />
             </div>
           </div>
