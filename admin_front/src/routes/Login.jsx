@@ -11,7 +11,7 @@ import NssCheckbox from "../nss/NssCheckBox";
 import {
   connectSecurityService,
   connectErrorService,
-  connectNptService,
+  connectOesaService,
   connectEmailService,
   connectSmsService,
   connectGatewayService,
@@ -46,7 +46,7 @@ function ConnectStatus(props) {
   const { setServicesOnline } = props;
   const [security, setSecurity] = useState(false);
   const [error, setError] = useState(false);
-  const [npt, setNpt] = useState(false);
+  const [oesa, setOesa] = useState(false);
   const [email, setEmail] = useState(false);
   const [sms, setSms] = useState(false);
   const [gateway, setGateway] = useState(false);
@@ -73,12 +73,12 @@ function ConnectStatus(props) {
     }
   }
 
-  async function checkNpt() {
+  async function checkOesa() {
     try {
-      const data = await connectNptService();
-      setNpt(data);
+      const data = await connectOesaService();
+      setOesa(data);
     } catch (error) {
-      setNpt(false);
+      setOesa(false);
     }
   }
 
@@ -112,7 +112,7 @@ function ConnectStatus(props) {
   const printStatuses = () => {
     console.log(`Security: ${security}
       Error: ${error}
-      Npt: ${npt}
+      oesa: ${oesa}
       Sms: ${sms}
       Gateway: ${gateway}
       Naming: ${naming}
@@ -124,7 +124,7 @@ function ConnectStatus(props) {
     const performChecks = () => {
       checkSecurity();
       checkError();
-      checkNpt();
+      checkOesa();
       checkEmail();
       checkSms();
       checkGateway();
@@ -145,12 +145,14 @@ function ConnectStatus(props) {
   }, []);
 
   useEffect(() => {
-    setNaming(security || error || npt || email || sms || gateway);
-  }, [security, error, npt, email, sms, gateway]);
+    setNaming(security || error || oesa || email || sms || gateway);
+  }, [security, error, oesa, email, sms, gateway]);
 
   useEffect(() => {
-    setConnected(security && error && npt && email && sms && gateway && naming);
-  }, [security, error, npt, email, sms, gateway, naming]);
+    setConnected(
+      security && error && oesa && email && sms && gateway && naming
+    );
+  }, [security, error, oesa, email, sms, gateway, naming]);
 
   useEffect(() => {
     setServicesOnline(connected);
@@ -182,7 +184,7 @@ function ConnectStatus(props) {
             <div className="border bg-nss-300 rounded-md shadow-lg p-1 text-white">
               <ConnectIcons name={"security"} status={security} />
               <ConnectIcons name={"error"} status={error} />
-              <ConnectIcons name={"npt"} status={npt} />
+              <ConnectIcons name={"oesa"} status={oesa} />
               <ConnectIcons name={"email"} status={email} />
               <ConnectIcons name={"gateway"} status={gateway} />
               <ConnectIcons name={"naming"} status={naming} />
@@ -197,25 +199,11 @@ function ConnectStatus(props) {
 function Login() {
   const [password, setPassword] = useState("password");
   const [username, setUsername] = useState("ejnephew@yahoo.com");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [serviceName, setServiceName] = useState("");
-  const [createAccount, setCreateAccount] = useState(false);
   const [auth, setAuth] = useState(false);
-  const [user, setUser] = useState(false);
-  const [admin, setAdmin] = useState(false);
   const navigate = useNavigate();
   const authContext = useContext(AuthContext);
   const [hasApiError, setHasApiError] = useState(false);
   const [servicesOnline, setServicesOnline] = useState(false);
-
-  const handleUserChange = () => {
-    setUser(!user);
-  };
-
-  const handleAdminChange = () => {
-    setAdmin(!admin);
-  };
 
   const onLogin = async () => {
     try {
@@ -232,23 +220,7 @@ function Login() {
   };
 
   const onSignUp = () => {
-    setCreateAccount(!createAccount);
-  };
-
-  const handleRegistration = async () => {
-    try {
-      const newUser = {
-        email: username,
-        password: password,
-        firstName: firstName,
-        lastName: lastName,
-        serviceName: serviceName,
-      };
-      await authContext.registerNewAccount(newUser, "admin");
-      setHasApiError(false);
-    } catch (error) {
-      setHasApiError(true);
-    }
+    navigate("/signup");
   };
 
   const onChangePassword = (val) => {
@@ -259,139 +231,49 @@ function Login() {
     setUsername(val);
   };
 
-  const onChangeFirstName = (val) => {
-    setFirstName(val);
-  };
-
-  const onChangeLastName = (val) => {
-    setLastName(val);
-  };
-
-  const onChangeServiceName = (val) => {
-    setServiceName(val);
-  };
-
   return (
     <div className="">
-      {!createAccount ? (
+      <div>
+        <div className="flex justify-center">Login</div>
         <div>
-          <div className="flex justify-center">Login</div>
-          <div>
-            <div className="px-4 py-1">
-              <div className="text-xs font-extrabold">Username/Email</div>
-              <NssInputText
-                value={username}
-                onChange={onChangeUsername}
-                id="username"
-                placeholder="Enter username"
-                type="text"
-              />
-            </div>
-            <div className="px-4 py-1">
-              <div className="text-xs font-extrabold">Password</div>
-              <NssInputText
-                value={password}
-                onChange={onChangePassword}
-                id="password"
-                placeholder="Enter password"
-                type="password"
-              />
-            </div>
-          </div>
-          <div className="flex justify-center gap-4 pt-2">
-            <NssButtonEnter
-              onClick={onLogin}
-              label="Login"
-              // disabled={!servicesOnline}
+          <div className="px-4 py-1">
+            <div className="text-xs font-extrabold">Username/Email</div>
+            <NssInputText
+              value={username}
+              onChange={onChangeUsername}
+              id="username"
+              placeholder="Enter username"
+              type="text"
             />
           </div>
-          <div className="flex py-2 justify-center">
-            <div className="flex justify-center gap-4 pt-2 pr-2">
-              No account? Sign up here:
-            </div>
-            <NssButtonSignUp onClick={onSignUp} label="Sign Up" />
+          <div className="px-4 py-1">
+            <div className="text-xs font-extrabold">Password</div>
+            <NssInputText
+              value={password}
+              onChange={onChangePassword}
+              id="password"
+              placeholder="Enter password"
+              type="password"
+            />
           </div>
+        </div>
+        <div className="flex justify-center gap-4 pt-2">
+          <NssButtonEnter
+            onClick={onLogin}
+            label="Login"
+            // disabled={!servicesOnline}
+          />
+        </div>
+        <div className="flex py-2 justify-center">
+          <div className="flex justify-center gap-4 pt-2 pr-2">
+            No account? Sign up here:
+          </div>
+          <NssButtonSignUp onClick={onSignUp} label="Sign Up" />
+        </div>
 
-          {auth ? <div>Authenticated!</div> : <></>}
-          <ConnectStatus setServicesOnline={setServicesOnline} />
-        </div>
-      ) : (
-        <div>
-          <div className="flex justify-center">Create Account</div>
-          <div>
-            <div className="px-4 py-1">
-              <div className="text-xs font-extrabold">Username/Email</div>
-              <NssInputText
-                value={username}
-                onChange={onChangeUsername}
-                id="username"
-                placeholder="Enter username"
-                type="text"
-              />
-            </div>
-            <div className="px-4 py-1">
-              <div className="text-xs font-extrabold">Password</div>
-              <NssInputText
-                value={password}
-                onChange={onChangePassword}
-                id="password"
-                placeholder="Enter password"
-                type="password"
-              />
-            </div>
-            <div className="px-4 py-1">
-              <div className="text-xs font-extrabold">First name</div>
-              <NssInputText
-                value={firstName}
-                onChange={onChangeFirstName}
-                id="firstname"
-                placeholder="Enter first name"
-                type="text"
-              />
-            </div>
-            <div className="px-4 py-1">
-              <div className="text-xs font-extrabold">Last name</div>
-              <NssInputText
-                value={lastName}
-                onChange={onChangeLastName}
-                id="lastname"
-                placeholder="Enter last name"
-                type="text"
-              />
-            </div>
-            <div className="px-4 py-1">
-              <div className="text-xs font-extrabold">Company name</div>
-              <NssInputText
-                value={serviceName}
-                onChange={onChangeServiceName}
-                id="service"
-                placeholder="Enter company name"
-                type="text"
-              />
-            </div>
-            <div className="flex justify-center py-2 gap-2 accent-nss-300">
-              <NssCheckbox
-                label="User"
-                value={user}
-                onChange={handleUserChange}
-              />
-              <NssCheckbox
-                label="Admin"
-                value={admin}
-                onChange={handleAdminChange}
-              />
-            </div>
-          </div>
-          <div className="flex justify-center gap-2">
-            <NssButtonSave
-              onClick={handleRegistration}
-              label="Submit"
-              // disabled={!servicesOnline}
-            />
-            <NssButtonBack onClick={onSignUp} label="Login Page" />
-          </div>
-        </div>
-      )}
+        {auth ? <div>Authenticated!</div> : <></>}
+        <ConnectStatus setServicesOnline={setServicesOnline} />
+      </div>
       <div>{hasApiError ? <ApiError /> : <></>}</div>
     </div>
   );

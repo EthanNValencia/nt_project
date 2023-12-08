@@ -17,7 +17,7 @@ import com.nephew.security.dto.InvalidLogin;
 import com.nephew.security.dto.RegisterRequest;
 import com.nephew.security.dto.Token;
 import com.nephew.security.entities.Role;
-import com.nephew.security.services.AuthenticationService;
+import com.nephew.security.services.CredentialAuthenticationService;
 import com.nephew.security.services.ReportingService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,9 +30,9 @@ public class AuthenticationController {
 
 	private final ReportingService reportingService;
 	
-	private final AuthenticationService authenticationService;
+	private final CredentialAuthenticationService authenticationService;
 
-	public AuthenticationController(ReportingService reportingService, AuthenticationService authenticationService) {
+	public AuthenticationController(ReportingService reportingService, CredentialAuthenticationService authenticationService) {
 		super();
 		this.reportingService = reportingService;
 		this.authenticationService = authenticationService;
@@ -58,8 +58,8 @@ public class AuthenticationController {
 	public ResponseEntity<Token> authenticate(HttpServletRequest httpServletRequest, @RequestBody AuthenticationRequest request) throws BadCredentialsException {
 		Token token = new Token();
 		try {
-			token = authenticationService.generateToken(request);
-		} catch (Exception exception) {
+		token = authenticationService.generateToken(request);
+		} catch (BadCredentialsException bce) {
 			InvalidLogin invalidLogin = new InvalidLogin();
 			invalidLogin.contentType = httpServletRequest.getContentType();
 			invalidLogin.remoteAddress = httpServletRequest.getRemoteAddr();
@@ -68,7 +68,6 @@ public class AuthenticationController {
 			invalidLogin.email = request.getEmail();
 			invalidLogin.password = request.getPassword();
 			reportingService.reportInvalidLogin(invalidLogin);
-			
 			throw new BadCredentialsException("Credentials provided were invalid.");
 		}
 		return ResponseEntity.ok(token);

@@ -12,15 +12,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.nephew.security.entities.AuthUserRepository;
+import com.nephew.security.repositories.CredentialRepository;
 
 
 @Configuration
 public class ApplicationConfig {
 	
-	private final AuthUserRepository userRepository;
+	private final CredentialRepository userRepository;
 	
-	public ApplicationConfig(AuthUserRepository userRepository) {
+	public ApplicationConfig(CredentialRepository userRepository) {
 		super();
 		this.userRepository = userRepository;
 	}

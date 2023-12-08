@@ -10,7 +10,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.nephew.security.entities.AuthUser;
+import com.nephew.security.entities.Credential;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -45,7 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		username = jwtService.extractUsername(jwt);
 		// When SecurityContextHolder.getContext().getAuthentication() == null that means the user has NOT been authenticated. 
 		if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-			AuthUser user = (AuthUser) userDetailsService.loadUserByUsername(username);
+			Credential user = (Credential) userDetailsService.loadUserByUsername(username);
 			if(jwtService.isTokenValid(jwt, user)) {
 				UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 				authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

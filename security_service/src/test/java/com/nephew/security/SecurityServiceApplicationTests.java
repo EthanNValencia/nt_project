@@ -19,19 +19,19 @@ import com.nephew.security.dto.Action;
 import com.nephew.security.dto.AuthenticationRequest;
 import com.nephew.security.dto.RegisterRequest;
 import com.nephew.security.dto.Token;
-import com.nephew.security.entities.AuthUser;
-import com.nephew.security.entities.AuthUserRepository;
+import com.nephew.security.entities.Credential;
 import com.nephew.security.entities.Role;
-import com.nephew.security.services.AuthenticationService;
+import com.nephew.security.repositories.CredentialRepository;
+import com.nephew.security.services.CredentialAuthenticationService;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(properties = "eureka.client.enabled=false")
 class SecurityServiceApplicationTests {
 
 	@Autowired
-	private AuthUserRepository authUserRepository;
+	private CredentialRepository authUserRepository;
 	@Autowired
-	private AuthenticationService authenticationService;
+	private CredentialAuthenticationService authenticationService;
 	@Autowired
 	private JwtService jwtService;
 
@@ -46,8 +46,8 @@ class SecurityServiceApplicationTests {
 	@Order(1)
 	@Test
 	void init() {
-		Optional<AuthUser> user = authUserRepository.findByEmail(TEST_USER_EMAIL);
-		Optional<AuthUser> admin = authUserRepository.findByEmail(TEST_ADMIN_EMAIL);
+		Optional<Credential> user = authUserRepository.findByEmail(TEST_USER_EMAIL);
+		Optional<Credential> admin = authUserRepository.findByEmail(TEST_ADMIN_EMAIL);
 		if (!user.isPresent()) {
 			authenticationService.registerUser(new RegisterRequest(TEST_FIRST_NAME, TEST_LAST_NAME, TEST_USER_EMAIL,
 					TEST_USER_PASSWORD, TEST_SERVICE));
@@ -75,21 +75,21 @@ class SecurityServiceApplicationTests {
 	@Order(102)
 	@Test
 	void testUserIdShouldNotBeNull() {
-		AuthUser user = authUserRepository.findByEmail(TEST_USER_EMAIL).get();
+		Credential user = authUserRepository.findByEmail(TEST_USER_EMAIL).get();
 		assertNotNull(user.getId());
 	}
 
 	@Order(300)
 	@Test
 	void testSavedPasswordEncryption() {
-		AuthUser user = authUserRepository.findByEmail(TEST_USER_EMAIL).get();
+		Credential user = authUserRepository.findByEmail(TEST_USER_EMAIL).get();
 		assertNotEquals(TEST_USER_PASSWORD, user.getPassword()); // An unencrypted password should not equal the encrypted password. 
 	}
 
 	@Order(301)
 	@Test
 	void testTokenNotNull() {
-		AuthUser user = authUserRepository.findByEmail(TEST_USER_EMAIL).get();
+		Credential user = authUserRepository.findByEmail(TEST_USER_EMAIL).get();
 		String token = jwtService.generateToken(user);
 		assertNotNull(token);
 	} // isTokenValid
@@ -97,7 +97,7 @@ class SecurityServiceApplicationTests {
 	@Order(302)
 	@Test
 	void testTokenIsValid() {
-		AuthUser user = authUserRepository.findByEmail(TEST_USER_EMAIL).get();
+		Credential user = authUserRepository.findByEmail(TEST_USER_EMAIL).get();
 		String token = jwtService.generateToken(user);
 		assertTrue(jwtService.isTokenValid(token, user));
 	}
@@ -122,7 +122,7 @@ class SecurityServiceApplicationTests {
 	@Order(901)
 	@Test
 	void testAuthUserInstantiation() {
-		AuthUser user = new AuthUser(TEST_FIRST_NAME, TEST_LAST_NAME, TEST_ADMIN_EMAIL, TEST_USER_PASSWORD,
+		Credential user = new Credential(TEST_FIRST_NAME, TEST_LAST_NAME, TEST_ADMIN_EMAIL, TEST_USER_PASSWORD,
 				TEST_SERVICE, Role.ADMIN);
 		assertEquals(TEST_FIRST_NAME, user.getFirstName());
 		assertEquals(TEST_LAST_NAME, user.getLastName());
@@ -155,8 +155,8 @@ class SecurityServiceApplicationTests {
 	@Order(1000)
 	@Test
 	void cleanup() {
-		Optional<AuthUser> user = authUserRepository.findByEmail(TEST_USER_EMAIL);
-		Optional<AuthUser> admin = authUserRepository.findByEmail(TEST_ADMIN_EMAIL);
+		Optional<Credential> user = authUserRepository.findByEmail(TEST_USER_EMAIL);
+		Optional<Credential> admin = authUserRepository.findByEmail(TEST_ADMIN_EMAIL);
 		if (user.isPresent()) {
 			authUserRepository.delete(user.get());
 			; // Delete test data

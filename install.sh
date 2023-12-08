@@ -5,4 +5,4 @@ cd ../email_service/ && mvn clean install
 cd ../security_service/ && mvn clean install
 cd ../sms_service/ && mvn clean install
 cd ../error_service/ && mvn clean install
-cd ../npt/ && mvn clean install
+cd ../oesa_service/ && mvn clean install

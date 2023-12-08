@@ -11,14 +11,14 @@ import com.nephew.security.dto.Action;
 import com.nephew.security.dto.AuthenticationRequest;
 import com.nephew.security.dto.RegisterRequest;
 import com.nephew.security.dto.Token;
-import com.nephew.security.entities.AuthUser;
-import com.nephew.security.entities.AuthUserRepository;
+import com.nephew.security.entities.Credential;
 import com.nephew.security.entities.Role;
+import com.nephew.security.repositories.CredentialRepository;
 
 @Service
-public class AuthenticationService {
+public class CredentialAuthenticationService {
 
-	public AuthenticationService(PasswordEncoder passwordEncoder, AuthUserRepository userRepository, JwtService jwtService, AuthenticationManager authenticationManager) {
+	public CredentialAuthenticationService(PasswordEncoder passwordEncoder, CredentialRepository userRepository, JwtService jwtService, AuthenticationManager authenticationManager) {
 		super();
 		this.passwordEncoder = passwordEncoder;
 		this.userRepository = userRepository;
@@ -27,12 +27,12 @@ public class AuthenticationService {
 	}
 
 	private final PasswordEncoder passwordEncoder;
-	private final AuthUserRepository userRepository;
+	private final CredentialRepository userRepository;
 	private final JwtService jwtService;
 	private final AuthenticationManager authenticationManager;
 
 	public Token registerUser(RegisterRequest request) {
-		AuthUser user = new AuthUser();
+		Credential user = new Credential();
 		user.setFirstName(request.getFirstName());
 		user.setLastName(request.getLastName());
 		user.setEmail(request.getEmail());
@@ -47,7 +47,7 @@ public class AuthenticationService {
 	}
 	
 	public Token registerAdmin(RegisterRequest request) {
-		AuthUser user = new AuthUser();
+		Credential user = new Credential();
 		user.setFirstName(request.getFirstName());
 		user.setLastName(request.getLastName());
 		user.setEmail(request.getEmail());
@@ -63,14 +63,14 @@ public class AuthenticationService {
 
 	public Token generateToken(AuthenticationRequest request) {
 		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())); // This will throw an exception if the user is not auth. 
-		AuthUser user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User with username/email:" + request.getEmail() + " not found."));
+		Credential user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User with username/email:" + request.getEmail() + " not found."));
 		String jwtToken = jwtService.generateToken(user);
 		Token token = new Token();
 		token.setToken(jwtToken);
 		return token;
 	}
 	
-	public Boolean verifyRole(AuthUser user, Action action) {
+	public Boolean verifyRole(Credential user, Action action) {
 		if(user.getRole().equals(Role.SUPER)) {
 			return true;
 		}
@@ -82,7 +82,7 @@ public class AuthenticationService {
 	
 	public Boolean validateToken(Token token, Action action) {
 		String username = jwtService.extractUsername(token.getToken());
-		AuthUser user = userRepository.findByEmail(username).get();
+		Credential user = userRepository.findByEmail(username).get();
 		if(verifyRole(user, action)) {
 			return jwtService.isTokenValid(token.getToken(), user);
 		}
@@ -92,7 +92,7 @@ public class AuthenticationService {
 	
 	public Boolean validateToken(Token token) {
 		String username = jwtService.extractUsername(token.getToken());
-		AuthUser user = userRepository.findByEmail(username).get();
+		Credential user = userRepository.findByEmail(username).get();
 		return jwtService.isTokenValid(token.getToken(), user);
 	}
 

@@ -29,14 +29,9 @@ public class ReportingService {
 
 		try {
 		    String json = objectMapper.writeValueAsString(invalidLogin);
-		 // Create a request entity with the request body and headers
 			HttpEntity<String> request = new HttpEntity<>(json, headers);
-
-			// Make a POST request and retrieve the response
-			ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, request, String.class);
-
-			// Get the response body
-			String responseBody = response.getBody();
+			// ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, request, String.class);
+			// String responseBody = response.getBody();
 		} catch (JsonProcessingException e) {
 		    e.printStackTrace();
 		}

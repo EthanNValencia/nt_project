@@ -14,6 +14,15 @@ export const TextType = {
   IMAGE: "IMAGE",
 };
 
+export const ROLES = {
+  USER: "USER",
+  ADMIN: "ADMIN",
+  SUPER: "SUPER",
+  ERROR: "ERROR",
+};
+
+export const ROLES_ARR = Object.values(ROLES);
+
 export const Profile = {
   linkedin: "",
   youtube: "",

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const authUrl = "http://localhost:8765/security-service/api/v1/public";
-const privateUrl = "http://localhost:8765/npt-service/api/v1/auth";
+const privateUrl = "http://localhost:8765/oesa-service/api/v1/auth";
 const errorReportingUrl =
   "http://localhost:8765/error-service/api/v1/public/error/";
 
@@ -465,8 +465,8 @@ export async function connectErrorService() {
   }
 }
 
-export async function connectNptService() {
-  const url = "http://localhost:8765/npt-service/api/v1/public/health";
+export async function connectOesaService() {
+  const url = "http://localhost:8765/oesa-service/api/v1/public/health";
   try {
     const response = await axios.get(url);
     return validateResponse(response.data);

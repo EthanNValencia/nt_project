@@ -2,6 +2,7 @@ package com.nephew.security.entities;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,7 +17,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class AuthUser implements UserDetails {
+public class PendingCredential implements UserDetails {
 
 	private static final long serialVersionUID = 1638134585862758978L;
 
@@ -31,8 +32,10 @@ public class AuthUser implements UserDetails {
 	private String serviceName;
 	@Enumerated(EnumType.STRING)
 	private Role role;
+	
+	private String pendingCode;
 
-	public AuthUser(String firstName, String lastName, String email, String password, String serviceName, Role role) {
+	public PendingCredential(String firstName, String lastName, String email, String password, String serviceName, Role role) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -41,8 +44,20 @@ public class AuthUser implements UserDetails {
 		this.serviceName = serviceName;
 		this.role = role;
 	}
+	
+	public void generatePendingCode() {
+		this.pendingCode = String.valueOf(hashCode());
+	}
 
-	public AuthUser() {
+	public String getPendingCode() {
+		return pendingCode;
+	}
+
+	public void setPendingCode(String pendingCode) {
+		this.pendingCode = pendingCode;
+	}
+
+	public PendingCredential() {
 		super();
 	}
 
@@ -86,8 +101,6 @@ public class AuthUser implements UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-
 
 	public String getServiceName() {
 		return serviceName;
@@ -134,5 +147,27 @@ public class AuthUser implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(email, firstName, id, lastName, password, role, serviceName);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PendingCredential other = (PendingCredential) obj;
+		return Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName)
+				&& Objects.equals(id, other.id) && Objects.equals(lastName, other.lastName)
+				&& Objects.equals(password, other.password) && Objects.equals(pendingCode, other.pendingCode)
+				&& role == other.role && Objects.equals(serviceName, other.serviceName);
+	}
+	
+	
 
 }
