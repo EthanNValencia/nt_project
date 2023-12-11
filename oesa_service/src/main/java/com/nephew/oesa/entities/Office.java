@@ -1,6 +1,8 @@
 package com.nephew.oesa.entities;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,8 +25,6 @@ import jakarta.persistence.OneToOne;
 @Entity
 public class Office {
 
-	// 12723 N Bellwood Dr STE 10, Holland, MI 49424
-	// info@nephewpt.com
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "office_id")
@@ -48,25 +48,33 @@ public class Office {
 	@Column(nullable = false)
 	private boolean acceptingWalkIns;
 	@Column(length = 150)
-	private String mapUrl; // https://www.google.com/maps?q=+12723+N+Bellwood+Dr.,+Suite+10+Holland,+MI+49424
+	private String mapUrl; 
 	@Column(length = 200)
-	private String introduction; // You may always visit our office, located on Holland’s north side
+	private String introduction; 
 	
+	
+	
+	public Office() {
+		super();
+		this.employees = new ArrayList<>();
+		this.schedule = new HashSet<>();
+	}
+
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "company_id", referencedColumnName = "id")
 	private Company company;
 	
-	@OneToOne(mappedBy = "office", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToOne(mappedBy = "office", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
 	@JsonIgnoreProperties("office")
 	private OfficeSocialMediaProfile officeSocialMedialProfile;
 	
 	@OneToMany(mappedBy = "office", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnoreProperties("office")
-	private Set<OfficeDailySchedule> schedule = new HashSet<>();
+	private Set<OfficeDailySchedule> schedule;
 
 	@OneToMany(mappedBy = "office", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnoreProperties("office")
-	private Set<Employee> employees = new HashSet<>();
+	private List<Employee> employees;
 	
 	public void assignIdToChildren() {
 		for(OfficeDailySchedule schedule: schedule) {
@@ -77,12 +85,10 @@ public class Office {
 		}
 		if(officeSocialMedialProfile != null) {
 			officeSocialMedialProfile.setOffice(new Office(officeId));
-		}
+		} 
 	}
 
-	public Office() {
-		super();
-	}
+	
 
 	public Company getCompany() {
 		return company;
@@ -153,11 +159,11 @@ public class Office {
 		this.phone = phone;
 	}
 
-	public Set<Employee> getEmployees() {
+	public List<Employee> getEmployees() {
 		return employees;
 	}
 
-	public void setEmployees(Set<Employee> employees) {
+	public void setEmployees(List<Employee> employees) {
 		this.employees = employees;
 	}
 

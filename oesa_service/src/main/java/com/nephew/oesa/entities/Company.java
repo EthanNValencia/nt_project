@@ -46,8 +46,6 @@ public class Company {
 		super();
         this.faqs = new ArrayList<>();
         this.offices = new ArrayList<>();
-        // this.website = new Website();
-        // this.website.setCompany(this);
 	}
 
 	public void assignIdToChildren() {

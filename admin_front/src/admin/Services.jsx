@@ -4,6 +4,8 @@ import {
   adminGetServices,
   adminPutServices,
   adminDeleteService,
+  serviceAddTextApi,
+  updateServiceApi,
 } from "../axios/api";
 import ApiError from "../components/ApiError";
 import DataField from "./DataField";
@@ -14,6 +16,9 @@ import NssButtonEdit from "../nss/NssButtonEdit";
 import NssButtonReload from "../nss/NssButtonReload";
 import NssButtonSave from "../nss/NssButtonSave";
 import StatusMessage, { pickDivColor } from "./StatusMessage";
+import NssButtonChevron from "../nss/NssButtonChevron";
+import Dump from "./Dump";
+import Texts from "./Texts";
 
 function Services() {
   const [services, setServices] = useState([]);
@@ -143,12 +148,13 @@ function Services() {
         </div>
       </div>
       <div>
-        <div className="grid 2xl:grid-cols-6 xl:grid-cols-4 md:grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 gap-1">
           {services.map((service, index) => (
             <Service
               key={service.id}
               service={service}
               index={index}
+              changeDetected={changeDetected}
               setChangeDetected={setChangeDetected}
               deleteService={deleteService}
               undefined={!service.id || !service.name}
@@ -166,41 +172,113 @@ function Service(props) {
   const {
     service,
     index,
+    changeDetected,
     setChangeDetected,
     deleteService,
     undefined,
     updateServices,
   } = props;
-  const [newService, setNewService] = useState({ ...service });
+  const [localService, setLocalService] = useState({ ...service });
+  const [showDump, setShowDump] = useState(false);
   const [editMode, setEditMode] = useState(undefined);
+  const [showTexts, setShowTexts] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [hasApiError, setHasApiError] = useState(false);
+  const authContext = useContext(AuthContext);
 
-  const editService = () => {
+  const onEditService = () => {
     if (editMode) {
-      updateServices(newService, index);
+      updateServices(localService, index);
     }
-
     setEditMode(!editMode);
+    setShowDump(false);
+    setShowTexts(false);
+  };
+
+  const onOpenDump = () => {
+    setEditMode(false);
+    setShowDump(!showDump);
+    setShowTexts(false);
+  };
+
+  const onShowTexts = () => {
+    setEditMode(false);
+    setShowDump(false);
+    setShowTexts(!showTexts);
+  };
+
+  const addNewServiceText = async (position) => {
+    if (changeDetected) {
+      saveService();
+    }
+    try {
+      setLoading(true);
+      const updatedService = await serviceAddTextApi(
+        position,
+        localService,
+        authContext.token
+      );
+      setLocalService(updatedService);
+      setHasApiError(false);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setHasApiError(true);
+      console.log("There was an error adding a new service text.");
+    }
+  };
+
+  const saveService = async () => {
+    if (changeDetected && !editMode) {
+      try {
+        setLoading(true);
+        const updatedService = await updateServiceApi(
+          {
+            ...localService,
+          },
+          authContext.token
+        );
+        setLocalService(updatedService);
+        setHasApiError(false);
+        setLoading(false);
+        setChangeDetected(false);
+      } catch (error) {
+        setLoading(false);
+        setHasApiError(true);
+        console.log("There was an error saving the service.");
+      }
+    }
   };
 
   const deleteThisService = () => {
-    // console.log(newService);
-    deleteService(newService);
+    deleteService(localService);
+  };
+
+  const updateServiceTexts = (texts) => {
+    const updatedService = { ...localService };
+    updatedService.serviceTexts = texts;
+    setLocalService(updatedService);
   };
 
   const generateText = () => {
-    if (newService.employees.length == 0) {
+    if (localService.employees.length == 0) {
       return "You have no employees assigned to this service. Please assign an employee to this service.";
-    } else if (newService.employees.length == 1) {
+    } else if (localService.employees.length == 1) {
       return "You only have one employee assigned to this service. Does this service need more employees?";
     } else {
       return "This service has multiple employees providing it.";
     }
   };
 
+  const getParentObject = () => {
+    const service = { id: localService.id };
+    return service;
+  };
+
   return (
     <div>
       <div
-        key={index}
+        key={localService.id}
         className={`${pickDivColor(
           editMode
         )} border rounded-lg shadow-xl py-2 px-2`}
@@ -215,15 +293,15 @@ function Service(props) {
                   id="servicename"
                   type="text"
                   placeholder="Enter service name..."
-                  value={newService.name}
+                  value={localService.name}
                   onChange={(e) => {
-                    const updatedService = { ...newService };
+                    const updatedService = { ...localService };
                     updatedService.name = e.target.value;
-                    setNewService(updatedService);
+                    setLocalService(updatedService);
                   }}
                 />
               ) : (
-                <DataField value={newService.name} />
+                <DataField value={localService.name} />
               )}
             </div>
             <div>
@@ -232,19 +310,44 @@ function Service(props) {
                 <ToolTip text={generateText()} />
               </div>
               <div className="text-xs pr-2 text-center font-bold">
-                {newService.employees.length}
+                {localService.employees.length}
               </div>
             </div>
           </div>
         </div>
         <div className="flex gap-2 justify-between pt-2">
-          <NssButtonEdit onClick={editService} label="Edit"></NssButtonEdit>
+          <div className="flex gap-2">
+            <NssButtonEdit onClick={onEditService} label="Edit"></NssButtonEdit>
+            <NssButtonChevron
+              onClick={onOpenDump}
+              label="Dump"
+              selected={showDump}
+            ></NssButtonChevron>
+            <NssButtonChevron
+              onClick={onShowTexts}
+              label="Texts"
+              selected={showTexts}
+            ></NssButtonChevron>
+          </div>
           <NssButtonSubtract
             onClick={deleteThisService}
             label="Delete"
-            disabled={service.id == null || newService.employees.length >= 1}
+            disabled={service.id == null || localService.employees.length >= 1}
           ></NssButtonSubtract>
         </div>
+        {showDump ? <Dump data={localService} /> : <></>}
+        {showTexts ? (
+          <Texts
+            parentTexts={localService.serviceTexts}
+            setChangeDetected={setChangeDetected}
+            updateTexts={updateServiceTexts}
+            name={"Service Text"}
+            parentObjectWithId={getParentObject()}
+            addText={addNewServiceText}
+          />
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

@@ -17,8 +17,8 @@ import com.nephew.oesa.dto.EmailDto;
 import com.nephew.oesa.dto.OfficeDto;
 import com.nephew.oesa.entities.FAQs;
 import com.nephew.oesa.entities.Office;
-import com.nephew.oesa.entities.Services;
 import com.nephew.oesa.entities.employee.Employee;
+import com.nephew.oesa.entities.services.Services;
 import com.nephew.oesa.entities.website.Page;
 import com.nephew.oesa.entities.website.Website;
 import com.nephew.oesa.repositories.OfficeRepository;
@@ -131,6 +131,16 @@ public class PrivateController {
 	public ResponseEntity<Void> deleteService(@PathVariable(value = "id") Long id) {
 		servicesService.deleteService(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@PostMapping("/services/")
+	public ResponseEntity<Services> saveService(@RequestBody Services service) {
+		return new ResponseEntity<Services> (servicesService.saveService(service), HttpStatus.OK);
+	}
+	
+	@PostMapping("/services/texts/{position}")
+	public ResponseEntity<Services> addServiceText(@PathVariable(value = "position") int position, @RequestBody Services service) {
+		return new ResponseEntity<Services> (servicesService.addNewText(position, service), HttpStatus.OK);
 	}
 
 	@GetMapping("/website/")

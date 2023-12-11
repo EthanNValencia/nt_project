@@ -1,12 +1,13 @@
-package com.nephew.oesa.entities;
+package com.nephew.oesa.entities.services;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nephew.oesa.entities.employee.Employee;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,6 +16,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Services {
@@ -25,7 +27,12 @@ public class Services {
 	@Column(length = 128)
 	private String name;
 	@ManyToMany(mappedBy = "services")
+	@JsonIgnoreProperties({"services", "appointments", "schedule", "office", "biographicalTexts", "informationalTexts"})
 	private Set<Employee> employees = new HashSet<>();
+	
+	@OneToMany(mappedBy = "service", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@JsonIgnoreProperties("service")
+	private List<ServiceText> serviceTexts = new ArrayList<>();
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -44,6 +51,14 @@ public class Services {
 	    return Objects.hash(name);
 	}
 	
+	public List<ServiceText> getServiceTexts() {
+		return serviceTexts;
+	}
+
+	public void setServiceTexts(List<ServiceText> serviceTexts) {
+		this.serviceTexts = serviceTexts;
+	}
+
 	public Services() {
 		super();
 	}

@@ -9,10 +9,10 @@ import java.util.Set;
 
 import com.nephew.oesa.entities.Appointment;
 import com.nephew.oesa.entities.Office;
-import com.nephew.oesa.entities.Services;
 import com.nephew.oesa.entities.SocialMediaProfile;
 import com.nephew.oesa.entities.employee.Employee;
 import com.nephew.oesa.entities.employee.EmployeeDailySchedule;
+import com.nephew.oesa.entities.services.Services;
 
 public class EmployeeDto {
 

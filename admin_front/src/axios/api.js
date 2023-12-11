@@ -4,7 +4,6 @@ const authUrl = "http://localhost:8765/security-service/api/v1/public";
 const privateUrl = "http://localhost:8765/oesa-service/api/v1/auth";
 const errorReportingUrl =
   "http://localhost:8765/error-service/api/v1/public/error/";
-
 export async function register(user) {
   const registerUrl = authUrl + "/register";
   const requestBody = {
@@ -347,6 +346,40 @@ export async function adminGetServices(token) {
   try {
     console.log("Token: " + token);
     const response = await axios.get(servicesUrl, { headers });
+    return response.data;
+  } catch (error) {
+    handleErrorReporting(error);
+    throw error;
+  }
+}
+
+export async function updateServiceApi(service, token) {
+  const updateEmployeeUrl = privateUrl + "/services/";
+  console.log("Updating: " + JSON.stringify(service));
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  };
+
+  try {
+    const response = await axios.put(updateEmployeeUrl, service, { headers });
+    return response.data;
+  } catch (error) {
+    handleErrorReporting(error);
+    throw error;
+  }
+}
+
+export async function serviceAddTextApi(position, service, token) {
+  const url = privateUrl + "/services/texts/" + position;
+  console.log("Updating: " + JSON.stringify(service));
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  };
+
+  try {
+    const response = await axios.post(url, service, { headers });
     return response.data;
   } catch (error) {
     handleErrorReporting(error);

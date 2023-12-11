@@ -161,8 +161,7 @@ function Employee(props) {
     } catch (error) {
       setLoading(false);
       setHasApiError(true);
-      console.log("There was an error fetching the website data.");
-      // console.error("Error loading employees:", error);
+      console.log("There was an error adding a new information text.");
     }
   };
 
@@ -183,8 +182,7 @@ function Employee(props) {
     } catch (error) {
       setLoading(false);
       setHasApiError(true);
-      console.log("There was an error fetching the website data.");
-      // console.error("Error loading employees:", error);
+      console.log("There was an error adding a new biographical text.");
     }
   };
 

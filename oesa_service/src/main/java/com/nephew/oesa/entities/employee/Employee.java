@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nephew.oesa.entities.Appointment;
 import com.nephew.oesa.entities.Office;
 import com.nephew.oesa.entities.OfficeDailySchedule;
-import com.nephew.oesa.entities.Services;
+import com.nephew.oesa.entities.services.Services;
 import com.nephew.oesa.entities.website.Website;
 
 import jakarta.persistence.CascadeType;
@@ -53,19 +53,28 @@ public class Employee {
 	private String personalPhone;
 	private String subject; // her
 	private String possessive; // she, she has something (possessive)
+	
+	public Employee() {
+		super();
+		this.services = new HashSet<>();
+		this.appointments = new ArrayList<>();
+		this.schedule = new HashSet<>();
+		this.biographicalTexts = new ArrayList<>();			
+		this.informationalTexts = new ArrayList<>();
+	}
 
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	@JoinTable(name = "employee_service", joinColumns = @JoinColumn(name = "employee_id"), inverseJoinColumns = @JoinColumn(name = "service_id"))
 	@JsonIgnoreProperties("employees")
-	private Set<Services> services = new HashSet<>();
+	private Set<Services> services;
 
 	@OneToMany(mappedBy = "employee", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, orphanRemoval = true)
 	@JsonIgnoreProperties("employee")
-	private List<Appointment> appointments = new ArrayList<>();
+	private List<Appointment> appointments;
 
 	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@JsonIgnoreProperties("employee")
-	private Set<EmployeeDailySchedule> schedule = new HashSet<>();
+	private Set<EmployeeDailySchedule> schedule;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "employee_id", referencedColumnName = "office_id")
@@ -82,11 +91,11 @@ public class Employee {
 
 	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@JsonIgnoreProperties("employee")
-	private List<BiographicalText> biographicalTexts = new ArrayList<>();
+	private List<BiographicalText> biographicalTexts;
 
 	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@JsonIgnoreProperties("employee")
-	private List<InformationalText> informationalTexts = new ArrayList<>();
+	private List<InformationalText> informationalTexts;
 
 	@Override
 	public int hashCode() {
@@ -225,10 +234,6 @@ public class Employee {
 
 	public void setOffice(Office office) {
 		this.office = office;
-	}
-
-	public Employee() {
-		super();
 	}
 
 	public Employee(long id) {

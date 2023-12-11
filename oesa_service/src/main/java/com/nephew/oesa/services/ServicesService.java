@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nephew.oesa.entities.Services;
+import com.nephew.oesa.entities.services.ServiceText;
+import com.nephew.oesa.entities.services.Services;
 import com.nephew.oesa.repositories.ServiceRepository;
 
 @Service
@@ -31,5 +32,17 @@ public class ServicesService {
 
 	public void deleteService(Long id) {
 		repo.deleteById(id);
+	}
+
+	public Services saveService(Services service) {
+		return repo.save(service);
+	}
+
+	public Services addNewText(int position, Services service) {
+		ServiceText text = new ServiceText();
+		text.setPosition(position);
+		service.getServiceTexts().add(text);
+		repo.save(service);
+		return service;
 	}
 }

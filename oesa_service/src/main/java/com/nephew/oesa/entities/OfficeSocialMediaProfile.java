@@ -37,6 +37,11 @@ public class OfficeSocialMediaProfile extends SocialMediaProfile {
 	public void setOffice(Office office) {
 		this.office = office;
 	}
+
+	@Override
+	public String toString() {
+		return "OfficeSocialMediaProfile [id=" + id + ", office=" + office.getOfficeId() + "]";
+	}
 	
 	
 }

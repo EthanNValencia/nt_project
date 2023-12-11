@@ -141,4 +141,14 @@ public class SocialMediaProfile {
 		this.tiktok = tiktok;
 	}
 
+	@Override
+	public String toString() {
+		return "SocialMediaProfile [linkedin=" + linkedin + ", youtube=" + youtube + ", facebook=" + facebook
+				+ ", myspace=" + myspace + ", instagram=" + instagram + ", yelp=" + yelp + ", tiktok=" + tiktok + ", x="
+				+ x + ", pinterest=" + pinterest + ", snapchat=" + snapchat + ", whatsapp=" + whatsapp + ", tumblr="
+				+ tumblr + ", google=" + google + "]";
+	}
+	
+	
+
 }

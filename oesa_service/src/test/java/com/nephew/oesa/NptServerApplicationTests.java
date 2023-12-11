@@ -26,12 +26,13 @@ import com.nephew.oesa.entities.FAQs;
 import com.nephew.oesa.entities.Office;
 import com.nephew.oesa.entities.OfficeDailySchedule;
 import com.nephew.oesa.entities.OfficeSocialMediaProfile;
-import com.nephew.oesa.entities.Services;
 import com.nephew.oesa.entities.employee.BiographicalText;
 import com.nephew.oesa.entities.employee.Employee;
 import com.nephew.oesa.entities.employee.EmployeeDailySchedule;
 import com.nephew.oesa.entities.employee.EmployeeSocialMediaProfile;
 import com.nephew.oesa.entities.employee.InformationalText;
+import com.nephew.oesa.entities.services.ServiceText;
+import com.nephew.oesa.entities.services.Services;
 import com.nephew.oesa.entities.text.TextType;
 import com.nephew.oesa.entities.website.Website;
 import com.nephew.oesa.entities.website.WebsiteSocialMediaProfile;
@@ -125,6 +126,8 @@ class NptServiceApplicationTests {
 	
 	private final String COMPANY_URL = "npt";
 	
+	private final String HEAD_AND_NECK_TEST_TEXT = "This is test text for the head and neck service.";
+	
 	@Order(100)
 	@Test
 	void createNptCompany() {
@@ -142,7 +145,14 @@ class NptServiceApplicationTests {
 	@Test
 	void createServices() {
 		if (servicesRepo.findByName(HEAD_AND_NECK).isEmpty()) {
-			servicesRepo.save(new Services(HEAD_AND_NECK));
+			Services headAndNeck = new Services(HEAD_AND_NECK);
+			ServiceText serviceTextOne = new ServiceText();
+			serviceTextOne.setType(TextType.PARAGRAPH);
+			serviceTextOne.setText(HEAD_AND_NECK_TEST_TEXT);
+			serviceTextOne.setPosition(1);
+			serviceTextOne.setService(headAndNeck);
+			headAndNeck.getServiceTexts().add(serviceTextOne);
+			servicesRepo.save(headAndNeck);
 		}
 		if (servicesRepo.findByName(SHOULDERS).isEmpty()) {
 			servicesRepo.save(new Services(SHOULDERS));
@@ -270,7 +280,7 @@ class NptServiceApplicationTests {
 			Website website = new Website();
 			website.setId(WEBSITE_ID);
 			website.setName("Nephew Physical Therapy");
-			website.setUrl(""); 
+			website.setUrl("/"); 
 			website = websiteRepository.save(website);
 			WebsiteSocialMediaProfile profile = new WebsiteSocialMediaProfile();
 			profile.setWebsite(website);
@@ -829,7 +839,6 @@ class NptServiceApplicationTests {
 		try {
 			melissa = employeeService.updateEmployeeServices(1L, serviceIds);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -1039,6 +1048,13 @@ class NptServiceApplicationTests {
 	void websiteShouldHaveWebsiteId() {
 		Website website = websiteRepository.findByCompanyUrl(COMPANY_URL);
 		assertEquals(WEBSITE_ID, website.getId());
+	}
+	
+	@Order(3000)
+	@Test
+	void serviceShouldContainText() {
+		Services headAndShoulders = servicesRepo.findByName(HEAD_AND_NECK).get();
+		assertEquals(HEAD_AND_NECK_TEST_TEXT, headAndShoulders.getServiceTexts().get(0).getText());
 	}
 	
 }

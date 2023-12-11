@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nephew.oesa.entities.Appointment;
-import com.nephew.oesa.entities.Services;
 import com.nephew.oesa.entities.employee.BiographicalText;
 import com.nephew.oesa.entities.employee.Employee;
 import com.nephew.oesa.entities.employee.EmployeeDailySchedule;
 import com.nephew.oesa.entities.employee.InformationalText;
+import com.nephew.oesa.entities.services.Services;
 import com.nephew.oesa.repositories.EmployeeRepository;
 import com.nephew.oesa.repositories.ServiceRepository;
 
@@ -65,15 +65,12 @@ public class EmployeeService {
 
 	public Employee updateEmployee(Employee employee) {
 		assignEmployeeIdToChildren(employee);
-		// System.out.println("Before: " + employee);
 		try {
 			updateEmployeeServices(employee.getId(), employee.returnServicesIdAsSet());
 		} catch (Exception e) {
 			throw new RuntimeException("Error updating employee services", e);
 		}
-		// System.out.println("After: " + employee);
 		employee = employeeRepo.save(employee);
-		// System.out.println("After Save: " + employee);
 		return employee;
 	}
 

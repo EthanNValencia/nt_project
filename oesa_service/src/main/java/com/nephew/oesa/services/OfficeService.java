@@ -22,8 +22,8 @@ public class OfficeService {
 	}
 
 	public Office saveOffice(Office office) {
-	    assignOfficeIdToChildren(office);
 	    office = officeRepository.save(office);
+	    office.assignIdToChildren();
 	    return office;
 	}
 
@@ -34,9 +34,11 @@ public class OfficeService {
 	    for (Employee employee : office.getEmployees()) {
 	        employee.setOffice(office);
 	    }
+	    System.out.println(office.getOfficeSocialMedialProfile());
 	    if (office.getOfficeSocialMedialProfile() != null) {
 	        office.getOfficeSocialMedialProfile().setOffice(office);
 	    }
+	    System.out.println(office.getOfficeSocialMedialProfile());
 	}
 	
 }

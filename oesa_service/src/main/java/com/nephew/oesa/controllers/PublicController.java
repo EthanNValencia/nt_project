@@ -21,8 +21,8 @@ import com.nephew.oesa.dto.OfficeDto;
 import com.nephew.oesa.entities.Appointment;
 import com.nephew.oesa.entities.FAQs;
 import com.nephew.oesa.entities.Office;
-import com.nephew.oesa.entities.Services;
 import com.nephew.oesa.entities.employee.Employee;
+import com.nephew.oesa.entities.services.Services;
 import com.nephew.oesa.services.AppointmentService;
 import com.nephew.oesa.services.DtoService;
 import com.nephew.oesa.services.EmployeeService;
@@ -105,8 +105,6 @@ public class PublicController {
 
 	@GetMapping("/services")
 	public ResponseEntity<List<Services>> getProblemAreaCategories() {
-		// List<Specialty> specialties = specialtyService.getAllSpecialities();
-
 		return new ResponseEntity<List<Services>>(specialtyService.getAllSpecialities(), HttpStatus.OK);
 	}
 
