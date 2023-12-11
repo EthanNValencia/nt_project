@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -122,6 +122,21 @@ class NptServiceApplicationTests {
 	
 	private final long COMPANY_ID = 1L;
 	private final long WEBSITE_ID = 1L;
+	
+	private final String COMPANY_URL = "npt";
+	
+	@Order(100)
+	@Test
+	void createNptCompany() {
+		if(companyRepository.findById(COMPANY_ID).isEmpty()) {
+			Company company = new Company();
+			company.setCompanyName("Nephew Physical Therapy");
+			company.setCompanyAcronym(COMPANY_URL);
+			company.setCompanyUrl(COMPANY_URL);
+			company.setId(COMPANY_ID);
+			companyRepository.save(company);
+		}
+	}
 	
 	@Order(115)
 	@Test
@@ -260,6 +275,11 @@ class NptServiceApplicationTests {
 			WebsiteSocialMediaProfile profile = new WebsiteSocialMediaProfile();
 			profile.setWebsite(website);
 			websiteSocialMediaProfileRepository.save(profile);
+			
+			Company company = companyRepository.findById(COMPANY_ID).get();
+			company.setWebsite(website);
+			company.assignIdToChildren();
+			companyRepository.save(company);
 		}
 	}
 	
@@ -269,35 +289,40 @@ class NptServiceApplicationTests {
 		Optional<Office> officeOpt = officeRepository.findById(1L);
 
 		if (officeOpt.isEmpty()) {
-			Office npt = new Office();
-			npt.setOfficeId(1L);
-			npt.setStreet("12723 N Bellwood Dr");
-			npt.setUnit("STE 10");
-			npt.setCity("Holland");
-			npt.setState("MI");
-			npt.setZip("49424");
-			npt.setPhone("1-616-796-9391");
-			npt.setFax("1-888-714-4474");
-			npt.setEmail("info@nephewpt.com");
-			npt.setIntroduction("You may always visit our office, located on Holland’s north side");
-			npt.setMapUrl("https://www.google.com/maps?q=+12723+N+Bellwood+Dr.,+Suite+10+Holland,+MI+49424");
-			npt.setAcceptingWalkIns(true);
-			npt = officeRepository.save(npt);
+			Office nptOffice = new Office();
+			nptOffice.setOfficeId(1L);
+			nptOffice.setStreet("12723 N Bellwood Dr");
+			nptOffice.setUnit("STE 10");
+			nptOffice.setCity("Holland");
+			nptOffice.setState("MI");
+			nptOffice.setZip("49424");
+			nptOffice.setPhone("1-616-796-9391");
+			nptOffice.setFax("1-888-714-4474");
+			nptOffice.setEmail("info@nephewpt.com");
+			nptOffice.setIntroduction("You may always visit our office, located on Holland’s north side");
+			nptOffice.setMapUrl("https://www.google.com/maps?q=+12723+N+Bellwood+Dr.,+Suite+10+Holland,+MI+49424");
+			nptOffice.setAcceptingWalkIns(true);
+			nptOffice = officeRepository.save(nptOffice);
 			Set<OfficeDailySchedule> schedule = new HashSet<>();
 			schedule.add(new OfficeDailySchedule("Mon", LocalTime.of(7, 0, 0), LocalTime.of(18, 30, 0),
-					new Office(npt.getOfficeId())));
+					new Office(nptOffice.getOfficeId())));
 			schedule.add(new OfficeDailySchedule("Tue", LocalTime.of(7, 0, 0), LocalTime.of(18, 30, 0),
-					new Office(npt.getOfficeId())));
+					new Office(nptOffice.getOfficeId())));
 			schedule.add(new OfficeDailySchedule("Wed", LocalTime.of(7, 0, 0), LocalTime.of(18, 30, 0),
-					new Office(npt.getOfficeId())));
+					new Office(nptOffice.getOfficeId())));
 			schedule.add(new OfficeDailySchedule("Thu", LocalTime.of(7, 0, 0), LocalTime.of(18, 30, 0),
-					new Office(npt.getOfficeId())));
+					new Office(nptOffice.getOfficeId())));
 			schedule.add(new OfficeDailySchedule("Fri", LocalTime.of(13, 0, 0), LocalTime.of(15, 0, 0),
-					new Office(npt.getOfficeId())));
+					new Office(nptOffice.getOfficeId())));
 			companyDailyScheduleRepository.saveAll(schedule);
 			OfficeSocialMediaProfile officeSocialMediaProfile = new OfficeSocialMediaProfile();
-			officeSocialMediaProfile.setOffice(npt);
+			officeSocialMediaProfile.setOffice(nptOffice);
 			officeSocialMediaProfileRepository.save(officeSocialMediaProfile);
+			
+			Company company = companyRepository.findById(COMPANY_ID).get();
+			company.getOffices().add(nptOffice);
+			company.assignIdToChildren();
+			companyRepository.save(company);
 		}
 	}
 
@@ -731,6 +756,16 @@ class NptServiceApplicationTests {
 		faqsRepository.save(faq4);
 		faqsRepository.save(faq5);
 		faqsRepository.save(faq6);
+		
+		Company company = companyRepository.findById(COMPANY_ID).get();
+		company.getFaqs().add(faq1);
+		company.getFaqs().add(faq2);
+		company.getFaqs().add(faq3);
+		company.getFaqs().add(faq4);
+		company.getFaqs().add(faq5);
+		company.getFaqs().add(faq6);
+		company.assignIdToChildren();
+		companyRepository.save(company);
 	}
 
 	@Order(2000)
@@ -950,29 +985,6 @@ class NptServiceApplicationTests {
 		assertEquals(5, christine.getSchedule().size());
 	}
 	
-	private final String COMPANY_URL = "npt";
-	
-	@Order(2500)
-	@Test
-	void createNptCompany() {
-		if(companyRepository.findById(COMPANY_ID).isEmpty()) {
-			Company company = new Company();
-			company.setCompanyName("Nephew Physical Therapy");
-			company.setCompanyAcronym(COMPANY_URL);
-			company.setCompanyUrl(COMPANY_URL);
-			company.setId(COMPANY_ID);
-			companyRepository.save(company);
-		}
-	}
-	
-	@Order(2501)
-	@Test
-	void populateNptCompany() {
-		Company company = companyRepository.findById(COMPANY_ID).get();
-		company.assignIdToChildren();
-		companyRepository.save(company);
-	}
-	
 	@Order(2600)
 	@Test
 	void officeShouldBeNpt() {
@@ -1028,6 +1040,5 @@ class NptServiceApplicationTests {
 		Website website = websiteRepository.findByCompanyUrl(COMPANY_URL);
 		assertEquals(WEBSITE_ID, website.getId());
 	}
-	
 	
 }

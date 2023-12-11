@@ -1,6 +1,7 @@
 package com.nephew.oesa.entities;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -29,18 +30,26 @@ public class Company {
 	@Column(length = 30)
 	private String companyUrl; // This is what will be used in the url to identify the company. 
 	
-	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonIgnoreProperties("company")
-	private ArrayList<FAQs> faqs = new ArrayList<>();
+	private List<FAQs> faqs;
 	
-	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonIgnoreProperties("company")
-	private ArrayList<Office> offices = new ArrayList<>();
+	private List<Office> offices;
 	
-	@OneToOne(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToOne(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonIgnoreProperties("company")
-	private Website website = new Website();
+	private Website website;
 	
+	public Company() {
+		super();
+        this.faqs = new ArrayList<>();
+        this.offices = new ArrayList<>();
+        // this.website = new Website();
+        // this.website.setCompany(this);
+	}
+
 	public void assignIdToChildren() {
 		for(FAQs faq : faqs) {
 			faq.setCompany(this);
@@ -83,19 +92,19 @@ public class Company {
 		this.companyName = companyName;
 	}
 
-	public ArrayList<FAQs> getFaqs() {
+	public List<FAQs> getFaqs() {
 		return faqs;
 	}
 
-	public void setFaqs(ArrayList<FAQs> faqs) {
+	public void setFaqs(List<FAQs> faqs) {
 		this.faqs = faqs;
 	}
 
-	public ArrayList<Office> getOffices() {
+	public List<Office> getOffices() {
 		return offices;
 	}
 
-	public void setOffices(ArrayList<Office> offices) {
+	public void setOffices(List<Office> offices) {
 		this.offices = offices;
 	}
 

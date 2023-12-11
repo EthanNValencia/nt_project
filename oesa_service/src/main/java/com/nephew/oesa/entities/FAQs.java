@@ -1,5 +1,6 @@
 package com.nephew.oesa.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,7 +21,7 @@ public class FAQs {
 	@Column(columnDefinition = "TEXT")
 	private String answer;
 
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "company_id", referencedColumnName = "id")
 	private Company company;
 	

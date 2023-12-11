@@ -52,7 +52,7 @@ public class Office {
 	@Column(length = 200)
 	private String introduction; // You may always visit our office, located on Holland’s north side
 	
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "company_id", referencedColumnName = "id")
 	private Company company;
 	

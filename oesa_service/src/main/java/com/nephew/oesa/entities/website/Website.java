@@ -41,7 +41,8 @@ public class Website {
 	private WebsiteSocialMediaProfile profile;
 
 	@OneToOne
-    @JoinColumn(name = "id")
+	@JoinColumn(name = "company_id")
+	@JsonIgnore
 	private Company company;
 	
 	@OneToMany(mappedBy = "website", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
