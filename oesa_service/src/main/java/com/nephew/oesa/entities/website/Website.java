@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.nephew.oesa.entities.Company;
 import com.nephew.oesa.entities.FAQs;
 import com.nephew.oesa.entities.Office;
 import com.nephew.oesa.entities.employee.Employee;
@@ -17,6 +18,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
@@ -38,9 +40,21 @@ public class Website {
 	@JsonIgnoreProperties("website")
 	private WebsiteSocialMediaProfile profile;
 
+	@OneToOne
+    @JoinColumn(name = "id")
+	private Company company;
+	
 	@OneToMany(mappedBy = "website", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@JsonIgnoreProperties("website")
 	private List<Page> pages = new ArrayList<>();
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
 
 	public Website() {
 		super();

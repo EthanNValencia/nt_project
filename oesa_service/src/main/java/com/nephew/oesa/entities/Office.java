@@ -52,6 +52,10 @@ public class Office {
 	@Column(length = 200)
 	private String introduction; // You may always visit our office, located on Holland’s north side
 	
+	@ManyToOne
+	@JoinColumn(name = "company_id", referencedColumnName = "id")
+	private Company company;
+	
 	@OneToOne(mappedBy = "office", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnoreProperties("office")
 	private OfficeSocialMediaProfile officeSocialMedialProfile;
@@ -78,6 +82,14 @@ public class Office {
 
 	public Office() {
 		super();
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
 	public OfficeSocialMediaProfile getOfficeSocialMedialProfile() {

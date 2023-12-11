@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.nephew.oesa.entities.Office;
 import com.nephew.oesa.entities.employee.Employee;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
@@ -22,5 +23,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	public Optional<Employee> findByFirstNameAndLastName(String firstName, String lastName);
 
 	public List<Employee> findAllByOrderById();
+	
+	@Query("SELECT e FROM Employee e WHERE e.office.company.companyUrl = :companyUrl")
+	public List<Employee> findByCompanyUrl(@Param("companyUrl") String companyUrl);
 
 }

@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.nephew.oesa.entities.Appointment;
+import com.nephew.oesa.entities.Company;
 import com.nephew.oesa.entities.FAQs;
 import com.nephew.oesa.entities.Office;
 import com.nephew.oesa.entities.OfficeDailySchedule;
@@ -36,6 +37,7 @@ import com.nephew.oesa.entities.website.Website;
 import com.nephew.oesa.entities.website.WebsiteSocialMediaProfile;
 import com.nephew.oesa.repositories.AppointmentRepository;
 import com.nephew.oesa.repositories.CompanyDailyScheduleRepository;
+import com.nephew.oesa.repositories.CompanyRepository;
 import com.nephew.oesa.repositories.EmployeeDailyScheduleRepository;
 import com.nephew.oesa.repositories.EmployeeRepository;
 import com.nephew.oesa.repositories.EmployeeSocialMediaProfileRepository;
@@ -86,6 +88,9 @@ class NptServiceApplicationTests {
 
 	@Autowired
 	private EmployeeService employeeService;
+	
+	@Autowired
+	private CompanyRepository companyRepository;
 
 	private final String HEAD_AND_NECK = "Head & Neck";
 	private final String SHOULDERS = "Shoulders";
@@ -115,7 +120,10 @@ class NptServiceApplicationTests {
 	private final String MELISSA_FIRST_NAME = "Melissa";
 	private final String MELISSA_LAST_NAME = "Meiste";
 	
-	@Order(1)
+	private final long COMPANY_ID = 1L;
+	private final long WEBSITE_ID = 1L;
+	
+	@Order(115)
 	@Test
 	void createServices() {
 		if (servicesRepo.findByName(HEAD_AND_NECK).isEmpty()) {
@@ -156,96 +164,96 @@ class NptServiceApplicationTests {
 		}
 	}
 
-	@Order(2)
+	@Order(116)
 	@Test
 	void verifyHeadAndNeckService() {
 		Services service = servicesRepo.findByName(HEAD_AND_NECK).get();
 		assertEquals(HEAD_AND_NECK, service.getName());
 	}
 
-	@Order(3)
+	@Order(117)
 	@Test
 	void verifyShouldersService() {
 		Services service = servicesRepo.findByName(SHOULDERS).get();
 		assertEquals(SHOULDERS, service.getName());
 	}
 
-	@Order(4)
+	@Order(118)
 	@Test
 	void verifyElbowsService() {
 		Services service = servicesRepo.findByName(ELBOWS).get();
 		assertEquals(ELBOWS, service.getName());
 	}
 
-	@Order(5)
+	@Order(119)
 	@Test
 	void verifyWristsService() {
 		Services service = servicesRepo.findByName(WRISTS).get();
 		assertEquals(WRISTS, service.getName());
 	}
 
-	@Order(6)
+	@Order(120)
 	@Test
 	void verifyMidBackService() {
 		Services service = servicesRepo.findByName(MID_BACK).get();
 		assertEquals(MID_BACK, service.getName());
 	}
 
-	@Order(7)
+	@Order(121)
 	@Test
 	void verifyLowerBackService() {
 		Services service = servicesRepo.findByName(LOWER_BACK).get();
 		assertEquals(LOWER_BACK, service.getName());
 	}
 
-	@Order(8)
+	@Order(122)
 	@Test
 	void verifyHipService() {
 		Services service = servicesRepo.findByName(HIP).get();
 		assertEquals(HIP, service.getName());
 	}
 
-	@Order(9)
+	@Order(123)
 	@Test
 	void verifyKneesService() {
 		Services service = servicesRepo.findByName(KNEES).get();
 		assertEquals(KNEES, service.getName());
 	}
 
-	@Order(10)
+	@Order(124)
 	@Test
 	void verifyFootAndAnkleService() {
 		Services service = servicesRepo.findByName(FOOT_AND_ANKLE).get();
 		assertEquals(FOOT_AND_ANKLE, service.getName());
 	}
 
-	@Order(8)
+	@Order(125)
 	@Test
 	void verifyBalanceService() {
 		Services service = servicesRepo.findByName(BALANCE).get();
 		assertEquals(BALANCE, service.getName());
 	}
 
-	@Order(9)
+	@Order(126)
 	@Test
 	void verifyVestibularRehabService() {
 		Services service = servicesRepo.findByName(VESTIBULAR_REHAB).get();
 		assertEquals(VESTIBULAR_REHAB, service.getName());
 	}
 
-	@Order(10)
+	@Order(127)
 	@Test
 	void verifyMessageTherapyService() {
 		Services service = servicesRepo.findByName(MESSAGE_THERAPY).get();
 		assertEquals(MESSAGE_THERAPY, service.getName());
 	}
 	
-	@Order(20)
+	@Order(128)
 	@Test
 	void createWebsite() {
 		if (websiteRepository.findById(1L).isEmpty()) {
 			Website website = new Website();
-			website.setId(1L);
+			website.setId(WEBSITE_ID);
 			website.setName("Nephew Physical Therapy");
 			website.setUrl(""); 
 			website = websiteRepository.save(website);
@@ -255,7 +263,7 @@ class NptServiceApplicationTests {
 		}
 	}
 	
-	@Order(30)
+	@Order(139)
 	@Test
 	void createOffice() {
 		Optional<Office> officeOpt = officeRepository.findById(1L);
@@ -293,7 +301,7 @@ class NptServiceApplicationTests {
 		}
 	}
 
-	@Order(40)
+	@Order(140)
 	@Test
 	void createMelissa() throws Exception {
 		if (employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).isEmpty()) {
@@ -313,7 +321,7 @@ class NptServiceApplicationTests {
 		}
 	}
 
-	@Order(41)
+	@Order(141)
 	@Test
 	void populateMelissaChildEntities() throws Exception {
 		Optional<Office> officeOpt = officeRepository.findById(1L);
@@ -329,21 +337,11 @@ class NptServiceApplicationTests {
 			Employee melissa = melissaOptional.get();
 			melissa.setOffice(new Office(office.getOfficeId()));
 			melissa.getServices().addAll(services);
-			// melissa.getSchedule().addAll(generateEmployeeDailySchedule(melissa));
-
 			EmployeeSocialMediaProfile socialMediaProfile = new EmployeeSocialMediaProfile();
 			socialMediaProfile.setFacebook(PROFILE_FACEBOOK);
 			melissa.setProfile(socialMediaProfile);
 			socialMediaProfile.setEmployee(melissa);
 			melissa = employeeRepo.save(melissa);
-			// melissa.getEmployeeSocialMedialProfile().setEmployee(new
-			// Employee(melissa.getId()));
-			// melissa.assignSpecialtiesWithEmployeeId(services);
-			// melissa.setEmployeeSocialMedialProfile(new EmployeeSocialMediaProfile());
-			// melissa.setSchedule(generateEmployeeDailySchedule(melissa));
-			// melissa = employeeRepo.save(melissa);
-			// Set<EmployeeDailySchedule> schedule = generateEmployeeDailySchedule(melissa);
-			// employeeDailyScheduleRepository.saveAll(schedule);
 		} else {
 			fail("Melissa failed to load. This test failed.");
 		}
@@ -355,7 +353,7 @@ class NptServiceApplicationTests {
 	private final String TEST_APPOINTMENT_PN = "1-616-566-4966";
 	private final String TEST_APPOINTMENT_NOTES = "Test notes.";
 
-	@Order(42)
+	@Order(142)
 	@Test
 	void generateTestAppointmentsForMelissa() {
 		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
@@ -399,7 +397,7 @@ class NptServiceApplicationTests {
 		appointmentRepo.saveAll(appointments);
 	}
 
-	@Order(43)
+	@Order(143)
 	@Test
 	void generateScheduleForMelissa() {
 		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
@@ -425,7 +423,7 @@ class NptServiceApplicationTests {
 		employeeRepo.save(melissa);
 	}
 	
-	@Order(44)
+	@Order(144)
 	@Test
 	void generateBiographicalParagraphsForMelissa() {
 		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
@@ -455,7 +453,7 @@ class NptServiceApplicationTests {
 		employeeRepo.save(melissa);
 	}
 	
-	@Order(45)
+	@Order(145)
 	@Test
 	void generateInformationalParagraphsForMelissa() {
 		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
@@ -494,7 +492,7 @@ class NptServiceApplicationTests {
 	private final String CHRISTINE_FIRST_NAME = "Christine";
 	private final String CHRISTINE_LAST_NAME = "Byington";
 	
-	@Order(50)
+	@Order(150)
 	@Test
 	void createChristine() throws Exception {
 		Optional<Office> officeOpt = officeRepository.findById(1L);
@@ -519,7 +517,7 @@ class NptServiceApplicationTests {
 		}
 	}
 	
-	@Order(60)
+	@Order(160)
 	@Test
 	void createJenna() throws Exception {
 		Optional<Office> officeOpt = officeRepository.findById(1L);
@@ -544,7 +542,7 @@ class NptServiceApplicationTests {
 		}
 	}
 
-	@Order(70)
+	@Order(170)
 	@Test
 	void createNaomi() throws Exception {
 		Optional<Office> officeOpt = officeRepository.findById(1L);
@@ -570,7 +568,7 @@ class NptServiceApplicationTests {
 		}
 	}
 
-	@Order(80)
+	@Order(180)
 	@Test
 	void createCaroline() throws Exception {
 		Optional<Office> officeOpt = officeRepository.findById(1L);
@@ -596,7 +594,7 @@ class NptServiceApplicationTests {
 		}
 	}
 
-	@Order(90)
+	@Order(190)
 	@Test
 	void createJoan() throws Exception {
 		Optional<Office> officeOpt = officeRepository.findById(1L);
@@ -625,7 +623,7 @@ class NptServiceApplicationTests {
 		}
 	}
 
-	@Order(100)
+	@Order(1100)
 	@Test
 	void createBrittany() throws Exception {
 		Optional<Office> officeOpt = officeRepository.findById(1L);
@@ -650,7 +648,7 @@ class NptServiceApplicationTests {
 		}
 	}
 
-	@Order(110)
+	@Order(1110)
 	@Test
 	void createRachel() throws Exception {
 		Optional<Office> officeOpt = officeRepository.findById(1L);
@@ -674,7 +672,7 @@ class NptServiceApplicationTests {
 		}
 	}
 
-	@Order(120)
+	@Order(1120)
 	@Test
 	void createAmber() throws Exception {
 		Optional<Office> officeOpt = officeRepository.findById(1L);
@@ -734,7 +732,6 @@ class NptServiceApplicationTests {
 		faqsRepository.save(faq5);
 		faqsRepository.save(faq6);
 	}
-	
 
 	@Order(2000)
 	@Test
@@ -952,5 +949,85 @@ class NptServiceApplicationTests {
 		Employee christine = employeeRepo.findByFirstNameAndLastName(CHRISTINE_FIRST_NAME, CHRISTINE_LAST_NAME).get();
 		assertEquals(5, christine.getSchedule().size());
 	}
-	 
+	
+	private final String COMPANY_URL = "npt";
+	
+	@Order(2500)
+	@Test
+	void createNptCompany() {
+		if(companyRepository.findById(COMPANY_ID).isEmpty()) {
+			Company company = new Company();
+			company.setCompanyName("Nephew Physical Therapy");
+			company.setCompanyAcronym(COMPANY_URL);
+			company.setCompanyUrl(COMPANY_URL);
+			company.setId(COMPANY_ID);
+			companyRepository.save(company);
+		}
+	}
+	
+	@Order(2501)
+	@Test
+	void populateNptCompany() {
+		Company company = companyRepository.findById(COMPANY_ID).get();
+		company.assignIdToChildren();
+		companyRepository.save(company);
+	}
+	
+	@Order(2600)
+	@Test
+	void officeShouldBeNpt() {
+		List<Office> offices = officeRepository.findByCompanyUrl(COMPANY_URL);
+		assertEquals(COMPANY_URL, offices.get(0).getCompany().getCompanyUrl());
+	}
+	
+	@Order(2601)
+	@Test
+	void officesShouldBeGreaterThanZero() {
+		List<Office> offices = officeRepository.findByCompanyUrl(COMPANY_URL);
+		assertTrue(offices.size() > 0);
+	}
+
+	@Order(2700)
+	@Test
+	void employeesShouldBeNpt() {
+		List<Employee> employees = employeeRepo.findByCompanyUrl(COMPANY_URL);
+		assertEquals(COMPANY_URL, employees.get(0).getOffice().getCompany().getCompanyUrl());
+	}
+	
+	@Order(2701)
+	@Test
+	void employeesShouldBeGreaterThanZero() {
+		List<Employee> employees = employeeRepo.findByCompanyUrl(COMPANY_URL);
+		assertTrue(employees.size() > 0);
+	}
+	
+	@Order(2705)
+	@Test
+	void employeesShouldContainMelissa() {
+		List<Employee> employees = employeeRepo.findByCompanyUrl(COMPANY_URL);
+		Employee melissa = new Employee();
+		for(Employee employee: employees) {
+			if(employee.getFirstName().equals(MELISSA_FIRST_NAME) && employee.getLastName().equals(MELISSA_LAST_NAME)) {
+				melissa = employee;
+			}
+		}
+		assertEquals(MELISSA_FIRST_NAME, melissa.getFirstName());
+		assertEquals(MELISSA_LAST_NAME, melissa.getLastName());
+	}
+	
+	@Order(2800)
+	@Test
+	void websiteShouldBeNpt() {
+		Website website = websiteRepository.findByCompanyUrl(COMPANY_URL);
+		assertEquals(COMPANY_URL, website.getCompany().getCompanyUrl());
+	}
+	
+	@Order(2801)
+	@Test
+	void websiteShouldHaveWebsiteId() {
+		Website website = websiteRepository.findByCompanyUrl(COMPANY_URL);
+		assertEquals(WEBSITE_ID, website.getId());
+	}
+	
+	
 }
