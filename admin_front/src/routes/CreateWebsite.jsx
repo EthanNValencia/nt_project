@@ -7,10 +7,10 @@ import {
 } from "../admin/Objects";
 import Options from "../admin/Options";
 import NssSmallInputText from "../nss/NssSmallInputText";
+import NssButtonAdd from "../nss/NssButtonAdd";
+import Color from "../createwebsite/Color";
 
 /*
-Company Name? 
-What URL do you want?
 What pages do you want? 
 */
 
@@ -19,8 +19,7 @@ function CreateWebsite() {
   const [url, setUrl] = useState("");
   const [domain, setDomain] = useState(DOMAINS.com);
   const [font, setFont] = useState(FONT_FAMILY.mono);
-  const [primaryColor, setPrimaryColor] = useState("#6590D5");
-  const [secondaryColor, setSecondaryColor] = useState("#48BF40");
+  const [colors, setColors] = useState([]);
 
   const onChangeCompanyName = (val) => {
     setCompanyName(val);
@@ -42,14 +41,20 @@ function CreateWebsite() {
     return font;
   };
 
-  const onChangePrimaryColor = (event) => {
-    const newColor = event.target.value;
-    setPrimaryColor(newColor);
+  const onAddColor = () => {
+    setColors([...colors, { color: "" }]);
   };
 
-  const onChangeSecondaryColor = (event) => {
-    const newColor = event.target.value;
-    setSecondaryColor(newColor);
+  const updateColor = (color, index) => {
+    const updatedColors = [...colors];
+    updatedColors[index] = { color: color };
+    setColors(updatedColors);
+  };
+
+  const deleteColor = (index) => {
+    const updatedColors = [...colors];
+    updatedColors.splice(index, 1);
+    setColors(updatedColors);
   };
 
   return (
@@ -111,34 +116,20 @@ function CreateWebsite() {
         </div>
       </div>
       <div className="flex justify-center gap-2">
-        <div className="flex justify-center items-center gap-2">
-          <div className="text-xs font-extrabold">
-            Select your primary color:
-          </div>
-          <div className="border border-nss-20">
-            <div className="flex space-x-2">
-              <input
-                id="nativeColorPicker1"
-                type="color"
-                value={primaryColor}
-                onChange={onChangePrimaryColor}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="flex justify-center items-center gap-2">
-          <div className="text-xs font-extrabold">
-            Select your secondary color:
-          </div>
-          <div className="border border-nss-20">
-            <div className="flex space-x-2">
-              <input
-                id="nativeColorPicker1"
-                type="color"
-                value={secondaryColor}
-                onChange={onChangeSecondaryColor}
-              />
-            </div>
+        <div className="flex justify-center items-center gap-1">
+          <NssButtonAdd onClick={onAddColor} label="Add Color" />
+          <div className="columns-2 gap-0">
+            {colors.map((color, index) => (
+              <div className="p-1">
+                <Color
+                  key={index}
+                  index={index}
+                  color={color}
+                  updateColor={updateColor}
+                  deleteColor={deleteColor}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -148,3 +139,5 @@ function CreateWebsite() {
 }
 
 export default CreateWebsite;
+
+// <div className="text-xs font-extrabold">Select your colors:</div>

@@ -43,6 +43,11 @@ export const FONT_FAMILY = {
   sans: "font-sans",
   serif: "font-serif",
   mono: "font-mono",
+  ubuntu: "font-ubuntu",
+  lato: "font-lato",
+  kalnia: "font-kalnia",
+  lato: "font-lato",
+  helvetica: "font-helvetica",
 };
 
 export const FONT_FAMILY_ARR = Object.values(FONT_FAMILY);

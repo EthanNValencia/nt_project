@@ -28,7 +28,7 @@ public class Company {
 	@Column(length = 20)
 	private String companyAcronym;
 	@Column(length = 30)
-	private String companyUrl; // This is what will be used in the url to identify the company. 
+	private String companyUrl;
 	
 	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonIgnoreProperties("company")

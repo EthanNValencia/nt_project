@@ -36,6 +36,10 @@ module.exports = {
       },
       fontFamily: {
         ubuntu: ["Ubuntu"],
+        lato: ["Lato"],
+        kalnia: ["Kalnia"],
+        lato: ["Lato"],
+        helvetica: ["Helvetica"],
       },
     },
   },
