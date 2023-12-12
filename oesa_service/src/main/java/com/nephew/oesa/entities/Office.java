@@ -8,6 +8,7 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nephew.oesa.entities.employee.Employee;
+import com.nephew.oesa.entities.text.TextType;
 import com.nephew.oesa.entities.website.Website;
 
 import jakarta.persistence.CascadeType;
@@ -21,6 +22,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
 
 @Entity
 public class Office {
@@ -29,39 +31,34 @@ public class Office {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "office_id")
 	private long officeId;
-	@Column(length = 128, nullable = false)
+	@Column(length = 128)
 	private String street;
-	@Column(length = 20, nullable = false)
+	@Column(length = 20)
 	private String unit;
-	@Column(length = 20, nullable = false)
+	@Column(length = 20)
 	private String city;
-	@Column(length = 2, nullable = false)
-	private String state;
-	@Column(length = 15, nullable = false)
+	@Column(length = 2)
+	private States state = States.UNDEFIEND;
+	@Column(length = 15)
 	private String zip;
-	@Column(length = 20, nullable = true)
+	@Column(length = 20)
 	private String phone;
-	@Column(length = 20, nullable = true)
+	@Column(length = 20)
 	private String fax;
-	@Column(length = 82, nullable = true)
+	@Column(length = 82)
 	private String email;
-	@Column(nullable = false)
 	private boolean acceptingWalkIns;
 	@Column(length = 150)
-	private String mapUrl; 
+	private String mapUrl;
 	@Column(length = 200)
-	private String introduction; 
+	private String introduction;
 	
-	
-	
-	public Office() {
-		super();
-		this.employees = new ArrayList<>();
-		this.schedule = new HashSet<>();
-	}
+	@Transient
+	private States[] statesArr;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "company_id", referencedColumnName = "id")
+	@JsonIgnoreProperties("offices")
 	private Company company;
 	
 	@OneToOne(mappedBy = "office", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
@@ -76,19 +73,39 @@ public class Office {
 	@JsonIgnoreProperties("office")
 	private List<Employee> employees;
 	
+	public Office() {
+		super();
+		this.employees = new ArrayList<>();
+		this.schedule = new HashSet<>();
+		this.statesArr = States.values();
+	}
+	
+	public boolean ifCompanyIsNull() {
+		if(company == null) {
+			return true;
+		}
+		return false;
+	}
+	
 	public void assignIdToChildren() {
 		for(OfficeDailySchedule schedule: schedule) {
-			schedule.setOffice(new Office(officeId));
+			schedule.setOffice(this);
 		}
 		for(Employee employee : employees) {
-			employee.setOffice(new Office(officeId));
+			employee.setOffice(this);
 		}
 		if(officeSocialMedialProfile != null) {
-			officeSocialMedialProfile.setOffice(new Office(officeId));
+			officeSocialMedialProfile.setOffice(this);
 		} 
 	}
-
 	
+	public States[] getStatesArr() {
+		return statesArr;
+	}
+	
+	public void setStatesArr(States[] statesArr) {
+		this.statesArr = statesArr;
+	}
 
 	public Company getCompany() {
 		return company;
@@ -198,12 +215,12 @@ public class Office {
 	public void setCity(String city) {
 		this.city = city;
 	}
-
-	public String getState() {
+	
+	public States getState() {
 		return state;
 	}
 
-	public void setState(String state) {
+	public void setState(States state) {
 		this.state = state;
 	}
 

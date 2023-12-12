@@ -116,7 +116,7 @@ public class Company {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(companyName, faqs, id, offices, website);
+		return Objects.hash(companyAcronym, companyName, companyUrl, faqs, id, offices, website);
 	}
 
 	@Override
@@ -128,8 +128,10 @@ public class Company {
 		if (getClass() != obj.getClass())
 			return false;
 		Company other = (Company) obj;
-		return Objects.equals(companyName, other.companyName) && Objects.equals(faqs, other.faqs) && id == other.id
-				&& Objects.equals(offices, other.offices) && Objects.equals(website, other.website);
+		return Objects.equals(companyAcronym, other.companyAcronym) && Objects.equals(companyName, other.companyName)
+				&& Objects.equals(companyUrl, other.companyUrl);
 	}
+
+	
 	
 }

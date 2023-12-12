@@ -10,24 +10,12 @@ import jakarta.persistence.OneToOne;
 @Entity
 public class OfficeSocialMediaProfile extends SocialMediaProfile {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	
 	@OneToOne
     @JoinColumn(name = "id")
 	private Office office;
 
 	public OfficeSocialMediaProfile() {
 		super();
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public Office getOffice() {
@@ -40,7 +28,7 @@ public class OfficeSocialMediaProfile extends SocialMediaProfile {
 
 	@Override
 	public String toString() {
-		return "OfficeSocialMediaProfile [id=" + id + ", office=" + office.getOfficeId() + "]";
+		return "OfficeSocialMediaProfile [id=" + this.getId() + ", office=" + office.getOfficeId() + "]";
 	}
 	
 	

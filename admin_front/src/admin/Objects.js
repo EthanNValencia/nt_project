@@ -104,6 +104,7 @@ export const NewOffice = {
   officeSocialMedialProfile: Profile,
   schedule: NewSchedule,
   employees: [],
+  statesArr: [{ MI: "MI" }],
 };
 
 export const NewEmployee = {

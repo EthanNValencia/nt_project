@@ -26,6 +26,7 @@ import com.nephew.oesa.entities.FAQs;
 import com.nephew.oesa.entities.Office;
 import com.nephew.oesa.entities.OfficeDailySchedule;
 import com.nephew.oesa.entities.OfficeSocialMediaProfile;
+import com.nephew.oesa.entities.States;
 import com.nephew.oesa.entities.employee.BiographicalText;
 import com.nephew.oesa.entities.employee.Employee;
 import com.nephew.oesa.entities.employee.EmployeeDailySchedule;
@@ -304,7 +305,7 @@ class NptServiceApplicationTests {
 			nptOffice.setStreet("12723 N Bellwood Dr");
 			nptOffice.setUnit("STE 10");
 			nptOffice.setCity("Holland");
-			nptOffice.setState("MI");
+			nptOffice.setState(States.MI);
 			nptOffice.setZip("49424");
 			nptOffice.setPhone("1-616-796-9391");
 			nptOffice.setFax("1-888-714-4474");
@@ -1055,6 +1056,15 @@ class NptServiceApplicationTests {
 	void serviceShouldContainText() {
 		Services headAndShoulders = servicesRepo.findByName(HEAD_AND_NECK).get();
 		assertEquals(HEAD_AND_NECK_TEST_TEXT, headAndShoulders.getServiceTexts().get(0).getText());
+	}
+	
+	@Order(3500)
+	@Test
+	void createSecondOfficeShouldNotThrow() {
+		Office office = new Office();
+		OfficeSocialMediaProfile profile = new OfficeSocialMediaProfile();
+		office.setOfficeSocialMedialProfile(profile);
+		officeRepository.save(office);
 	}
 	
 }

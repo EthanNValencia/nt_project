@@ -1,17 +1,7 @@
-DROP TABLE IF EXISTS appointment, employee, employee_content, employee_daily_schedule, employee_service,informational_text, biographical_text, employee_social_media_profile, faqs, office, office_daily_schedule, office_social_media_profile, services, website, website_social_media_profile, page, page_text, company;
+DROP TABLE IF EXISTS appointment, employee, employee_content, service_text, employee_daily_schedule, employee_service,informational_text, biographical_text, employee_social_media_profile, faqs, office, office_daily_schedule, office_social_media_profile, services, website, website_social_media_profile, page, page_text, company;
+
 
 DROP TABLE IF EXISTS credential, pending_credential;
-
-
-
-
-
-
-
-
-
-
-
 
 
 

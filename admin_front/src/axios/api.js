@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const authUrl = "http://localhost:8765/security-service/api/v1/public";
-const privateUrl = "http://localhost:8765/oesa-service/api/v1/auth";
+const authUrl = "http://localhost:8765/security-service/api/v1/public/";
+const privateUrl = "http://localhost:8765/oesa-service/api/v1/auth/npt";
 const errorReportingUrl =
   "http://localhost:8765/error-service/api/v1/public/error/";
 export async function register(user) {
@@ -268,7 +268,7 @@ export async function adminNotifyByEmailAppointment(
 
 export async function deleteEmployeeApi(id, token) {
   // http://localhost:8765/npt-service/api/v1/auth/faqs/60
-  const deleteEmployeeUrl = privateUrl + "/employees/" + id;
+  const url = privateUrl + "/employees/" + id;
 
   const headers = {
     Authorization: `Bearer ${token}`,
@@ -276,7 +276,7 @@ export async function deleteEmployeeApi(id, token) {
   };
 
   try {
-    const response = await axios.delete(deleteEmployeeUrl, { headers });
+    const response = await axios.delete(url, { headers });
     return response.data;
   } catch (error) {
     handleErrorReporting(error);
@@ -285,7 +285,7 @@ export async function deleteEmployeeApi(id, token) {
 }
 
 export async function updateEmployeeApi(employee, token) {
-  const updateEmployeeUrl = privateUrl + "/employees/";
+  const url = privateUrl + "/employees/";
   console.log("Updating: " + JSON.stringify(employee));
   const headers = {
     Authorization: `Bearer ${token}`,
@@ -293,7 +293,7 @@ export async function updateEmployeeApi(employee, token) {
   };
 
   try {
-    const response = await axios.put(updateEmployeeUrl, employee, { headers });
+    const response = await axios.put(url, employee, { headers });
     return response.data;
   } catch (error) {
     handleErrorReporting(error);
@@ -336,7 +336,7 @@ export async function employeeAddInformationalText(position, employee, token) {
 }
 
 export async function adminGetServices(token) {
-  const servicesUrl = privateUrl + "/services/";
+  const url = privateUrl + "/services/";
 
   const headers = {
     Authorization: `Bearer ${token}`,
@@ -345,7 +345,7 @@ export async function adminGetServices(token) {
 
   try {
     console.log("Token: " + token);
-    const response = await axios.get(servicesUrl, { headers });
+    const response = await axios.get(url, { headers });
     return response.data;
   } catch (error) {
     handleErrorReporting(error);
@@ -354,7 +354,7 @@ export async function adminGetServices(token) {
 }
 
 export async function updateServiceApi(service, token) {
-  const updateEmployeeUrl = privateUrl + "/services/";
+  const url = privateUrl + "/services/";
   console.log("Updating: " + JSON.stringify(service));
   const headers = {
     Authorization: `Bearer ${token}`,
@@ -362,7 +362,7 @@ export async function updateServiceApi(service, token) {
   };
 
   try {
-    const response = await axios.put(updateEmployeeUrl, service, { headers });
+    const response = await axios.put(url, service, { headers });
     return response.data;
   } catch (error) {
     handleErrorReporting(error);
@@ -388,7 +388,7 @@ export async function serviceAddTextApi(position, service, token) {
 }
 
 export async function adminPutServices(services, token) {
-  const servicesUrl = privateUrl + "/services/";
+  const url = privateUrl + "/services/";
 
   const headers = {
     Authorization: `Bearer ${token}`,
@@ -396,7 +396,7 @@ export async function adminPutServices(services, token) {
   };
 
   try {
-    const response = await axios.put(servicesUrl, services, { headers });
+    const response = await axios.put(url, services, { headers });
     return response.data;
   } catch (error) {
     handleErrorReporting(error);
@@ -405,7 +405,7 @@ export async function adminPutServices(services, token) {
 }
 
 export async function adminDeleteService(id, token) {
-  const servicesUrl = privateUrl + "/services/" + id;
+  const url = privateUrl + "/services/" + id;
 
   const headers = {
     Authorization: `Bearer ${token}`,
@@ -413,7 +413,7 @@ export async function adminDeleteService(id, token) {
   };
 
   try {
-    const response = await axios.delete(servicesUrl, { headers });
+    const response = await axios.delete(url, { headers });
     return response.data;
   } catch (error) {
     handleErrorReporting(error);
@@ -422,7 +422,7 @@ export async function adminDeleteService(id, token) {
 }
 
 export async function adminGetOffices(token) {
-  const servicesUrl = privateUrl + "/offices/";
+  const url = privateUrl + "/offices/";
 
   const headers = {
     Authorization: `Bearer ${token}`,
@@ -430,7 +430,7 @@ export async function adminGetOffices(token) {
   };
 
   try {
-    const response = await axios.get(servicesUrl, { headers });
+    const response = await axios.get(url, { headers });
     return response.data;
   } catch (error) {
     handleErrorReporting(error);
@@ -439,7 +439,37 @@ export async function adminGetOffices(token) {
 }
 
 export async function adminPostOffice(office, token) {
-  const servicesUrl = privateUrl + "/offices/";
+  const url = privateUrl + "/offices/";
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  };
+  try {
+    const response = await axios.post(url, office, { headers });
+    return response.data;
+  } catch (error) {
+    handleErrorReporting(error);
+    throw error;
+  }
+}
+
+export async function adminCreateNewOffice(token) {
+  const url = privateUrl + "/offices/create";
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  };
+  try {
+    const response = await axios.get(url, { headers });
+    return response.data;
+  } catch (error) {
+    handleErrorReporting(error);
+    throw error;
+  }
+}
+
+export async function adminDeleteOffice(officeId, token) {
+  const url = privateUrl + "/offices/" + officeId;
 
   const headers = {
     Authorization: `Bearer ${token}`,
@@ -447,7 +477,7 @@ export async function adminPostOffice(office, token) {
   };
 
   try {
-    const response = await axios.post(servicesUrl, office, { headers });
+    const response = await axios.delete(url, { headers });
     return response.data;
   } catch (error) {
     handleErrorReporting(error);

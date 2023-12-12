@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class EmployeeDailySchedule {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;

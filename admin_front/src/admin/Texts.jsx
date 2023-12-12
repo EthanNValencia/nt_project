@@ -38,30 +38,10 @@ function Texts(props) {
     addText(texts.length + 1);
   };
 
-  const onAddText = () => {
-    const newText = {
-      id: getId(),
-      type: TextType.PARAGRAPH,
-      text: "Default text.",
-      position: texts.length + 1,
-      ...parentObjectWithId,
-    };
-    const updatedTexts = [...texts, { ...newText }];
-    updateAllTextsArrays(updatedTexts);
-  };
-
   const findLargestId = (id) => {
     if (id > largestId) {
       setLargestId(id);
     }
-  };
-
-  const getId = () => {
-    setLargestId((prevId) => {
-      const nextId = prevId + 1;
-      return nextId;
-    });
-    return largestId + 1;
   };
 
   const updateText = (text, index) => {
@@ -187,26 +167,28 @@ const Text = (props) => {
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
-    if (type != textObject.type) {
-      updateText(returnTextObject(), index);
-    } else if (text != textObject.text) {
-      updateText(returnTextObject(), index);
-    } else if (size != textObject.size) {
-      updateText(returnTextObject(), index);
-    } else if (align != textObject.align) {
-      updateText(returnTextObject(), index);
-    } else if (weight != textObject.weight) {
-      updateText(returnTextObject(), index);
-    } else if (italic != textObject.italic) {
-      updateText(returnTextObject(), index);
-    } else if (width != textObject.width) {
-      updateText(returnTextObject(), index);
-    } else if (height != textObject.height) {
-      updateText(returnTextObject(), index);
-    } else if (floatVal != textObject.floatVal) {
-      updateText(returnTextObject(), index);
-    } else if (imageUrl != textObject.imageUrl) {
-      updateText(returnTextObject(), index);
+    if (!editMode) {
+      if (type != textObject.type) {
+        updateText(returnTextObject(), index);
+      } else if (text != textObject.text) {
+        updateText(returnTextObject(), index);
+      } else if (size != textObject.size) {
+        updateText(returnTextObject(), index);
+      } else if (align != textObject.align) {
+        updateText(returnTextObject(), index);
+      } else if (weight != textObject.weight) {
+        updateText(returnTextObject(), index);
+      } else if (italic != textObject.italic) {
+        updateText(returnTextObject(), index);
+      } else if (width != textObject.width) {
+        updateText(returnTextObject(), index);
+      } else if (height != textObject.height) {
+        updateText(returnTextObject(), index);
+      } else if (floatVal != textObject.floatVal) {
+        updateText(returnTextObject(), index);
+      } else if (imageUrl != textObject.imageUrl) {
+        updateText(returnTextObject(), index);
+      }
     }
   }, [
     type,
@@ -219,6 +201,7 @@ const Text = (props) => {
     height,
     floatVal,
     imageUrl,
+    editMode,
   ]);
 
   const returnTextObject = () => {
@@ -302,6 +285,7 @@ const Text = (props) => {
 
   return (
     <div className="bg-nss-21 border rounded-lg shadow-xl py-2 px-2 mt-2">
+      {JSON.stringify(textObject.id) + " " + JSON.stringify(index)}
       <div className="flex justify-between">
         <div>
           <div className="flex gap-1">

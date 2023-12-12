@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -70,15 +71,15 @@ public class PublicController {
 		return ResponseEntity.ok("ok");
 	}
 
-	@GetMapping("/employees/")
-	public ResponseEntity<List<EmployeeDto>> getAllEmployees() {
+	@GetMapping("{companyUrl}/employees/")
+	public ResponseEntity<List<EmployeeDto>> getAllEmployees(@PathVariable(value = "companyUrl") String companyUrl) {
 		List<Employee> employees = employeeService.getAll();
 		List<EmployeeDto> employeesDto = dtoService.convertEmployeesDto(employees, true);
 		return new ResponseEntity<List<EmployeeDto>>(employeesDto, HttpStatus.OK);
 	}
 
-	@PostMapping("/employees/services/")
-	public ResponseEntity<List<EmployeeDto>> findEmployeeBySpeciality(@RequestBody List<Services> problemAreas) {
+	@PostMapping("{companyUrl}/employees/services/")
+	public ResponseEntity<List<EmployeeDto>> findEmployeeBySpeciality(@PathVariable(value = "companyUrl") String companyUrl, @RequestBody List<Services> problemAreas) {
 		List<EmployeeDto> employees;
 		if (problemAreas.size() == 1) {
 			employees = dtoService.convertEmployeesDto(employeeService.findEmployeesByProblemArea(problemAreas), false);
@@ -89,27 +90,27 @@ public class PublicController {
 		return new ResponseEntity<List<EmployeeDto>>(employees, HttpStatus.OK);
 	}
 
-	@PostMapping("/faqs/")
-	public ResponseEntity<FAQsDto> saveNewFAQ(@RequestBody FAQs faqs) {
+	@PostMapping("{companyUrl}/faqs/")
+	public ResponseEntity<FAQsDto> saveNewFAQ(@PathVariable(value = "companyUrl") String companyUrl, @RequestBody FAQs faqs) {
 		FAQs savedFaq = faqsService.saveNewQuestion(faqs);
 		FAQsDto faqsDto = dtoService.convertFAQsDto(savedFaq);
 		return new ResponseEntity<FAQsDto>(faqsDto, HttpStatus.OK);
 	}
 
-	@GetMapping("/faqs/")
-	public ResponseEntity<ArrayList<FAQsDto>> getAllAnsweredQuestions() {
+	@GetMapping("{companyUrl}/faqs/")
+	public ResponseEntity<ArrayList<FAQsDto>> getAllAnsweredQuestions(@PathVariable(value = "companyUrl") String companyUrl) {
 		ArrayList<FAQs> faqs = faqsService.getAllAnsweredQuestions();
 		ArrayList<FAQsDto> faqsDto = dtoService.convertFAQsDto(faqs);
 		return new ResponseEntity<ArrayList<FAQsDto>>(faqsDto, HttpStatus.OK);
 	}
 
-	@GetMapping("/services")
-	public ResponseEntity<List<Services>> getProblemAreaCategories() {
+	@GetMapping("{companyUrl}/services")
+	public ResponseEntity<List<Services>> getProblemAreaCategories(@PathVariable(value = "companyUrl") String companyUrl) {
 		return new ResponseEntity<List<Services>>(specialtyService.getAllSpecialities(), HttpStatus.OK);
 	}
 
-	@PostMapping("/appointment/")
-	public ResponseEntity<AppointmentDto> saveNewAppointment(@RequestBody CreateAppointmentDto appointment) {
+	@PostMapping("{companyUrl}/appointment/")
+	public ResponseEntity<AppointmentDto> saveNewAppointment(@PathVariable(value = "companyUrl") String companyUrl, @RequestBody CreateAppointmentDto appointment) {
 		Employee employee = employeeService.findEmployeeByName(appointment.getEmployeeFirstName(),
 				appointment.getEmployeeMiddleName(), appointment.getEmployeeLastName());
 		EmployeeDto employeeDto = dtoService.convertEmployeeDto(employee, false);
@@ -124,9 +125,9 @@ public class PublicController {
 		return new ResponseEntity<AppointmentDto>(newAppointmentDto, HttpStatus.OK);
 	}
 
-	@GetMapping("/office/")
-	public ResponseEntity<List<OfficeDto>> getOffices() {
-		List<Office> offices = officeService.getOffices();
+	@GetMapping("{companyUrl}/office/")
+	public ResponseEntity<List<OfficeDto>> getOffices(@PathVariable(value = "companyUrl") String companyUrl) {
+		List<Office> offices = officeService.getOffices(companyUrl);
 		List<OfficeDto> officesDto = dtoService.convertOfficesToDtos(offices);
 		return new ResponseEntity<List<OfficeDto>>(officesDto, HttpStatus.OK);
 	}

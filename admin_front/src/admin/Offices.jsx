@@ -1,7 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../contexts/context";
 import ApiError from "../components/ApiError";
-import { adminGetOffices, adminPostOffice } from "../axios/api";
+import {
+  adminCreateNewOffice,
+  adminDeleteOffice,
+  adminGetOffices,
+  adminPostOffice,
+} from "../axios/api";
 import DataField from "./DataField";
 import SocialMediaProfile from "./SocialMediaProfile";
 import NssButtonChevron from "../nss/NssButtonChevron";
@@ -32,7 +37,6 @@ function Offices() {
       setLoading(true);
       const data = await adminGetOffices(authContext.token);
       setOffices(data);
-      // console.log(JSON.stringify(data));
       setHasApiError(false);
       setLoading(false);
       setChangeDetected(false);
@@ -40,7 +44,6 @@ function Offices() {
       setLoading(false);
       setHasApiError(true);
       setChangeDetected(false);
-      // console.log("There was an error fetching the website data.");
       console.error("Error loading offices:", error);
     }
   }
@@ -57,12 +60,11 @@ function Offices() {
     }
   };
 
-  async function postOffice(office, index) {
+  async function postOffice(office) {
     try {
       setLoading(true);
-      const data = await adminPostOffice(office, authContext.token);
-      updateOffice(data, index);
-      // console.log(JSON.stringify(data));
+      await adminPostOffice(office, authContext.token);
+      fetchOffices();
       setHasApiError(false);
       setLoading(false);
       setChangeDetected(false);
@@ -70,15 +72,41 @@ function Offices() {
       setLoading(false);
       setHasApiError(true);
       setChangeDetected(false);
-      // console.log("There was an error fetching the website data.");
-      console.error("Error loading offices:", error);
+      console.error("Error posting office:", error);
     }
   }
 
-  const createOffice = () => {
-    const updatedOffices = [...offices, { ...NewOffice }];
-    setOffices(updatedOffices);
-  };
+  async function deleteOffice(officeId) {
+    try {
+      setLoading(true);
+      await adminDeleteOffice(officeId, authContext.token);
+      fetchOffices();
+      setHasApiError(false);
+      setLoading(false);
+      setChangeDetected(false);
+    } catch (error) {
+      setLoading(false);
+      setHasApiError(true);
+      setChangeDetected(false);
+      console.error("Error deleting office:", error);
+    }
+  }
+
+  async function createOffice() {
+    try {
+      setLoading(true);
+      const data = await adminCreateNewOffice(authContext.token);
+      setOffices(data);
+      setHasApiError(false);
+      setLoading(false);
+      setChangeDetected(false);
+    } catch (error) {
+      setLoading(false);
+      setHasApiError(true);
+      setChangeDetected(false);
+      console.error("Error posting office:", error);
+    }
+  }
 
   return (
     <div>
@@ -103,6 +131,7 @@ function Offices() {
           loading={loading}
           setLoading={setLoading}
           postOffice={postOffice}
+          deleteOffice={deleteOffice}
         />
       ))}
       <div>{hasApiError ? <ApiError /> : <></>}</div>
@@ -119,6 +148,7 @@ function Office(props) {
     updateOffice,
     loading,
     postOffice,
+    deleteOffice,
   } = props;
   const [localOffice, setLocalOffice] = useState({ ...office });
   const [editMode, setEditMode] = useState(false);
@@ -165,7 +195,9 @@ function Office(props) {
     updateOffice(updatedOffice, index);
   };
 
-  const onDeleteOffice = () => {};
+  const onDeleteOffice = () => {
+    deleteOffice(localOffice.officeId, index);
+  };
 
   const onEditOffice = () => {
     setEditMode(!editMode);
@@ -499,21 +531,5 @@ function Office(props) {
     </div>
   );
 }
-
-/*
-
-{showProfile ? (
-          <SocialMediaProfile
-            socialMediaProfile={localEmployee.profile}
-            parentIndex={index}
-            loading={loading}
-            setChangeDetected={setChangeDetected}
-            copyProfileToParent={copyProfileToParent}
-          />
-        ) : (
-          <></>
-        )}
-
-*/
 
 export default Offices;

@@ -30,7 +30,7 @@ public class OfficeDto {
 		this.street = office.getStreet();
 		this.unit = office.getUnit();
 		this.city = office.getCity();
-		this.state = office.getState();
+		this.state = office.getState().toString();
 		this.zip = office.getZip();
 		this.fax = office.getFax();
 		this.phone = office.getPhone();
@@ -40,31 +40,6 @@ public class OfficeDto {
 		this.introduction = office.getIntroduction();
 		this.schedule = office.getSchedule();
 	}
-	
-	/*
-	public void setSortSchedule(Set<OfficeDailySchedule> scheduleSet) {
-		for(int i = 6; i < 7; i++) {
-			schedule.add(null);
-		}
-		for(OfficeDailySchedule dailySchedule : scheduleSet) {
-			if(dailySchedule.getDay().equals("Sun")) {
-				schedule.add(0, dailySchedule);
-			} else if(dailySchedule.getDay().equals("Mon")) {
-				schedule.add(1, dailySchedule);
-			} else if(dailySchedule.getDay().equals("Tue")) {
-				schedule.add(2, dailySchedule);
-			} else if(dailySchedule.getDay().equals("Wed")) {
-				schedule.add(3, dailySchedule);
-			} else if(dailySchedule.getDay().equals("Thu")) {
-				schedule.add(4, dailySchedule);
-			} else if(dailySchedule.getDay().equals("Fri")) {
-				schedule.add(5, dailySchedule);
-			} else if(dailySchedule.getDay().equals("Sat")) {
-				schedule.add(6, dailySchedule);
-			}
-		}
-	}
-	*/
 	
 	public String getEmail() {
 		return email;

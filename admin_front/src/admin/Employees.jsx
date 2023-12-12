@@ -161,7 +161,7 @@ function Employee(props) {
     } catch (error) {
       setLoading(false);
       setHasApiError(true);
-      console.log("There was an error adding a new information text.");
+      console.log("There was an error adding a new information text.", error);
     }
   };
 
@@ -182,7 +182,7 @@ function Employee(props) {
     } catch (error) {
       setLoading(false);
       setHasApiError(true);
-      console.log("There was an error adding a new biographical text.");
+      console.log("There was an error adding a new biographical text.", error);
     }
   };
 
@@ -346,7 +346,7 @@ function Employee(props) {
   };
 
   const returnTextParentObject = () => {
-    const employee = { id: localEmployee.id };
+    const employee = { employee: { id: localEmployee.id } };
     return employee;
   };
 

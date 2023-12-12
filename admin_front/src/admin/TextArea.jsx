@@ -6,6 +6,7 @@ const TextArea = (props) => {
     <textarea
       value={text}
       onChange={(e) => {
+        console.log("Is this wrong? " + JSON.stringify(e.target.value));
         onTextChange(e.target.value);
         changeDetected(e.target.value);
       }}

@@ -11,9 +11,6 @@ import jakarta.persistence.OneToOne;
 
 @Entity
 public class EmployeeSocialMediaProfile extends SocialMediaProfile {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
 	
 	@OneToOne
 	@JoinColumn(name = "employee_id", referencedColumnName = "id")
@@ -23,20 +20,17 @@ public class EmployeeSocialMediaProfile extends SocialMediaProfile {
 		super();
 	}
 
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
 	public Employee getEmployee() {
 		return employee;
 	}
 
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
+	}
+
+	@Override
+	public String toString() {
+		return "EmployeeSocialMediaProfile [employee=" + employee.getId() + "]";
 	}
 	
 }

@@ -27,7 +27,6 @@ public class OfficeDailySchedule {
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "office_id", referencedColumnName = "office_id", nullable = false)
-	// @JsonIgnoreProperties({"schedule", "employees"})
 	@JsonIgnore
 	private Office office;
 

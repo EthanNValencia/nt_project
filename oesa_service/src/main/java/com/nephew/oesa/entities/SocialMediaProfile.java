@@ -1,11 +1,18 @@
 package com.nephew.oesa.entities;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public class SocialMediaProfile {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	
 	@Column(length = 120)
 	private String linkedin = ""; // https://www.linkedin.com
 	@Column(length = 120)
@@ -35,6 +42,13 @@ public class SocialMediaProfile {
 
 	public SocialMediaProfile() {
 		super();
+	}
+
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getX() {

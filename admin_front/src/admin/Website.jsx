@@ -374,6 +374,11 @@ const Page = (props) => {
     setPage(updatedPage);
   };
 
+  const returnTextParentObject = () => {
+    const page = { page: { id: page.id } };
+    return page;
+  };
+
   return (
     <div className="bg-nss-20 border rounded-lg shadow-xl py-1 px-1 mt-1">
       <div>
@@ -413,26 +418,28 @@ const Page = (props) => {
         </div>
       </div>
       {/* JSON.stringify(page) */}
-      <div className="flex gap-1">
+      <div className="flex gap-1 pt-1">
         <NssButtonEdit
           onClick={onEditPage}
           label="Edit Page"
           selected={editMode}
         />
-        <NssButtonAdd onClick={onAddParagraph} label="Add Paragraph" />
+        <NssButtonAdd onClick={onAddParagraph} label="Add Text" />
       </div>
-      <div>
-        <Texts
-          parentId={page.id}
-          parentTexts={page.pageTexts}
-          setChangeDetected={setChangeDetected}
-          updateTexts={updatePageTexts}
-          name={"Undefined"}
-          parentObjectWithId={(page = { id: page.id })}
-        />
-      </div>
+      <div></div>
     </div>
   );
 };
 
 export default Website;
+
+/*
+<Texts
+          parentTexts={page.pageTexts}
+          setChangeDetected={setChangeDetected}
+          updateTexts={updatePageTexts}
+          name={"Undefined"}
+          parentObjectWithId={returnTextParentObject()}
+        />
+
+*/
