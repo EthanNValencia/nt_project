@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList; 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.nephew.oesa.entities.Appointment;
 import com.nephew.oesa.entities.Company;
+import com.nephew.oesa.entities.Day;
 import com.nephew.oesa.entities.FAQs;
 import com.nephew.oesa.entities.Office;
 import com.nephew.oesa.entities.OfficeDailySchedule;
@@ -38,7 +39,6 @@ import com.nephew.oesa.entities.text.TextType;
 import com.nephew.oesa.entities.website.Website;
 import com.nephew.oesa.entities.website.WebsiteSocialMediaProfile;
 import com.nephew.oesa.repositories.AppointmentRepository;
-import com.nephew.oesa.repositories.CompanyDailyScheduleRepository;
 import com.nephew.oesa.repositories.CompanyRepository;
 import com.nephew.oesa.repositories.EmployeeDailyScheduleRepository;
 import com.nephew.oesa.repositories.EmployeeRepository;
@@ -49,13 +49,11 @@ import com.nephew.oesa.repositories.OfficeSocialMediaProfileRepository;
 import com.nephew.oesa.repositories.ServiceRepository;
 import com.nephew.oesa.repositories.WebsiteRepository;
 import com.nephew.oesa.repositories.WebsiteSocialMediaProfileRepository;
-import com.nephew.oesa.services.EmployeeService;
-
 import jakarta.persistence.EntityNotFoundException;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(properties = "eureka.client.enabled=false")
-class NptServiceApplicationTests {
+public class RepositoryTests {
 
 	@Autowired
 	private ServiceRepository servicesRepository;
@@ -68,9 +66,6 @@ class NptServiceApplicationTests {
 
 	@Autowired
 	private OfficeRepository officeRepository;
-
-	@Autowired
-	private CompanyDailyScheduleRepository companyDailyScheduleRepository;
 
 	@Autowired
 	private EmployeeDailyScheduleRepository employeeDailyScheduleRepository;
@@ -86,13 +81,10 @@ class NptServiceApplicationTests {
 
 	@Autowired
 	private WebsiteSocialMediaProfileRepository websiteSocialMediaProfileRepository;
-	
+
 	@Autowired
 	private FAQsRepository faqsRepository;
 
-	@Autowired
-	private EmployeeService employeeService;
-	
 	@Autowired
 	private CompanyRepository companyRepository;
 
@@ -108,7 +100,7 @@ class NptServiceApplicationTests {
 	private final String BALANCE = "Balance";
 	private final String VESTIBULAR_REHAB = "Vestibular Rehab";
 	private final String MESSAGE_THERAPY = "Massage Therapy";
-	
+
 	private final String PROFILE_FACEBOOK = "www.facebook.com";
 
 	private String img1 = "/src/assets/1-300x300.png?raw=true";
@@ -120,7 +112,7 @@ class NptServiceApplicationTests {
 	private String img7 = "/src/assets/7-300x300.png?raw=true";
 	private String img8 = "/src/assets/8-300x300.png?raw=true";
 	private String img9 = "/src/assets/9-300x300.png?raw=true";
-	
+
 	private final String TEST_APPOINTMENT_FNAME = "Ethan";
 	private final String TEST_APPOINTMENT_LNAME = "Nephew";
 	private final String TEST_APPOINTMENT_EMAIL = "ejnephew@yahoo.com";
@@ -130,101 +122,115 @@ class NptServiceApplicationTests {
 	private final long MELISSA_ID = 1L;
 	private final String MELISSA_FIRST_NAME = "Melissa";
 	private final String MELISSA_LAST_NAME = "Meiste";
-	
+
 	private final long COMPANY_ID = 1L;
 	private final long WEBSITE_ID = 1L;
 	private final long OFFICE_ID = 1L;
 	private final long WEBSITE_PROFILE_ID = 1L;
 	private final long OFFICE_PROFILE_ID = 1L;
-	
+
 	private final String COMPANY_URL = "npt";
 	private final String COMPANY_NAME = "Nephew Physical Therapy";
-	
+
 	private final String HEAD_AND_NECK_TEXT = "This is test text for the head and neck service.";
-	
+
 	private final String WEBSITE_NAME = "Nephew Physical Therapy";
 	private final String WEBSITE_URL = "/";
 	private final String WEBSITE_PROFILE_YOUTUBE = "https://www.youtube.com/channel/UCP0_SudzP9_KQQKsUXOJPRg";
 	private final String WEBSITE_PROFILE_FACEBOOK = "https://www.facebook.com/nephewpt";
 	private final String WEBSITE_PROFILE_INSTAGRAM = "https://www.instagram.com/nephewpt/";
 	private final String WEBSITE_PROFILE_YELP = "https://www.yelp.com/biz/nephew-physical-therapy-holland";
-	
+
 	private Website findWebsiteById(long id) {
 		return websiteRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Website not found."));
 	}
-	
+
 	private Optional<Website> findWebsiteOptionalById(long id) {
-	    return websiteRepository.findById(id);
+		return websiteRepository.findById(id);
 	}
-	
+
 	private Company findCompanyById(long id) {
 		return companyRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Company not found."));
 	}
-	
+
 	private Optional<Company> findCompanyOptionalById(long id) {
-	    return companyRepository.findById(id);
+		return companyRepository.findById(id);
 	}
-	
+
 	private WebsiteSocialMediaProfile findWebsiteProfileById(long id) {
-		return websiteSocialMediaProfileRepository.findById(WEBSITE_ID).orElseThrow(() -> new EntityNotFoundException("Website profile not found."));
+		return websiteSocialMediaProfileRepository.findById(WEBSITE_ID)
+				.orElseThrow(() -> new EntityNotFoundException("Website profile not found."));
 	}
-	
+
 	private Optional<WebsiteSocialMediaProfile> findWebsiteProfileOptionalById(long id) {
-	    return websiteSocialMediaProfileRepository.findById(id);
+		return websiteSocialMediaProfileRepository.findById(id);
 	}
-	
+
 	private Employee findEmployeeById(long id) {
-		return employeeRepository.findById(WEBSITE_ID).orElseThrow(() -> new EntityNotFoundException("Employee not found."));
+		return employeeRepository.findById(WEBSITE_ID)
+				.orElseThrow(() -> new EntityNotFoundException("Employee not found."));
 	}
-	
+
 	private Optional<Employee> findEmployeeOptionalById(long id) {
-	    return employeeRepository.findById(id);
+		return employeeRepository.findById(id);
 	}
-	
+
 	private Services findServiceByName(String name) {
 		return servicesRepository.findByName(name).orElseThrow(() -> new EntityNotFoundException("Service not found."));
 	}
-	
+
 	private Optional<Services> findServiceOptionalByName(String name) {
-	    return servicesRepository.findByName(name);
+		return servicesRepository.findByName(name);
 	}
-	
+
 	private Office findOfficeById(long id) {
 		return officeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Office not found."));
 	}
-	
+
+	private Optional<Office> findOfficeOptionalById(long id) {
+		return officeRepository.findById(id);
+	}
+
 	private Website save(Website website) {
 		return websiteRepository.save(website);
 	}
-	
+
 	private Company save(Company company) {
 		return companyRepository.save(company);
 	}
-	
+
 	private WebsiteSocialMediaProfile save(WebsiteSocialMediaProfile profile) {
 		return websiteSocialMediaProfileRepository.save(profile);
 	}
-	
+
 	private Employee save(Employee employee) {
 		return employeeRepository.save(employee);
 	}
-	
+
 	private OfficeSocialMediaProfile save(OfficeSocialMediaProfile profile) {
 		return officeSocialMediaProfileRepository.save(profile);
 	}
-	
+
 	private EmployeeSocialMediaProfile save(EmployeeSocialMediaProfile profile) {
 		return employeeSocialMediaProfileRepository.save(profile);
 	}
-	
+
 	private Office save(Office office) {
 		return officeRepository.save(office);
 	}
-	
+
+	private List<FAQs> getAllFaqs() {
+		return faqsRepository.findAll();
+	}
+
+	private FAQs save(FAQs faq) {
+		return faqsRepository.save(faq);
+	}
+
 	@Order(100)
 	@Test
 	void createNptCompany() {
-		if(findCompanyOptionalById(COMPANY_ID).isEmpty()) {
+		if (findCompanyOptionalById(COMPANY_ID).isEmpty()) {
 			Company company = new Company();
 			company.setCompanyName(COMPANY_NAME);
 			company.setCompanyAcronym(COMPANY_URL);
@@ -233,7 +239,7 @@ class NptServiceApplicationTests {
 			save(company);
 		}
 	}
-	
+
 	@Order(150)
 	@Test
 	void createServices() {
@@ -365,7 +371,7 @@ class NptServiceApplicationTests {
 		Services service = findServiceByName(MESSAGE_THERAPY);
 		assertEquals(MESSAGE_THERAPY, service.getName());
 	}
-	
+
 	@Order(280)
 	@Test
 	void createWebsite() {
@@ -373,11 +379,11 @@ class NptServiceApplicationTests {
 			Website website = new Website();
 			website.setId(WEBSITE_ID);
 			website.setName(WEBSITE_NAME);
-			website.setUrl(WEBSITE_URL); 
+			website.setUrl(WEBSITE_URL);
 			save(website);
 		}
 	}
-	
+
 	@Order(285)
 	@Test
 	void createWebsiteProfile() {
@@ -391,59 +397,59 @@ class NptServiceApplicationTests {
 			save(profile);
 		}
 	}
-	
+
 	@Order(288)
 	@Test
 	void attachWebsiteAndProfile() {
-	    Website website = findWebsiteById(WEBSITE_ID);
-	    WebsiteSocialMediaProfile profile = findWebsiteProfileById(WEBSITE_PROFILE_ID);
-	    profile.setWebsite(website);
+		Website website = findWebsiteById(WEBSITE_ID);
+		WebsiteSocialMediaProfile profile = findWebsiteProfileById(WEBSITE_PROFILE_ID);
+		profile.setWebsite(website);
 		website.setProfile(profile);
 		save(website);
 	}
-	
+
 	@Order(290)
 	@Test
 	void verifyWebsiteProfileYoutube() {
 		Website website = findWebsiteById(WEBSITE_ID);
 		assertEquals(WEBSITE_PROFILE_YOUTUBE, website.getProfile().getYoutube());
 	}
-	
+
 	@Order(291)
 	@Test
 	void verifyWebsiteProfileFacebook() {
 		Website website = findWebsiteById(WEBSITE_ID);
 		assertEquals(WEBSITE_PROFILE_FACEBOOK, website.getProfile().getFacebook());
 	}
-	
+
 	@Order(292)
 	@Test
 	void verifyWebsiteProfileInstagram() {
 		Website website = findWebsiteById(WEBSITE_ID);
 		assertEquals(WEBSITE_PROFILE_INSTAGRAM, website.getProfile().getInstagram());
 	}
-	
+
 	@Order(293)
 	@Test
 	void verifyWebsiteProfileYelp() {
 		Website website = findWebsiteById(WEBSITE_ID);
 		assertEquals(WEBSITE_PROFILE_YELP, website.getProfile().getYelp());
 	}
-	
+
 	@Order(294)
 	@Test
 	void verifyWebsiteName() {
 		Website website = findWebsiteById(WEBSITE_ID);
 		assertEquals(WEBSITE_NAME, website.getName());
 	}
-	
+
 	@Order(295)
 	@Test
 	void verifyWebsiteProfileUrl() {
 		Website website = findWebsiteById(WEBSITE_ID);
 		assertEquals(WEBSITE_URL, website.getUrl());
 	}
-	
+
 	@Order(300)
 	@Test
 	void attachWebsiteToCompany() {
@@ -454,14 +460,14 @@ class NptServiceApplicationTests {
 		save(company);
 		save(website);
 	}
-	
+
 	@Order(301)
 	@Test
 	void verifyCompanyWebsiteIsNotNull() {
 		Company company = findCompanyById(COMPANY_ID);
 		assertNotNull(company.getWebsite());
 	}
-	
+
 	@Order(305)
 	@Test
 	void saveCompanyDoesNotRemoveWebsite() {
@@ -471,12 +477,11 @@ class NptServiceApplicationTests {
 		Website website = findWebsiteById(WEBSITE_ID);
 		assertNotNull(website.getCompany());
 	}
-	
+
 	@Order(350)
 	@Test
 	void createOffice() {
-		Optional<Office> officeOpt = officeRepository.findById(1L);
-		if (officeOpt.isEmpty()) {
+		if (findOfficeOptionalById(OFFICE_ID).isEmpty()) {
 			Office office = new Office();
 			office.setOfficeId(OFFICE_ID);
 			office.setStreet("12723 N Bellwood Dr");
@@ -491,23 +496,10 @@ class NptServiceApplicationTests {
 			office.setMapUrl("https://www.google.com/maps?q=+12723+N+Bellwood+Dr.,+Suite+10+Holland,+MI+49424");
 			office.setAcceptingWalkIns(true);
 			office = save(office);
-			
-			Set<OfficeDailySchedule> schedule = new HashSet<>();
-			schedule.add(new OfficeDailySchedule("Mon", LocalTime.of(7, 0, 0), LocalTime.of(18, 30, 0),
-					new Office(office.getOfficeId())));
-			schedule.add(new OfficeDailySchedule("Tue", LocalTime.of(7, 0, 0), LocalTime.of(18, 30, 0),
-					new Office(office.getOfficeId())));
-			schedule.add(new OfficeDailySchedule("Wed", LocalTime.of(7, 0, 0), LocalTime.of(18, 30, 0),
-					new Office(office.getOfficeId())));
-			schedule.add(new OfficeDailySchedule("Thu", LocalTime.of(7, 0, 0), LocalTime.of(18, 30, 0),
-					new Office(office.getOfficeId())));
-			schedule.add(new OfficeDailySchedule("Fri", LocalTime.of(13, 0, 0), LocalTime.of(15, 0, 0),
-					new Office(office.getOfficeId())));
-			companyDailyScheduleRepository.saveAll(schedule);
 		}
 	}
-	
-	@Order(355)
+
+	@Order(360)
 	@Test
 	void attachOfficeToCompany() {
 		Office office = findOfficeById(OFFICE_ID);
@@ -517,8 +509,15 @@ class NptServiceApplicationTests {
 		save(company);
 		save(office);
 	}
-	
-	@Order(360)
+
+	@Order(361)
+	@Test
+	void officeShouldHaveCompany() {
+		Office office = findOfficeById(OFFICE_ID);
+		assertEquals(COMPANY_ID, office.getCompany().getId());
+	}
+
+	@Order(370)
 	@Test
 	void attachProfileToOffice() {
 		Office office = findOfficeById(OFFICE_ID);
@@ -529,19 +528,38 @@ class NptServiceApplicationTests {
 		office.setOfficeSocialMedialProfile(profile);
 		save(office);
 	}
-	
-	@Order(370)
-	@Test
-	void officeShouldHaveCompany() {
-		Office office = findOfficeById(OFFICE_ID);
-		assertEquals(COMPANY_ID, office.getCompany().getId());
-	}
-	
+
 	@Order(371)
 	@Test
 	void officeProfileFacebookShouldEqual() {
 		Office office = findOfficeById(OFFICE_ID);
 		assertEquals(PROFILE_FACEBOOK, office.getOfficeSocialMedialProfile().getFacebook());
+	}
+
+	@Order(380)
+	@Test
+	void attachScheduleToOfffice() {
+		Office office = findOfficeById(OFFICE_ID);
+		Set<OfficeDailySchedule> schedule = new HashSet<>();
+		schedule.add(new OfficeDailySchedule(Day.Monday, LocalTime.of(7, 0, 0), LocalTime.of(18, 30, 0),
+				new Office(office.getOfficeId())));
+		schedule.add(new OfficeDailySchedule(Day.Tuesday, LocalTime.of(7, 0, 0), LocalTime.of(18, 30, 0),
+				new Office(office.getOfficeId())));
+		schedule.add(new OfficeDailySchedule(Day.Wednesday, LocalTime.of(7, 0, 0), LocalTime.of(18, 30, 0),
+				new Office(office.getOfficeId())));
+		schedule.add(new OfficeDailySchedule(Day.Thursday, LocalTime.of(7, 0, 0), LocalTime.of(18, 30, 0),
+				new Office(office.getOfficeId())));
+		schedule.add(new OfficeDailySchedule(Day.Friday, LocalTime.of(13, 0, 0), LocalTime.of(15, 0, 0),
+				new Office(office.getOfficeId())));
+		office.setSchedule(schedule);
+		save(office);
+	}
+
+	@Order(381)
+	@Test
+	void officeShouldHaveScheduleSizeOfFive() {
+		Office office = findOfficeById(OFFICE_ID);
+		assertEquals(5, office.getSchedule().size());
 	}
 
 	@Order(400)
@@ -566,15 +584,16 @@ class NptServiceApplicationTests {
 
 	@Order(410)
 	@Test
-	void populateMelissaChildEntities() throws Exception {
+	void attachOfficeToMelissa() throws Exception {
+		// BREAK THIS UP
 		Optional<Office> officeOpt = officeRepository.findById(1L);
 
 		if (officeOpt.isEmpty()) {
 			throw new Exception("Office with id of 1 was not found.");
 		}
-		
+
 		Office office = officeOpt.get();
-		
+
 		List<Services> services = servicesRepository.findAllExcept(VESTIBULAR_REHAB).get();
 		if (findEmployeeOptionalById(MELISSA_ID).isPresent()) {
 			Employee melissa = findEmployeeById(MELISSA_ID);
@@ -639,17 +658,16 @@ class NptServiceApplicationTests {
 	void generateScheduleForMelissa() {
 		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 
-		EmployeeDailySchedule mon = new EmployeeDailySchedule("Mon", LocalTime.of(7, 0, 0), LocalTime.of(18, 30, 0));
-		EmployeeDailySchedule tue = new EmployeeDailySchedule("Tue", LocalTime.of(7, 0, 0), LocalTime.of(18, 30, 0));
-		EmployeeDailySchedule wed = new EmployeeDailySchedule("Wed", LocalTime.of(7, 0, 0), LocalTime.of(18, 30, 0));
-		EmployeeDailySchedule thu = new EmployeeDailySchedule("Thu", LocalTime.of(7, 0, 0), LocalTime.of(18, 30, 0));
-		EmployeeDailySchedule fri = new EmployeeDailySchedule("Fri", LocalTime.of(13, 0, 0), LocalTime.of(15, 0, 0));
-
-		mon.setEmployee(melissa);
-		tue.setEmployee(melissa);
-		wed.setEmployee(melissa);
-		thu.setEmployee(melissa);
-		fri.setEmployee(melissa);
+		EmployeeDailySchedule mon = new EmployeeDailySchedule(Day.Monday, LocalTime.of(7, 0, 0),
+				LocalTime.of(18, 30, 0), melissa);
+		EmployeeDailySchedule tue = new EmployeeDailySchedule(Day.Tuesday, LocalTime.of(7, 0, 0),
+				LocalTime.of(18, 30, 0), melissa);
+		EmployeeDailySchedule wed = new EmployeeDailySchedule(Day.Wednesday, LocalTime.of(7, 0, 0),
+				LocalTime.of(18, 30, 0), melissa);
+		EmployeeDailySchedule thu = new EmployeeDailySchedule(Day.Thursday, LocalTime.of(7, 0, 0),
+				LocalTime.of(18, 30, 0), melissa);
+		EmployeeDailySchedule fri = new EmployeeDailySchedule(Day.Friday, LocalTime.of(13, 0, 0),
+				LocalTime.of(15, 0, 0), melissa);
 
 		melissa.getSchedule().add(mon);
 		melissa.getSchedule().add(tue);
@@ -659,42 +677,44 @@ class NptServiceApplicationTests {
 
 		save(melissa);
 	}
-	
+
 	@Order(440)
 	@Test
 	void generateBiographicalParagraphsForMelissa() {
 		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
-		
+
 		BiographicalText textOne = new BiographicalText();
 		textOne.setType(TextType.PARAGRAPH);
 		textOne.setText("This is test biographical paragraph 1 for " + MELISSA_FIRST_NAME + ".");
 		textOne.setPosition(1);
 		BiographicalText textTwo = new BiographicalText();
 		textTwo.setType(TextType.IMAGE);
-		textTwo.setImageUrl("https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg");
-		textTwo.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+		textTwo.setImageUrl(
+				"https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg");
+		textTwo.setText(
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
 		textTwo.setPosition(2);
 		BiographicalText textThree = new BiographicalText();
 		textThree.setType(TextType.IMAGE);
 		textThree.setText("This is just text. It will be changed later.");
 		textThree.setPosition(3);
-		
+
 		textOne.setEmployee(melissa);
 		textTwo.setEmployee(melissa);
 		textThree.setEmployee(melissa);
-		
+
 		melissa.getBiographicalTexts().add(textOne);
 		melissa.getBiographicalTexts().add(textTwo);
 		melissa.getBiographicalTexts().add(textThree);
-		
+
 		save(melissa);
 	}
-	
+
 	@Order(450)
 	@Test
 	void generateInformationalParagraphsForMelissa() {
 		Employee melissa = findEmployeeById(MELISSA_ID);
-		
+
 		InformationalText textOne = new InformationalText();
 		textOne.setType(TextType.PARAGRAPH);
 		textOne.setText("This is test informational paragraph 1 for " + MELISSA_FIRST_NAME + ".");
@@ -711,24 +731,24 @@ class NptServiceApplicationTests {
 		textFour.setType(TextType.QUOTE);
 		textFour.setText("This is test informational quote 4 for " + MELISSA_FIRST_NAME + ".");
 		textFour.setPosition(4);
-		
+
 		textOne.setEmployee(melissa);
 		textTwo.setEmployee(melissa);
 		textThree.setEmployee(melissa);
 		textFour.setEmployee(melissa);
-		
+
 		melissa.getInformationalTexts().add(textOne);
 		melissa.getInformationalTexts().add(textTwo);
 		melissa.getInformationalTexts().add(textThree);
 		melissa.getInformationalTexts().add(textFour);
-		
+
 		save(melissa);
-		
+
 	}
-	
+
 	private final String CHRISTINE_FIRST_NAME = "Christine";
 	private final String CHRISTINE_LAST_NAME = "Byington";
-	
+
 	@Order(500)
 	@Test
 	void createChristine() throws Exception {
@@ -753,7 +773,7 @@ class NptServiceApplicationTests {
 			save(christine);
 		}
 	}
-	
+
 	@Order(600)
 	@Test
 	void createJenna() throws Exception {
@@ -934,7 +954,7 @@ class NptServiceApplicationTests {
 			amber = save(amber);
 		}
 	}
-	
+
 	@Order(1900)
 	@Test
 	void createFaqs() {
@@ -944,11 +964,13 @@ class NptServiceApplicationTests {
 		faq1.setQuestionIsAnswered(true);
 		FAQs faq2 = new FAQs();
 		faq2.setQuestion("Do I meed to be concerned about my Credit Card security?");
-		faq2.setAnswer("Your Card info is stored in our HIPAA compliant software. Once saved, we can only see the last 4 digits.");
+		faq2.setAnswer(
+				"Your Card info is stored in our HIPAA compliant software. Once saved, we can only see the last 4 digits.");
 		faq2.setQuestionIsAnswered(true);
 		FAQs faq3 = new FAQs();
 		faq3.setQuestion("Do I meed to be concerned about my Credit Card security?");
-		faq3.setAnswer("Your Card info is stored in our HIPAA compliant software. Once saved, we can only see the last 4 digits.");
+		faq3.setAnswer(
+				"Your Card info is stored in our HIPAA compliant software. Once saved, we can only see the last 4 digits.");
 		faq3.setQuestionIsAnswered(true);
 		FAQs faq4 = new FAQs();
 		faq4.setQuestion("Will this process thru my insurance?");
@@ -960,30 +982,47 @@ class NptServiceApplicationTests {
 		faq5.setQuestionIsAnswered(true);
 		FAQs faq6 = new FAQs();
 		faq6.setQuestion("What virtual meeting platform do you use for appointments?");
-		faq6.setAnswer("ZOOM. We’ll email you a link after scheduling. Come to appointment ready with all your questions!");
+		faq6.setAnswer(
+				"ZOOM. We’ll email you a link after scheduling. Come to appointment ready with all your questions!");
 		faq6.setQuestionIsAnswered(true);
-		faqsRepository.save(faq1);
-		faqsRepository.save(faq2);
-		faqsRepository.save(faq3);
-		faqsRepository.save(faq4);
-		faqsRepository.save(faq5);
-		faqsRepository.save(faq6);
-		
+		save(faq1);
+		save(faq2);
+		save(faq3);
+		save(faq4);
+		save(faq5);
+		save(faq6);
+	}
+
+	@Order(1901)
+	@Test
+	void shouldHaveSixFaqs() {
+		assertEquals(6, getAllFaqs().size());
+	}
+
+	@Order(1905)
+	@Test
+	void assignFaqsToCompany() {
 		Company company = findCompanyById(COMPANY_ID);
-		company.getFaqs().add(faq1);
-		company.getFaqs().add(faq2);
-		company.getFaqs().add(faq3);
-		company.getFaqs().add(faq4);
-		company.getFaqs().add(faq5);
-		company.getFaqs().add(faq6);
-		company.assignIdToChildren();
+		List<FAQs> faqs = getAllFaqs();
+		for (FAQs faq : faqs) {
+			faq.setCompany(company);
+		}
+		company.setFaqs(faqs);
 		save(company);
+	}
+
+	@Order(1910)
+	@Test
+	void companyShouldHaveSixFaqs() {
+		Company company = findCompanyById(COMPANY_ID);
+		assertEquals(6, company.getFaqs().size());
 	}
 
 	@Order(2000)
 	@Test
 	void testFindEmployeeByNameShouldBePresent() {
-		Optional<Employee> melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME);
+		Optional<Employee> melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME,
+				MELISSA_LAST_NAME);
 		assertTrue(melissa.isPresent());
 	}
 
@@ -1029,43 +1068,6 @@ class NptServiceApplicationTests {
 		assertNotNull(melissa.getAppointments());
 	}
 
-	@Order(2007)
-	@Test
-	void updateServicesFromMelissaShouldEqual3() {
-		Set<Long> serviceIds = new HashSet<>();
-		serviceIds.add(1L);
-		serviceIds.add(2L);
-		serviceIds.add(3L);
-		Employee melissa = new Employee();
-		try {
-			melissa = employeeService.updateEmployeeServices(1L, serviceIds);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		assertEquals(3, melissa.getServices().size());
-	}
-
-	@Order(2008)
-	@Test
-	void updateServicesFromMelissaShouldEqual4() {
-		Set<Long> serviceIds = new HashSet<>();
-		serviceIds.add(1L);
-		serviceIds.add(2L);
-		serviceIds.add(3L);
-		serviceIds.add(4L);
-
-		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
-
-		List<Services> services = servicesRepository.findAllById(serviceIds);
-
-		melissa.convertServicesListToSet(services);
-
-		melissa = employeeService.updateEmployee(melissa);
-
-		assertEquals(4, melissa.getServices().size());
-	}
-
 	@Order(2009)
 	@Test
 	void testMelissaProfileShouldNotBeNull() {
@@ -1079,7 +1081,7 @@ class NptServiceApplicationTests {
 		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		assertEquals(5, melissa.getSchedule().size());
 	}
-	
+
 	@Order(2011)
 	@Test
 	void testMelissaBiographicalTextShouldNotBeNull() {
@@ -1093,7 +1095,7 @@ class NptServiceApplicationTests {
 		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		assertEquals(3, melissa.getBiographicalTexts().size());
 	}
-	
+
 	@Order(2013)
 	@Test
 	void testMelissaInformationalTextShouldNotBeNull() {
@@ -1107,7 +1109,7 @@ class NptServiceApplicationTests {
 		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		assertEquals(4, melissa.getInformationalTexts().size());
 	}
-	
+
 	@Order(2015)
 	@Test
 	void testMelissaModifyBiographicalTexts() {
@@ -1117,7 +1119,7 @@ class NptServiceApplicationTests {
 		save(melissa);
 		assertEquals(3, melissa.getBiographicalTexts().size());
 	}
-	
+
 	@Order(2016)
 	@Test
 	void testMelissaModifyBiographicalTextsShouldEqual() {
@@ -1125,7 +1127,7 @@ class NptServiceApplicationTests {
 		int size = melissa.getBiographicalTexts().size() - 1;
 		assertEquals(MELISSA_FIRST_NAME, melissa.getBiographicalTexts().get(size).getText());
 	}
-	
+
 	@Order(2017)
 	@Test
 	void testMelissaModifyBiographicalTextsShouldEqualSize() {
@@ -1133,14 +1135,14 @@ class NptServiceApplicationTests {
 		System.out.println(melissa.getBiographicalTexts());
 		assertEquals(3, melissa.getBiographicalTexts().size());
 	}
-	
+
 	@Order(2018)
 	@Test
 	void testMelissaProfileFacebookShouldEqual() {
 		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		assertEquals(PROFILE_FACEBOOK, melissa.getProfile().getFacebook());
 	}
-	
+
 	@Order(2019)
 	@Test
 	void testMelissaLastElementIsParagraph() {
@@ -1148,7 +1150,7 @@ class NptServiceApplicationTests {
 		int middleElement = melissa.getBiographicalTexts().size() - 1;
 		assertEquals(TextType.IMAGE, melissa.getBiographicalTexts().get(middleElement).getType());
 	}
-	
+
 	@Order(2020)
 	@Test
 	void testMelissaChangeTextToQuoteDoesNotThrow() {
@@ -1157,7 +1159,7 @@ class NptServiceApplicationTests {
 		melissa.getBiographicalTexts().get(middleElement).setType(TextType.QUOTE);
 		save(melissa);
 	}
-	
+
 	@Order(2021)
 	@Test
 	void testMelissaLastElementIsQuote() {
@@ -1165,14 +1167,14 @@ class NptServiceApplicationTests {
 		int middleElement = melissa.getBiographicalTexts().size() - 1;
 		assertEquals(TextType.QUOTE, melissa.getBiographicalTexts().get(middleElement).getType());
 	}
-	
+
 	@Order(2022)
 	@Test
 	void testMelissaVerifyThatYoutubeProfileIsEmpty() {
 		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		assertEquals("", melissa.getProfile().getYoutube());
 	}
-	
+
 	@Order(2023)
 	@Test
 	void testMelissaChangeProfileYoutube() {
@@ -1180,28 +1182,29 @@ class NptServiceApplicationTests {
 		melissa.getProfile().setYoutube("www.youtube.com");
 		save(melissa);
 	}
-	
+
 	@Order(2024)
 	@Test
 	void testMelissaProfileYoutubeShouldEqual() {
 		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		assertEquals("www.youtube.com", melissa.getProfile().getYoutube());
 	}
-	
+
 	@Order(2100)
 	@Test
 	void testChristineScheduleShouldBe5() {
-		Employee christine = employeeRepository.findByFirstNameAndLastName(CHRISTINE_FIRST_NAME, CHRISTINE_LAST_NAME).get();
+		Employee christine = employeeRepository.findByFirstNameAndLastName(CHRISTINE_FIRST_NAME, CHRISTINE_LAST_NAME)
+				.get();
 		assertEquals(5, christine.getSchedule().size());
 	}
-	
+
 	@Order(2600)
 	@Test
 	void officeShouldBeNpt() {
 		List<Office> offices = officeRepository.findByCompanyUrl(COMPANY_URL);
 		assertEquals(COMPANY_URL, offices.get(0).getCompany().getCompanyUrl());
 	}
-	
+
 	@Order(2601)
 	@Test
 	void officesShouldBeGreaterThanZero() {
@@ -1215,56 +1218,64 @@ class NptServiceApplicationTests {
 		List<Employee> employees = employeeRepository.findByCompanyUrl(COMPANY_URL);
 		assertEquals(COMPANY_URL, employees.get(0).getOffice().getCompany().getCompanyUrl());
 	}
-	
+
 	@Order(2701)
 	@Test
 	void employeesShouldBeGreaterThanZero() {
 		List<Employee> employees = employeeRepository.findByCompanyUrl(COMPANY_URL);
 		assertTrue(employees.size() > 0);
 	}
-	
+
 	@Order(2705)
 	@Test
 	void employeesShouldContainMelissa() {
 		List<Employee> employees = employeeRepository.findByCompanyUrl(COMPANY_URL);
 		Employee melissa = new Employee();
-		for(Employee employee: employees) {
-			if(employee.getFirstName().equals(MELISSA_FIRST_NAME) && employee.getLastName().equals(MELISSA_LAST_NAME)) {
+		for (Employee employee : employees) {
+			if (employee.getFirstName().equals(MELISSA_FIRST_NAME)
+					&& employee.getLastName().equals(MELISSA_LAST_NAME)) {
 				melissa = employee;
 			}
 		}
 		assertEquals(MELISSA_FIRST_NAME, melissa.getFirstName());
 		assertEquals(MELISSA_LAST_NAME, melissa.getLastName());
 	}
-	
+
 	@Order(2800)
 	@Test
 	void websiteShouldBeNpt() {
 		Website website = findWebsiteById(WEBSITE_ID);
 		assertEquals(COMPANY_URL, website.getCompany().getCompanyUrl());
 	}
-	
+
 	@Order(2801)
 	@Test
 	void websiteShouldHaveWebsiteId() {
 		Website website = findWebsiteById(WEBSITE_ID);
 		assertEquals(WEBSITE_ID, website.getId());
 	}
-	
+
 	@Order(3000)
 	@Test
 	void serviceShouldContainText() {
 		Services headAndShoulders = findServiceOptionalByName(HEAD_AND_NECK).get();
 		assertEquals(HEAD_AND_NECK_TEXT, headAndShoulders.getServiceTexts().get(0).getText());
 	}
-	
+
 	@Order(3500)
 	@Test
 	void createSecondOfficeShouldNotThrow() {
 		Office office = new Office();
 		OfficeSocialMediaProfile profile = new OfficeSocialMediaProfile();
 		office.setOfficeSocialMedialProfile(profile);
-		officeRepository.save(office);
+		save(office);
 	}
 	
+	@Order(4000)
+	@Test
+	void companyVerifyFaqsSizeIsSix() {
+		Company company = findCompanyById(COMPANY_ID);
+		assertEquals(6, company.getFaqs().size());
+	}
+
 }

@@ -32,7 +32,7 @@ public class Company {
 
 	// Removed cascade = CascadeType.ALL,
 
-	@OneToMany(mappedBy = "company", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("company")
 	private List<FAQs> faqs;
 

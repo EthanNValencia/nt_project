@@ -65,7 +65,7 @@ public class Office {
 	@JsonIgnoreProperties("office")
 	private OfficeSocialMediaProfile officeSocialMedialProfile;
 	
-	@OneToMany(mappedBy = "office", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "office", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
 	@JsonIgnoreProperties("office")
 	private Set<OfficeDailySchedule> schedule;
 

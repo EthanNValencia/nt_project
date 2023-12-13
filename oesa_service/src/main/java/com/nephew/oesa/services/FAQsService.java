@@ -13,35 +13,35 @@ import com.nephew.oesa.repositories.FAQsRepository;
 public class FAQsService {
 
 	@Autowired
-	private FAQsRepository repo;
+	private FAQsRepository faqsRepository;
 
 	public FAQs saveNewQuestion(FAQs faq) {
-		return repo.save(faq);
+		return faqsRepository.save(faq);
 	}
 
 	public FAQs saveAnsweredQuestion(FAQs faq) {
 		faq.setQuestionIsAnswered(true);
-		return repo.save(faq);
+		return faqsRepository.save(faq);
 	}
 
-	public List<FAQs> getAll() {
-		List<FAQs> faqs = repo.findAll();
+	public List<FAQs> getAll(String companyUrl) {
+		List<FAQs> faqs = faqsRepository.findByCompanyUrl(companyUrl);
 		return faqs;
 	}
 
 	public ArrayList<FAQs> getAllAnsweredQuestions() {
-		return repo.selectAllAnsweredQuestions().get();
+		return faqsRepository.selectAllAnsweredQuestions().get();
 	}
 
 	public ArrayList<FAQs> getAllUnansweredQuestions() {
-		return repo.selectAllUnansweredQuestions().get();
+		return faqsRepository.selectAllUnansweredQuestions().get();
 	}
 
 	public void deleteById(Long id) {
-		repo.deleteById(id);
+		faqsRepository.deleteById(id);
 	}
 
 	public FAQs saveFaq(FAQs faqs) {
-		return repo.save(faqs);
+		return faqsRepository.save(faqs);
 	}
 }

@@ -1,6 +1,7 @@
 package com.nephew.oesa.services;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,5 +45,9 @@ public class ServicesService {
 		service.getServiceTexts().add(text);
 		repo.save(service);
 		return service;
+	}
+
+	public List<Services> findAllById(Set<Long> serviceIds) {
+		return repo.findAllById(serviceIds);
 	}
 }

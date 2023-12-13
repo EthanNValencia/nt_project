@@ -9,7 +9,7 @@ import NssButtonSave from "../nss/NssButtonSave";
 import NssButtonEdit from "../nss/NssButtonEdit";
 import NssButtonAdd from "../nss/NssButtonAdd";
 import NssButtonReload from "../nss/NssButtonReload";
-import { adminGetUnansweredQuestions } from "../axios/api";
+import { getFaqs } from "../axios/api";
 import DataField from "./DataField";
 
 function FAQs() {
@@ -23,7 +23,7 @@ function FAQs() {
 
   async function fetchFaqs() {
     try {
-      const data = await adminGetUnansweredQuestions(authContext.token);
+      const data = await getFaqs(authContext.token);
       setFaqs(data);
       setHasApiError(false);
     } catch (error) {

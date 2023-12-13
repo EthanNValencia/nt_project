@@ -33,7 +33,7 @@ function TherapistPairing() {
     }
     for (var i = 0; i < 7; i++) {
       // 7 days in a week, but this should not fully execute unless the employee has no schedule.
-      const options = { weekday: "short" };
+      const options = { weekday: "long" };
       const dayName = date.toLocaleDateString("en-US", options);
       const match = selectedEmployee.schedule.filter(
         (element) => element.day == dayName
@@ -169,7 +169,7 @@ function TherapistPairing() {
   }
 
   function generateAvailableCalendarDays({ date }) {
-    const options = { weekday: "short" };
+    const options = { weekday: "long" };
     const dayName = date.toLocaleDateString("en-US", options);
     var bool = true;
     selectedEmployee.schedule.forEach((element) => {

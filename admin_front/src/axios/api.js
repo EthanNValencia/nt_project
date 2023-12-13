@@ -83,8 +83,8 @@ export async function adminGetEmployees(token) {
   }
 }
 
-export async function adminGetUnansweredQuestions(token) {
-  const adminFaqUrl = privateUrl + "/faqs/get-all";
+export async function getFaqs(token) {
+  const adminFaqUrl = privateUrl + "/faqs/";
 
   const headers = {
     Authorization: `Bearer ${token}`,

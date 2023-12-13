@@ -20,8 +20,8 @@ public class FAQs {
 	private String question;
 	@Column(columnDefinition = "TEXT")
 	private String answer;
-
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	// (cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+	@ManyToOne
 	@JoinColumn(name = "company_id", referencedColumnName = "id")
 	private Company company;
 	

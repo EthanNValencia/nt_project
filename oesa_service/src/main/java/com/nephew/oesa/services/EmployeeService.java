@@ -130,6 +130,10 @@ public class EmployeeService {
 		return null;
 	}
 
+	public Employee findEmployeeById(long id) {
+		return employeeRepo.findById(id).get();
+	}
+
 	
 
 }

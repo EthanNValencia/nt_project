@@ -77,20 +77,9 @@ public class PrivateController {
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
-	@PutMapping("{companyUrl}/faqs/answer-question")
-	public ResponseEntity<FAQs> answerFAQ(@PathVariable(value = "companyUrl") String companyUrl, @RequestBody FAQs faqs) {
-		FAQs answeredFaq = faqsService.saveAnsweredQuestion(faqs);
-		return new ResponseEntity<FAQs>(answeredFaq, HttpStatus.OK);
-	}
-
-	@GetMapping("{companyUrl}/faqs/get-unanswered-questions")
-	public ResponseEntity<ArrayList<FAQs>> getAllUnansweredQuestions(@PathVariable(value = "companyUrl") String companyUrl) {
-		return new ResponseEntity<ArrayList<FAQs>>(faqsService.getAllUnansweredQuestions(), HttpStatus.OK);
-	}
-
-	@GetMapping("{companyUrl}/faqs/get-all")
+	@GetMapping("{companyUrl}/faqs/")
 	public ResponseEntity<List<FAQs>> getAllFaqs(@PathVariable(value = "companyUrl") String companyUrl) {
-		return new ResponseEntity<List<FAQs>>(faqsService.getAll(), HttpStatus.OK);
+		return new ResponseEntity<List<FAQs>>(faqsService.getAll(companyUrl), HttpStatus.OK);
 	}
 
 	@GetMapping("{companyUrl}/employees/")
