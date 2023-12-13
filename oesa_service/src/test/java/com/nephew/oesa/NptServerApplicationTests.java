@@ -51,18 +51,20 @@ import com.nephew.oesa.repositories.WebsiteRepository;
 import com.nephew.oesa.repositories.WebsiteSocialMediaProfileRepository;
 import com.nephew.oesa.services.EmployeeService;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(properties = "eureka.client.enabled=false")
 class NptServiceApplicationTests {
 
 	@Autowired
-	private ServiceRepository servicesRepo;
+	private ServiceRepository servicesRepository;
 
 	@Autowired
-	private EmployeeRepository employeeRepo;
+	private EmployeeRepository employeeRepository;
 
 	@Autowired
-	private AppointmentRepository appointmentRepo;
+	private AppointmentRepository appointmentRepository;
 
 	@Autowired
 	private OfficeRepository officeRepository;
@@ -118,231 +120,436 @@ class NptServiceApplicationTests {
 	private String img7 = "/src/assets/7-300x300.png?raw=true";
 	private String img8 = "/src/assets/8-300x300.png?raw=true";
 	private String img9 = "/src/assets/9-300x300.png?raw=true";
+	
+	private final String TEST_APPOINTMENT_FNAME = "Ethan";
+	private final String TEST_APPOINTMENT_LNAME = "Nephew";
+	private final String TEST_APPOINTMENT_EMAIL = "ejnephew@yahoo.com";
+	private final String TEST_APPOINTMENT_PN = "1-616-566-4966";
+	private final String TEST_APPOINTMENT_NOTES = "Test notes.";
 
+	private final long MELISSA_ID = 1L;
 	private final String MELISSA_FIRST_NAME = "Melissa";
 	private final String MELISSA_LAST_NAME = "Meiste";
 	
 	private final long COMPANY_ID = 1L;
 	private final long WEBSITE_ID = 1L;
+	private final long OFFICE_ID = 1L;
+	private final long WEBSITE_PROFILE_ID = 1L;
+	private final long OFFICE_PROFILE_ID = 1L;
 	
 	private final String COMPANY_URL = "npt";
+	private final String COMPANY_NAME = "Nephew Physical Therapy";
 	
-	private final String HEAD_AND_NECK_TEST_TEXT = "This is test text for the head and neck service.";
+	private final String HEAD_AND_NECK_TEXT = "This is test text for the head and neck service.";
+	
+	private final String WEBSITE_NAME = "Nephew Physical Therapy";
+	private final String WEBSITE_URL = "/";
+	private final String WEBSITE_PROFILE_YOUTUBE = "https://www.youtube.com/channel/UCP0_SudzP9_KQQKsUXOJPRg";
+	private final String WEBSITE_PROFILE_FACEBOOK = "https://www.facebook.com/nephewpt";
+	private final String WEBSITE_PROFILE_INSTAGRAM = "https://www.instagram.com/nephewpt/";
+	private final String WEBSITE_PROFILE_YELP = "https://www.yelp.com/biz/nephew-physical-therapy-holland";
+	
+	private Website findWebsiteById(long id) {
+		return websiteRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Website not found."));
+	}
+	
+	private Optional<Website> findWebsiteOptionalById(long id) {
+	    return websiteRepository.findById(id);
+	}
+	
+	private Company findCompanyById(long id) {
+		return companyRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Company not found."));
+	}
+	
+	private Optional<Company> findCompanyOptionalById(long id) {
+	    return companyRepository.findById(id);
+	}
+	
+	private WebsiteSocialMediaProfile findWebsiteProfileById(long id) {
+		return websiteSocialMediaProfileRepository.findById(WEBSITE_ID).orElseThrow(() -> new EntityNotFoundException("Website profile not found."));
+	}
+	
+	private Optional<WebsiteSocialMediaProfile> findWebsiteProfileOptionalById(long id) {
+	    return websiteSocialMediaProfileRepository.findById(id);
+	}
+	
+	private Employee findEmployeeById(long id) {
+		return employeeRepository.findById(WEBSITE_ID).orElseThrow(() -> new EntityNotFoundException("Employee not found."));
+	}
+	
+	private Optional<Employee> findEmployeeOptionalById(long id) {
+	    return employeeRepository.findById(id);
+	}
+	
+	private Services findServiceByName(String name) {
+		return servicesRepository.findByName(name).orElseThrow(() -> new EntityNotFoundException("Service not found."));
+	}
+	
+	private Optional<Services> findServiceOptionalByName(String name) {
+	    return servicesRepository.findByName(name);
+	}
+	
+	private Office findOfficeById(long id) {
+		return officeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Office not found."));
+	}
+	
+	private Website save(Website website) {
+		return websiteRepository.save(website);
+	}
+	
+	private Company save(Company company) {
+		return companyRepository.save(company);
+	}
+	
+	private WebsiteSocialMediaProfile save(WebsiteSocialMediaProfile profile) {
+		return websiteSocialMediaProfileRepository.save(profile);
+	}
+	
+	private Employee save(Employee employee) {
+		return employeeRepository.save(employee);
+	}
+	
+	private OfficeSocialMediaProfile save(OfficeSocialMediaProfile profile) {
+		return officeSocialMediaProfileRepository.save(profile);
+	}
+	
+	private EmployeeSocialMediaProfile save(EmployeeSocialMediaProfile profile) {
+		return employeeSocialMediaProfileRepository.save(profile);
+	}
+	
+	private Office save(Office office) {
+		return officeRepository.save(office);
+	}
 	
 	@Order(100)
 	@Test
 	void createNptCompany() {
-		if(companyRepository.findById(COMPANY_ID).isEmpty()) {
+		if(findCompanyOptionalById(COMPANY_ID).isEmpty()) {
 			Company company = new Company();
-			company.setCompanyName("Nephew Physical Therapy");
+			company.setCompanyName(COMPANY_NAME);
 			company.setCompanyAcronym(COMPANY_URL);
 			company.setCompanyUrl(COMPANY_URL);
 			company.setId(COMPANY_ID);
-			companyRepository.save(company);
+			save(company);
 		}
 	}
 	
-	@Order(115)
+	@Order(150)
 	@Test
 	void createServices() {
-		if (servicesRepo.findByName(HEAD_AND_NECK).isEmpty()) {
+		if (findServiceOptionalByName(HEAD_AND_NECK).isEmpty()) {
 			Services headAndNeck = new Services(HEAD_AND_NECK);
 			ServiceText serviceTextOne = new ServiceText();
 			serviceTextOne.setType(TextType.PARAGRAPH);
-			serviceTextOne.setText(HEAD_AND_NECK_TEST_TEXT);
+			serviceTextOne.setText(HEAD_AND_NECK_TEXT);
 			serviceTextOne.setPosition(1);
 			serviceTextOne.setService(headAndNeck);
 			headAndNeck.getServiceTexts().add(serviceTextOne);
-			servicesRepo.save(headAndNeck);
+			servicesRepository.save(headAndNeck);
 		}
-		if (servicesRepo.findByName(SHOULDERS).isEmpty()) {
-			servicesRepo.save(new Services(SHOULDERS));
+		if (findServiceOptionalByName(SHOULDERS).isEmpty()) {
+			servicesRepository.save(new Services(SHOULDERS));
 		}
-		if (servicesRepo.findByName(ELBOWS).isEmpty()) {
-			servicesRepo.save(new Services(ELBOWS));
+		if (findServiceOptionalByName(ELBOWS).isEmpty()) {
+			servicesRepository.save(new Services(ELBOWS));
 		}
-		if (servicesRepo.findByName(WRISTS).isEmpty()) {
-			servicesRepo.save(new Services(WRISTS));
+		if (findServiceOptionalByName(WRISTS).isEmpty()) {
+			servicesRepository.save(new Services(WRISTS));
 		}
-		if (servicesRepo.findByName(MID_BACK).isEmpty()) {
-			servicesRepo.save(new Services(MID_BACK));
+		if (findServiceOptionalByName(MID_BACK).isEmpty()) {
+			servicesRepository.save(new Services(MID_BACK));
 		}
-		if (servicesRepo.findByName(LOWER_BACK).isEmpty()) {
-			servicesRepo.save(new Services(LOWER_BACK));
+		if (findServiceOptionalByName(LOWER_BACK).isEmpty()) {
+			servicesRepository.save(new Services(LOWER_BACK));
 		}
-		if (servicesRepo.findByName(HIP).isEmpty()) {
-			servicesRepo.save(new Services(HIP));
+		if (findServiceOptionalByName(HIP).isEmpty()) {
+			servicesRepository.save(new Services(HIP));
 		}
-		if (servicesRepo.findByName(KNEES).isEmpty()) {
-			servicesRepo.save(new Services(KNEES));
+		if (findServiceOptionalByName(KNEES).isEmpty()) {
+			servicesRepository.save(new Services(KNEES));
 		}
-		if (servicesRepo.findByName(FOOT_AND_ANKLE).isEmpty()) {
-			servicesRepo.save(new Services(FOOT_AND_ANKLE));
+		if (findServiceOptionalByName(FOOT_AND_ANKLE).isEmpty()) {
+			servicesRepository.save(new Services(FOOT_AND_ANKLE));
 		}
-		if (servicesRepo.findByName(BALANCE).isEmpty()) {
-			servicesRepo.save(new Services(BALANCE));
+		if (findServiceOptionalByName(BALANCE).isEmpty()) {
+			servicesRepository.save(new Services(BALANCE));
 		}
-		if (servicesRepo.findByName(VESTIBULAR_REHAB).isEmpty()) {
-			servicesRepo.save(new Services(VESTIBULAR_REHAB));
+		if (findServiceOptionalByName(VESTIBULAR_REHAB).isEmpty()) {
+			servicesRepository.save(new Services(VESTIBULAR_REHAB));
 		}
-		if (servicesRepo.findByName(MESSAGE_THERAPY).isEmpty()) {
-			servicesRepo.save(new Services(MESSAGE_THERAPY));
+		if (findServiceOptionalByName(MESSAGE_THERAPY).isEmpty()) {
+			servicesRepository.save(new Services(MESSAGE_THERAPY));
 		}
 	}
 
-	@Order(116)
+	@Order(160)
 	@Test
 	void verifyHeadAndNeckService() {
-		Services service = servicesRepo.findByName(HEAD_AND_NECK).get();
+		Services service = findServiceByName(HEAD_AND_NECK);
 		assertEquals(HEAD_AND_NECK, service.getName());
 	}
 
-	@Order(117)
+	@Order(170)
 	@Test
 	void verifyShouldersService() {
-		Services service = servicesRepo.findByName(SHOULDERS).get();
+		Services service = findServiceByName(SHOULDERS);
 		assertEquals(SHOULDERS, service.getName());
 	}
 
-	@Order(118)
+	@Order(180)
 	@Test
 	void verifyElbowsService() {
-		Services service = servicesRepo.findByName(ELBOWS).get();
+		Services service = findServiceByName(ELBOWS);
 		assertEquals(ELBOWS, service.getName());
 	}
 
-	@Order(119)
+	@Order(190)
 	@Test
 	void verifyWristsService() {
-		Services service = servicesRepo.findByName(WRISTS).get();
+		Services service = findServiceByName(WRISTS);
 		assertEquals(WRISTS, service.getName());
 	}
 
-	@Order(120)
+	@Order(200)
 	@Test
 	void verifyMidBackService() {
-		Services service = servicesRepo.findByName(MID_BACK).get();
+		Services service = findServiceByName(MID_BACK);
 		assertEquals(MID_BACK, service.getName());
 	}
 
-	@Order(121)
+	@Order(210)
 	@Test
 	void verifyLowerBackService() {
-		Services service = servicesRepo.findByName(LOWER_BACK).get();
+		Services service = findServiceByName(LOWER_BACK);
 		assertEquals(LOWER_BACK, service.getName());
 	}
 
-	@Order(122)
+	@Order(220)
 	@Test
 	void verifyHipService() {
-		Services service = servicesRepo.findByName(HIP).get();
+		Services service = findServiceByName(HIP);
 		assertEquals(HIP, service.getName());
 	}
 
-	@Order(123)
+	@Order(230)
 	@Test
 	void verifyKneesService() {
-		Services service = servicesRepo.findByName(KNEES).get();
+		Services service = findServiceByName(KNEES);
 		assertEquals(KNEES, service.getName());
 	}
 
-	@Order(124)
+	@Order(240)
 	@Test
 	void verifyFootAndAnkleService() {
-		Services service = servicesRepo.findByName(FOOT_AND_ANKLE).get();
+		Services service = findServiceByName(FOOT_AND_ANKLE);
 		assertEquals(FOOT_AND_ANKLE, service.getName());
 	}
 
-	@Order(125)
+	@Order(250)
 	@Test
 	void verifyBalanceService() {
-		Services service = servicesRepo.findByName(BALANCE).get();
+		Services service = findServiceByName(BALANCE);
 		assertEquals(BALANCE, service.getName());
 	}
 
-	@Order(126)
+	@Order(260)
 	@Test
 	void verifyVestibularRehabService() {
-		Services service = servicesRepo.findByName(VESTIBULAR_REHAB).get();
+		Services service = findServiceByName(VESTIBULAR_REHAB);
 		assertEquals(VESTIBULAR_REHAB, service.getName());
 	}
 
-	@Order(127)
+	@Order(270)
 	@Test
 	void verifyMessageTherapyService() {
-		Services service = servicesRepo.findByName(MESSAGE_THERAPY).get();
+		Services service = findServiceByName(MESSAGE_THERAPY);
 		assertEquals(MESSAGE_THERAPY, service.getName());
 	}
 	
-	@Order(128)
+	@Order(280)
 	@Test
 	void createWebsite() {
-		if (websiteRepository.findById(1L).isEmpty()) {
+		if (findWebsiteOptionalById(WEBSITE_ID).isEmpty()) {
 			Website website = new Website();
 			website.setId(WEBSITE_ID);
-			website.setName("Nephew Physical Therapy");
-			website.setUrl("/"); 
-			website = websiteRepository.save(website);
-			WebsiteSocialMediaProfile profile = new WebsiteSocialMediaProfile();
-			profile.setWebsite(website);
-			websiteSocialMediaProfileRepository.save(profile);
-			
-			Company company = companyRepository.findById(COMPANY_ID).get();
-			company.setWebsite(website);
-			company.assignIdToChildren();
-			companyRepository.save(company);
+			website.setName(WEBSITE_NAME);
+			website.setUrl(WEBSITE_URL); 
+			save(website);
 		}
 	}
 	
-	@Order(139)
+	@Order(285)
+	@Test
+	void createWebsiteProfile() {
+		if (findWebsiteProfileOptionalById(WEBSITE_ID).isEmpty()) {
+			WebsiteSocialMediaProfile profile = new WebsiteSocialMediaProfile();
+			profile.setId(WEBSITE_PROFILE_ID);
+			profile.setYoutube(WEBSITE_PROFILE_YOUTUBE);
+			profile.setFacebook(WEBSITE_PROFILE_FACEBOOK);
+			profile.setInstagram(WEBSITE_PROFILE_INSTAGRAM);
+			profile.setYelp(WEBSITE_PROFILE_YELP);
+			save(profile);
+		}
+	}
+	
+	@Order(288)
+	@Test
+	void attachWebsiteAndProfile() {
+	    Website website = findWebsiteById(WEBSITE_ID);
+	    WebsiteSocialMediaProfile profile = findWebsiteProfileById(WEBSITE_PROFILE_ID);
+	    profile.setWebsite(website);
+		website.setProfile(profile);
+		save(website);
+	}
+	
+	@Order(290)
+	@Test
+	void verifyWebsiteProfileYoutube() {
+		Website website = findWebsiteById(WEBSITE_ID);
+		assertEquals(WEBSITE_PROFILE_YOUTUBE, website.getProfile().getYoutube());
+	}
+	
+	@Order(291)
+	@Test
+	void verifyWebsiteProfileFacebook() {
+		Website website = findWebsiteById(WEBSITE_ID);
+		assertEquals(WEBSITE_PROFILE_FACEBOOK, website.getProfile().getFacebook());
+	}
+	
+	@Order(292)
+	@Test
+	void verifyWebsiteProfileInstagram() {
+		Website website = findWebsiteById(WEBSITE_ID);
+		assertEquals(WEBSITE_PROFILE_INSTAGRAM, website.getProfile().getInstagram());
+	}
+	
+	@Order(293)
+	@Test
+	void verifyWebsiteProfileYelp() {
+		Website website = findWebsiteById(WEBSITE_ID);
+		assertEquals(WEBSITE_PROFILE_YELP, website.getProfile().getYelp());
+	}
+	
+	@Order(294)
+	@Test
+	void verifyWebsiteName() {
+		Website website = findWebsiteById(WEBSITE_ID);
+		assertEquals(WEBSITE_NAME, website.getName());
+	}
+	
+	@Order(295)
+	@Test
+	void verifyWebsiteProfileUrl() {
+		Website website = findWebsiteById(WEBSITE_ID);
+		assertEquals(WEBSITE_URL, website.getUrl());
+	}
+	
+	@Order(300)
+	@Test
+	void attachWebsiteToCompany() {
+		Website website = findWebsiteById(WEBSITE_ID);
+		Company company = findCompanyById(COMPANY_ID);
+		company.setWebsite(website);
+		company.assignIdToChildren();
+		save(company);
+		save(website);
+	}
+	
+	@Order(301)
+	@Test
+	void verifyCompanyWebsiteIsNotNull() {
+		Company company = findCompanyById(COMPANY_ID);
+		assertNotNull(company.getWebsite());
+	}
+	
+	@Order(305)
+	@Test
+	void saveCompanyDoesNotRemoveWebsite() {
+		Company company = findCompanyById(COMPANY_ID);
+		company.assignIdToChildren();
+		save(company);
+		Website website = findWebsiteById(WEBSITE_ID);
+		assertNotNull(website.getCompany());
+	}
+	
+	@Order(350)
 	@Test
 	void createOffice() {
 		Optional<Office> officeOpt = officeRepository.findById(1L);
-
 		if (officeOpt.isEmpty()) {
-			Office nptOffice = new Office();
-			nptOffice.setOfficeId(1L);
-			nptOffice.setStreet("12723 N Bellwood Dr");
-			nptOffice.setUnit("STE 10");
-			nptOffice.setCity("Holland");
-			nptOffice.setState(States.MI);
-			nptOffice.setZip("49424");
-			nptOffice.setPhone("1-616-796-9391");
-			nptOffice.setFax("1-888-714-4474");
-			nptOffice.setEmail("info@nephewpt.com");
-			nptOffice.setIntroduction("You may always visit our office, located on Holland’s north side");
-			nptOffice.setMapUrl("https://www.google.com/maps?q=+12723+N+Bellwood+Dr.,+Suite+10+Holland,+MI+49424");
-			nptOffice.setAcceptingWalkIns(true);
-			nptOffice = officeRepository.save(nptOffice);
+			Office office = new Office();
+			office.setOfficeId(OFFICE_ID);
+			office.setStreet("12723 N Bellwood Dr");
+			office.setUnit("STE 10");
+			office.setCity("Holland");
+			office.setState(States.MI);
+			office.setZip("49424");
+			office.setPhone("1-616-796-9391");
+			office.setFax("1-888-714-4474");
+			office.setEmail("info@nephewpt.com");
+			office.setIntroduction("You may always visit our office, located on Holland’s north side");
+			office.setMapUrl("https://www.google.com/maps?q=+12723+N+Bellwood+Dr.,+Suite+10+Holland,+MI+49424");
+			office.setAcceptingWalkIns(true);
+			office = save(office);
+			
 			Set<OfficeDailySchedule> schedule = new HashSet<>();
 			schedule.add(new OfficeDailySchedule("Mon", LocalTime.of(7, 0, 0), LocalTime.of(18, 30, 0),
-					new Office(nptOffice.getOfficeId())));
+					new Office(office.getOfficeId())));
 			schedule.add(new OfficeDailySchedule("Tue", LocalTime.of(7, 0, 0), LocalTime.of(18, 30, 0),
-					new Office(nptOffice.getOfficeId())));
+					new Office(office.getOfficeId())));
 			schedule.add(new OfficeDailySchedule("Wed", LocalTime.of(7, 0, 0), LocalTime.of(18, 30, 0),
-					new Office(nptOffice.getOfficeId())));
+					new Office(office.getOfficeId())));
 			schedule.add(new OfficeDailySchedule("Thu", LocalTime.of(7, 0, 0), LocalTime.of(18, 30, 0),
-					new Office(nptOffice.getOfficeId())));
+					new Office(office.getOfficeId())));
 			schedule.add(new OfficeDailySchedule("Fri", LocalTime.of(13, 0, 0), LocalTime.of(15, 0, 0),
-					new Office(nptOffice.getOfficeId())));
+					new Office(office.getOfficeId())));
 			companyDailyScheduleRepository.saveAll(schedule);
-			OfficeSocialMediaProfile officeSocialMediaProfile = new OfficeSocialMediaProfile();
-			officeSocialMediaProfile.setOffice(nptOffice);
-			officeSocialMediaProfileRepository.save(officeSocialMediaProfile);
-			
-			Company company = companyRepository.findById(COMPANY_ID).get();
-			company.getOffices().add(nptOffice);
-			company.assignIdToChildren();
-			companyRepository.save(company);
 		}
 	}
+	
+	@Order(355)
+	@Test
+	void attachOfficeToCompany() {
+		Office office = findOfficeById(OFFICE_ID);
+		Company company = findCompanyById(COMPANY_ID);
+		office.setCompany(company);
+		company.getOffices().add(office);
+		save(company);
+		save(office);
+	}
+	
+	@Order(360)
+	@Test
+	void attachProfileToOffice() {
+		Office office = findOfficeById(OFFICE_ID);
+		OfficeSocialMediaProfile profile = new OfficeSocialMediaProfile();
+		profile.setId(OFFICE_PROFILE_ID);
+		profile.setFacebook(PROFILE_FACEBOOK);
+		profile.setOffice(office);
+		office.setOfficeSocialMedialProfile(profile);
+		save(office);
+	}
+	
+	@Order(370)
+	@Test
+	void officeShouldHaveCompany() {
+		Office office = findOfficeById(OFFICE_ID);
+		assertEquals(COMPANY_ID, office.getCompany().getId());
+	}
+	
+	@Order(371)
+	@Test
+	void officeProfileFacebookShouldEqual() {
+		Office office = findOfficeById(OFFICE_ID);
+		assertEquals(PROFILE_FACEBOOK, office.getOfficeSocialMedialProfile().getFacebook());
+	}
 
-	@Order(140)
+	@Order(400)
 	@Test
 	void createMelissa() throws Exception {
-		if (employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).isEmpty()) {
+		if (findEmployeeOptionalById(MELISSA_ID).isEmpty()) {
 			Employee melissa = new Employee();
-			melissa.setId(1L);
+			melissa.setId(MELISSA_ID);
 			melissa.setFirstName(MELISSA_FIRST_NAME);
 			melissa.setMiddleName("M");
 			melissa.setLastName(MELISSA_LAST_NAME);
@@ -353,11 +560,11 @@ class NptServiceApplicationTests {
 			melissa.setEmail("mmm@mail.com");
 			melissa.setWorkPhone("1-123-123-1234");
 			melissa.setPersonalPhone("1-123-123-1234");
-			melissa = employeeRepo.save(melissa);
+			save(melissa);
 		}
 	}
 
-	@Order(141)
+	@Order(410)
 	@Test
 	void populateMelissaChildEntities() throws Exception {
 		Optional<Office> officeOpt = officeRepository.findById(1L);
@@ -365,36 +572,30 @@ class NptServiceApplicationTests {
 		if (officeOpt.isEmpty()) {
 			throw new Exception("Office with id of 1 was not found.");
 		}
+		
 		Office office = officeOpt.get();
-		List<Services> services = servicesRepo.findAllExcept(VESTIBULAR_REHAB).get();
-		Optional<Employee> melissaOptional = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME,
-				MELISSA_LAST_NAME);
-		if (melissaOptional.isPresent()) {
-			Employee melissa = melissaOptional.get();
+		
+		List<Services> services = servicesRepository.findAllExcept(VESTIBULAR_REHAB).get();
+		if (findEmployeeOptionalById(MELISSA_ID).isPresent()) {
+			Employee melissa = findEmployeeById(MELISSA_ID);
 			melissa.setOffice(new Office(office.getOfficeId()));
 			melissa.getServices().addAll(services);
 			EmployeeSocialMediaProfile socialMediaProfile = new EmployeeSocialMediaProfile();
 			socialMediaProfile.setFacebook(PROFILE_FACEBOOK);
 			melissa.setProfile(socialMediaProfile);
 			socialMediaProfile.setEmployee(melissa);
-			melissa = employeeRepo.save(melissa);
+			save(melissa);
 		} else {
 			fail("Melissa failed to load. This test failed.");
 		}
 	}
 
-	private final String TEST_APPOINTMENT_FNAME = "Ethan";
-	private final String TEST_APPOINTMENT_LNAME = "Nephew";
-	private final String TEST_APPOINTMENT_EMAIL = "ejnephew@yahoo.com";
-	private final String TEST_APPOINTMENT_PN = "1-616-566-4966";
-	private final String TEST_APPOINTMENT_NOTES = "Test notes.";
-
-	@Order(142)
+	@Order(420)
 	@Test
 	void generateTestAppointmentsForMelissa() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
-		List<Appointment> oldAppointments = appointmentRepo.findAllByEmail(TEST_APPOINTMENT_EMAIL).get();
-		appointmentRepo.deleteAllInBatch(oldAppointments);
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		List<Appointment> oldAppointments = appointmentRepository.findAllByEmail(TEST_APPOINTMENT_EMAIL).get();
+		appointmentRepository.deleteAllInBatch(oldAppointments);
 		LocalDateTime currentDate = LocalDateTime.now();
 		// int day = currentDate.getDayOfMonth();
 		int day = 12;
@@ -430,13 +631,13 @@ class NptServiceApplicationTests {
 		appointment.setEmployee(new Employee(melissa.getId()));
 		appointments.add(appointment);
 
-		appointmentRepo.saveAll(appointments);
+		appointmentRepository.saveAll(appointments);
 	}
 
-	@Order(143)
+	@Order(430)
 	@Test
 	void generateScheduleForMelissa() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 
 		EmployeeDailySchedule mon = new EmployeeDailySchedule("Mon", LocalTime.of(7, 0, 0), LocalTime.of(18, 30, 0));
 		EmployeeDailySchedule tue = new EmployeeDailySchedule("Tue", LocalTime.of(7, 0, 0), LocalTime.of(18, 30, 0));
@@ -456,13 +657,13 @@ class NptServiceApplicationTests {
 		melissa.getSchedule().add(thu);
 		melissa.getSchedule().add(fri);
 
-		employeeRepo.save(melissa);
+		save(melissa);
 	}
 	
-	@Order(144)
+	@Order(440)
 	@Test
 	void generateBiographicalParagraphsForMelissa() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		
 		BiographicalText textOne = new BiographicalText();
 		textOne.setType(TextType.PARAGRAPH);
@@ -486,13 +687,13 @@ class NptServiceApplicationTests {
 		melissa.getBiographicalTexts().add(textTwo);
 		melissa.getBiographicalTexts().add(textThree);
 		
-		employeeRepo.save(melissa);
+		save(melissa);
 	}
 	
-	@Order(145)
+	@Order(450)
 	@Test
 	void generateInformationalParagraphsForMelissa() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = findEmployeeById(MELISSA_ID);
 		
 		InformationalText textOne = new InformationalText();
 		textOne.setType(TextType.PARAGRAPH);
@@ -521,14 +722,14 @@ class NptServiceApplicationTests {
 		melissa.getInformationalTexts().add(textThree);
 		melissa.getInformationalTexts().add(textFour);
 		
-		employeeRepo.save(melissa);
+		save(melissa);
 		
 	}
 	
 	private final String CHRISTINE_FIRST_NAME = "Christine";
 	private final String CHRISTINE_LAST_NAME = "Byington";
 	
-	@Order(150)
+	@Order(500)
 	@Test
 	void createChristine() throws Exception {
 		Optional<Office> officeOpt = officeRepository.findById(1L);
@@ -536,8 +737,8 @@ class NptServiceApplicationTests {
 			throw new Exception("Office with id of 1 was not found.");
 		}
 		Office office = officeOpt.get();
-		List<Services> services = servicesRepo.findAllExcept(VESTIBULAR_REHAB).get();
-		if (employeeRepo.findByFirstNameAndLastName(CHRISTINE_FIRST_NAME, CHRISTINE_LAST_NAME).isEmpty()) {
+		List<Services> services = servicesRepository.findAllExcept(VESTIBULAR_REHAB).get();
+		if (employeeRepository.findByFirstNameAndLastName(CHRISTINE_FIRST_NAME, CHRISTINE_LAST_NAME).isEmpty()) {
 			Employee christine = new Employee();
 			christine.setFirstName("Christine");
 			christine.setLastName("Byington");
@@ -546,14 +747,14 @@ class NptServiceApplicationTests {
 			christine.setRole("Lead Physical Therapist");
 			christine.setMeta("Team member since 2016.");
 			christine.setOffice(new Office(office.getOfficeId()));
-			christine = employeeRepo.save(christine);
+			christine = save(christine);
 			christine.assignSpecialtiesWithEmployeeId(services);
 			christine.generateScheduleFromOffice(office.getSchedule());
-			employeeRepo.save(christine);
+			save(christine);
 		}
 	}
 	
-	@Order(160)
+	@Order(600)
 	@Test
 	void createJenna() throws Exception {
 		Optional<Office> officeOpt = officeRepository.findById(1L);
@@ -561,8 +762,8 @@ class NptServiceApplicationTests {
 			throw new Exception("Office with id of 1 was not found.");
 		}
 		Office office = officeOpt.get();
-		List<Services> services = servicesRepo.findAllExcept(VESTIBULAR_REHAB).get();
-		if (employeeRepo.findByFirstNameAndLastName("Jenna", "Schra").isEmpty()) {
+		List<Services> services = servicesRepository.findAllExcept(VESTIBULAR_REHAB).get();
+		if (employeeRepository.findByFirstNameAndLastName("Jenna", "Schra").isEmpty()) {
 			Employee jenna = new Employee();
 			jenna.setFirstName("Jenna");
 			jenna.setLastName("Schra");
@@ -571,14 +772,14 @@ class NptServiceApplicationTests {
 			jenna.setRole("Physical Therapist");
 			jenna.setMeta("Team member since 2020.");
 			jenna.setOffice(new Office(office.getOfficeId()));
-			jenna = employeeRepo.save(jenna);
+			jenna = save(jenna);
 			jenna.assignSpecialtiesWithEmployeeId(services);
 			jenna.generateScheduleFromOffice(office.getSchedule());
-			jenna = employeeRepo.save(jenna);
+			jenna = save(jenna);
 		}
 	}
 
-	@Order(170)
+	@Order(700)
 	@Test
 	void createNaomi() throws Exception {
 		Optional<Office> officeOpt = officeRepository.findById(1L);
@@ -586,8 +787,8 @@ class NptServiceApplicationTests {
 			throw new Exception("Office with id of 1 was not found.");
 		}
 		Office office = officeOpt.get();
-		List<Services> services = servicesRepo.findAllExcept(VESTIBULAR_REHAB).get();
-		if (employeeRepo.findByFirstNameAndLastName("Naomi", "Stafford").isEmpty()) {
+		List<Services> services = servicesRepository.findAllExcept(VESTIBULAR_REHAB).get();
+		if (employeeRepository.findByFirstNameAndLastName("Naomi", "Stafford").isEmpty()) {
 			Employee naomi = new Employee();
 			naomi.setFirstName("Naomi");
 			naomi.setLastName("Stafford");
@@ -596,15 +797,15 @@ class NptServiceApplicationTests {
 			naomi.setRole("Physical Therapy Assistant");
 			naomi.setMeta("Team member since 2018.");
 			naomi.setOffice(new Office(office.getOfficeId()));
-			naomi = employeeRepo.save(naomi);
+			naomi = save(naomi);
 			naomi.assignSpecialtiesWithEmployeeId(services);
 			naomi.generateScheduleFromOffice(office.getSchedule());
-			naomi = employeeRepo.save(naomi);
+			naomi = save(naomi);
 
 		}
 	}
 
-	@Order(180)
+	@Order(800)
 	@Test
 	void createCaroline() throws Exception {
 		Optional<Office> officeOpt = officeRepository.findById(1L);
@@ -612,8 +813,8 @@ class NptServiceApplicationTests {
 			throw new Exception("Office with id of 1 was not found.");
 		}
 		Office office = officeOpt.get();
-		List<Services> services = servicesRepo.findAllExcept(VESTIBULAR_REHAB).get();
-		if (employeeRepo.findByFirstNameAndLastName("Caroline", "Packard").isEmpty()) {
+		List<Services> services = servicesRepository.findAllExcept(VESTIBULAR_REHAB).get();
+		if (employeeRepository.findByFirstNameAndLastName("Caroline", "Packard").isEmpty()) {
 			Employee caroline = new Employee();
 			caroline.setFirstName("Caroline");
 			caroline.setLastName("Packard");
@@ -622,15 +823,15 @@ class NptServiceApplicationTests {
 			caroline.setRole("Physical Therapist");
 			caroline.setMeta("Team member since 2015.");
 			caroline.setOffice(new Office(office.getOfficeId()));
-			caroline = employeeRepo.save(caroline);
+			caroline = save(caroline);
 			caroline.assignSpecialtiesWithEmployeeId(services);
 			caroline.generateScheduleFromOffice(office.getSchedule());
-			caroline = employeeRepo.save(caroline);
+			caroline = save(caroline);
 
 		}
 	}
 
-	@Order(190)
+	@Order(900)
 	@Test
 	void createJoan() throws Exception {
 		Optional<Office> officeOpt = officeRepository.findById(1L);
@@ -639,9 +840,9 @@ class NptServiceApplicationTests {
 		}
 		Office office = officeOpt.get();
 		List<Services> services = new ArrayList<>();
-		services.add(servicesRepo.findServicesByName(VESTIBULAR_REHAB).get());
+		services.add(findServiceByName(VESTIBULAR_REHAB));
 
-		if (employeeRepo.findByFirstNameAndLastName("Joan", "Kroeze").isEmpty()) {
+		if (employeeRepository.findByFirstNameAndLastName("Joan", "Kroeze").isEmpty()) {
 			Employee joan = new Employee();
 			joan.setFirstName("Joan");
 			joan.setLastName("Kroeze");
@@ -651,10 +852,10 @@ class NptServiceApplicationTests {
 			joan.setMeta("Team member since 2009.");
 			joan.setOffice(officeOpt.get());
 			joan.setOffice(new Office(office.getOfficeId()));
-			joan = employeeRepo.save(joan);
+			joan = save(joan);
 			joan.assignSpecialtiesWithEmployeeId(services);
 			joan.generateScheduleFromOffice(office.getSchedule());
-			joan = employeeRepo.save(joan);
+			joan = save(joan);
 
 		}
 	}
@@ -668,7 +869,7 @@ class NptServiceApplicationTests {
 		}
 		Office office = officeOpt.get();
 
-		if (employeeRepo.findByFirstNameAndLastName("Brittany", "Marsh").isEmpty()) {
+		if (employeeRepository.findByFirstNameAndLastName("Brittany", "Marsh").isEmpty()) {
 			Employee brittany = new Employee();
 			brittany.setFirstName("Brittany");
 			brittany.setLastName("Marsh");
@@ -676,10 +877,10 @@ class NptServiceApplicationTests {
 			brittany.setRole_id(null);
 			brittany.setRole("Front Desk Manager");
 			brittany.setMeta("Team member since 2020.");
-			brittany = employeeRepo.save(brittany);
+			brittany = save(brittany);
 			brittany.setOffice(new Office(office.getOfficeId()));
 			brittany.generateScheduleFromOffice(office.getSchedule());
-			employeeRepo.save(brittany);
+			save(brittany);
 
 		}
 	}
@@ -693,7 +894,7 @@ class NptServiceApplicationTests {
 		}
 		Office office = officeOpt.get();
 
-		if (employeeRepo.findByFirstNameAndLastName("Rachel", "Nephew").isEmpty()) {
+		if (employeeRepository.findByFirstNameAndLastName("Rachel", "Nephew").isEmpty()) {
 			Employee rachel = new Employee();
 			rachel.setFirstName("Rachel");
 			rachel.setLastName("Nephew");
@@ -701,10 +902,10 @@ class NptServiceApplicationTests {
 			rachel.setRole_id(null);
 			rachel.setRole("Marketing, Relationship Development");
 			rachel.setMeta("Rejoined Team in 2018.");
-			rachel = employeeRepo.save(rachel);
+			rachel = save(rachel);
 			rachel.setOffice(new Office(office.getOfficeId()));
 			rachel.generateScheduleFromOffice(office.getSchedule());
-			employeeRepo.save(rachel);
+			save(rachel);
 		}
 	}
 
@@ -716,9 +917,9 @@ class NptServiceApplicationTests {
 			throw new Exception("Office with id of 1 was not found.");
 		}
 		Office office = officeOpt.get();
-		List<Services> services = servicesRepo.findAllExcept(VESTIBULAR_REHAB).get();
+		List<Services> services = servicesRepository.findAllExcept(VESTIBULAR_REHAB).get();
 
-		if (employeeRepo.findByFirstNameAndLastName("Amber", "Johnson").isEmpty()) {
+		if (employeeRepository.findByFirstNameAndLastName("Amber", "Johnson").isEmpty()) {
 			Employee amber = new Employee();
 			amber.setFirstName("Amber");
 			amber.setLastName("Johnson");
@@ -727,16 +928,16 @@ class NptServiceApplicationTests {
 			amber.setRole("Physical Therapist");
 			amber.setMeta("Team member since 2018.");
 			amber.setOffice(new Office(office.getOfficeId()));
-			amber = employeeRepo.save(amber);
+			amber = save(amber);
 			amber.assignSpecialtiesWithEmployeeId(services);
 			amber.generateScheduleFromOffice(office.getSchedule());
-			amber = employeeRepo.save(amber);
+			amber = save(amber);
 		}
 	}
 	
 	@Order(1900)
 	@Test
-	void initFaqs() {
+	void createFaqs() {
 		FAQs faq1 = new FAQs();
 		faq1.setQuestion("When is my payment due?");
 		faq1.setAnswer("When appointment is made.");
@@ -768,7 +969,7 @@ class NptServiceApplicationTests {
 		faqsRepository.save(faq5);
 		faqsRepository.save(faq6);
 		
-		Company company = companyRepository.findById(COMPANY_ID).get();
+		Company company = findCompanyById(COMPANY_ID);
 		company.getFaqs().add(faq1);
 		company.getFaqs().add(faq2);
 		company.getFaqs().add(faq3);
@@ -776,56 +977,55 @@ class NptServiceApplicationTests {
 		company.getFaqs().add(faq5);
 		company.getFaqs().add(faq6);
 		company.assignIdToChildren();
-		companyRepository.save(company);
+		save(company);
 	}
 
 	@Order(2000)
 	@Test
 	void testFindEmployeeByNameShouldBePresent() {
-		Optional<Employee> melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME);
+		Optional<Employee> melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME);
 		assertTrue(melissa.isPresent());
 	}
 
 	@Order(2001)
 	@Test
 	void testFindSpecialityByNameShouldBePresent() {
-		Optional<Services> specialty = servicesRepo.findByName(BALANCE);
+		Optional<Services> specialty = findServiceOptionalByName(BALANCE);
 		assertTrue(specialty.isPresent());
 	}
 
 	@Order(2002)
 	@Test
-	void testSpecialityShouldNotBeNull() {
-		Optional<Services> servicesOptional = servicesRepo.findServicesByName(BALANCE);
-		Services specialty = servicesOptional.get();
-		assertNotNull(specialty);
+	void testServiceBalanceShouldEqual() {
+		Services service = findServiceByName(BALANCE);
+		assertEquals(BALANCE, service.getName());
 	}
 
 	@Order(2003)
 	@Test
-	void testAllSpecialityShouldNotBeNull() {
-		Optional<List<Services>> servicesOptional = servicesRepo.findAllServices();
+	void testAllServicesShouldNotBeNull() {
+		Optional<List<Services>> servicesOptional = servicesRepository.findAllServices();
 		assertNotNull(servicesOptional.get());
 	}
 
 	@Order(2004)
 	@Test
 	void testMelissaAppointmentsShouldBeGreaterThanZero() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		assertTrue(melissa.getAppointments().size() > 0);
 	}
 
 	@Order(2005)
 	@Test
 	void test() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		System.out.println(melissa.getOffice());
 	}
 
 	@Order(2006)
 	@Test
 	void testEmployeeAppointmentsShouldNotBeNull() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		assertNotNull(melissa.getAppointments());
 	}
 
@@ -855,9 +1055,9 @@ class NptServiceApplicationTests {
 		serviceIds.add(3L);
 		serviceIds.add(4L);
 
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 
-		List<Services> services = servicesRepo.findAllById(serviceIds);
+		List<Services> services = servicesRepository.findAllById(serviceIds);
 
 		melissa.convertServicesListToSet(services);
 
@@ -869,59 +1069,59 @@ class NptServiceApplicationTests {
 	@Order(2009)
 	@Test
 	void testMelissaProfileShouldNotBeNull() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		assertNotNull(melissa.getProfile());
 	}
 
 	@Order(2010)
 	@Test
 	void testMelissaDailyScheduleSizeShouldBe5() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		assertEquals(5, melissa.getSchedule().size());
 	}
 	
 	@Order(2011)
 	@Test
 	void testMelissaBiographicalTextShouldNotBeNull() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		assertNotNull(melissa.getBiographicalTexts());
 	}
 
 	@Order(2012)
 	@Test
 	void testMelissaBiographicalTextSizeShouldBe3() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		assertEquals(3, melissa.getBiographicalTexts().size());
 	}
 	
 	@Order(2013)
 	@Test
 	void testMelissaInformationalTextShouldNotBeNull() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		assertNotNull(melissa.getInformationalTexts());
 	}
 
 	@Order(2014)
 	@Test
 	void testMelissaInformationalTextSizeShouldBe3() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		assertEquals(4, melissa.getInformationalTexts().size());
 	}
 	
 	@Order(2015)
 	@Test
 	void testMelissaModifyBiographicalTexts() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		int size = melissa.getBiographicalTexts().size() - 1;
 		melissa.getBiographicalTexts().get(size).setText(MELISSA_FIRST_NAME);
-		employeeRepo.save(melissa);
+		save(melissa);
 		assertEquals(3, melissa.getBiographicalTexts().size());
 	}
 	
 	@Order(2016)
 	@Test
 	void testMelissaModifyBiographicalTextsShouldEqual() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		int size = melissa.getBiographicalTexts().size() - 1;
 		assertEquals(MELISSA_FIRST_NAME, melissa.getBiographicalTexts().get(size).getText());
 	}
@@ -929,7 +1129,7 @@ class NptServiceApplicationTests {
 	@Order(2017)
 	@Test
 	void testMelissaModifyBiographicalTextsShouldEqualSize() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		System.out.println(melissa.getBiographicalTexts());
 		assertEquals(3, melissa.getBiographicalTexts().size());
 	}
@@ -937,14 +1137,14 @@ class NptServiceApplicationTests {
 	@Order(2018)
 	@Test
 	void testMelissaProfileFacebookShouldEqual() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		assertEquals(PROFILE_FACEBOOK, melissa.getProfile().getFacebook());
 	}
 	
 	@Order(2019)
 	@Test
 	void testMelissaLastElementIsParagraph() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		int middleElement = melissa.getBiographicalTexts().size() - 1;
 		assertEquals(TextType.IMAGE, melissa.getBiographicalTexts().get(middleElement).getType());
 	}
@@ -952,16 +1152,16 @@ class NptServiceApplicationTests {
 	@Order(2020)
 	@Test
 	void testMelissaChangeTextToQuoteDoesNotThrow() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		int middleElement = melissa.getBiographicalTexts().size() - 1;
 		melissa.getBiographicalTexts().get(middleElement).setType(TextType.QUOTE);
-		employeeRepo.save(melissa);
+		save(melissa);
 	}
 	
 	@Order(2021)
 	@Test
 	void testMelissaLastElementIsQuote() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		int middleElement = melissa.getBiographicalTexts().size() - 1;
 		assertEquals(TextType.QUOTE, melissa.getBiographicalTexts().get(middleElement).getType());
 	}
@@ -969,29 +1169,29 @@ class NptServiceApplicationTests {
 	@Order(2022)
 	@Test
 	void testMelissaVerifyThatYoutubeProfileIsEmpty() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		assertEquals("", melissa.getProfile().getYoutube());
 	}
 	
 	@Order(2023)
 	@Test
 	void testMelissaChangeProfileYoutube() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		melissa.getProfile().setYoutube("www.youtube.com");
-		employeeRepo.save(melissa);
+		save(melissa);
 	}
 	
 	@Order(2024)
 	@Test
 	void testMelissaProfileYoutubeShouldEqual() {
-		Employee melissa = employeeRepo.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
+		Employee melissa = employeeRepository.findByFirstNameAndLastName(MELISSA_FIRST_NAME, MELISSA_LAST_NAME).get();
 		assertEquals("www.youtube.com", melissa.getProfile().getYoutube());
 	}
 	
 	@Order(2100)
 	@Test
 	void testChristineScheduleShouldBe5() {
-		Employee christine = employeeRepo.findByFirstNameAndLastName(CHRISTINE_FIRST_NAME, CHRISTINE_LAST_NAME).get();
+		Employee christine = employeeRepository.findByFirstNameAndLastName(CHRISTINE_FIRST_NAME, CHRISTINE_LAST_NAME).get();
 		assertEquals(5, christine.getSchedule().size());
 	}
 	
@@ -1012,21 +1212,21 @@ class NptServiceApplicationTests {
 	@Order(2700)
 	@Test
 	void employeesShouldBeNpt() {
-		List<Employee> employees = employeeRepo.findByCompanyUrl(COMPANY_URL);
+		List<Employee> employees = employeeRepository.findByCompanyUrl(COMPANY_URL);
 		assertEquals(COMPANY_URL, employees.get(0).getOffice().getCompany().getCompanyUrl());
 	}
 	
 	@Order(2701)
 	@Test
 	void employeesShouldBeGreaterThanZero() {
-		List<Employee> employees = employeeRepo.findByCompanyUrl(COMPANY_URL);
+		List<Employee> employees = employeeRepository.findByCompanyUrl(COMPANY_URL);
 		assertTrue(employees.size() > 0);
 	}
 	
 	@Order(2705)
 	@Test
 	void employeesShouldContainMelissa() {
-		List<Employee> employees = employeeRepo.findByCompanyUrl(COMPANY_URL);
+		List<Employee> employees = employeeRepository.findByCompanyUrl(COMPANY_URL);
 		Employee melissa = new Employee();
 		for(Employee employee: employees) {
 			if(employee.getFirstName().equals(MELISSA_FIRST_NAME) && employee.getLastName().equals(MELISSA_LAST_NAME)) {
@@ -1040,22 +1240,22 @@ class NptServiceApplicationTests {
 	@Order(2800)
 	@Test
 	void websiteShouldBeNpt() {
-		Website website = websiteRepository.findByCompanyUrl(COMPANY_URL);
+		Website website = findWebsiteById(WEBSITE_ID);
 		assertEquals(COMPANY_URL, website.getCompany().getCompanyUrl());
 	}
 	
 	@Order(2801)
 	@Test
 	void websiteShouldHaveWebsiteId() {
-		Website website = websiteRepository.findByCompanyUrl(COMPANY_URL);
+		Website website = findWebsiteById(WEBSITE_ID);
 		assertEquals(WEBSITE_ID, website.getId());
 	}
 	
 	@Order(3000)
 	@Test
 	void serviceShouldContainText() {
-		Services headAndShoulders = servicesRepo.findByName(HEAD_AND_NECK).get();
-		assertEquals(HEAD_AND_NECK_TEST_TEXT, headAndShoulders.getServiceTexts().get(0).getText());
+		Services headAndShoulders = findServiceOptionalByName(HEAD_AND_NECK).get();
+		assertEquals(HEAD_AND_NECK_TEXT, headAndShoulders.getServiceTexts().get(0).getText());
 	}
 	
 	@Order(3500)

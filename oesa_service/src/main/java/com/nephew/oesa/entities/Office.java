@@ -55,10 +55,10 @@ public class Office {
 	
 	@Transient
 	private States[] statesArr;
-
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	// cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+	@ManyToOne
 	@JoinColumn(name = "company_id", referencedColumnName = "id")
-	@JsonIgnoreProperties("offices")
+	@JsonIgnoreProperties({"offices", "faqs"})
 	private Company company;
 	
 	@OneToOne(mappedBy = "office", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
@@ -69,8 +69,8 @@ public class Office {
 	@JsonIgnoreProperties("office")
 	private Set<OfficeDailySchedule> schedule;
 
-	@OneToMany(mappedBy = "office", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnoreProperties("office")
+	@OneToMany(mappedBy = "office", fetch = FetchType.EAGER, orphanRemoval = true)
+	@JsonIgnoreProperties({"office", "services", "appointments", "schedule", "biographicalTexts", "informationalTexts"})
 	private List<Employee> employees;
 	
 	public Office() {
@@ -78,6 +78,7 @@ public class Office {
 		this.employees = new ArrayList<>();
 		this.schedule = new HashSet<>();
 		this.statesArr = States.values();
+		this.officeSocialMedialProfile = new OfficeSocialMediaProfile();
 	}
 	
 	public boolean ifCompanyIsNull() {

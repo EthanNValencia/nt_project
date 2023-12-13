@@ -68,7 +68,7 @@ public class Employee {
 	@JsonIgnoreProperties("employees")
 	private Set<Services> services;
 
-	@OneToMany(mappedBy = "employee", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@JsonIgnoreProperties("employee")
 	private List<Appointment> appointments;
 

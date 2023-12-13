@@ -31,6 +31,7 @@ public class OfficeService {
 	}
 
 	public Office saveOffice(String companyUrl, Office office) {
+		office.assignIdToChildren();
 		if (office.ifCompanyIsNull()) {
 			Company company = companyService.findCompanyByCompanyUrl(companyUrl);
 			office.setCompany(company);

@@ -17,7 +17,7 @@ public class WebsiteSocialMediaProfile extends SocialMediaProfile {
 	private long id;
 	
 	@OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "website_id", referencedColumnName = "id")
 	private Website website;
 
 	public WebsiteSocialMediaProfile() {

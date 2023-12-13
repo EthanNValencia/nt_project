@@ -11,7 +11,7 @@ import jakarta.persistence.OneToOne;
 public class OfficeSocialMediaProfile extends SocialMediaProfile {
 	
 	@OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "office_id", referencedColumnName = "office_id")
 	private Office office;
 
 	public OfficeSocialMediaProfile() {

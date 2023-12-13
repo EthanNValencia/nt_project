@@ -19,7 +19,7 @@ import jakarta.persistence.OneToOne;
 
 @Entity
 public class Company {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
@@ -29,30 +29,32 @@ public class Company {
 	private String companyAcronym;
 	@Column(length = 30)
 	private String companyUrl;
-	
-	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+	// Removed cascade = CascadeType.ALL,
+
+	@OneToMany(mappedBy = "company", fetch = FetchType.EAGER)
 	@JsonIgnoreProperties("company")
 	private List<FAQs> faqs;
-	
-	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+	@OneToMany(mappedBy = "company", fetch = FetchType.EAGER)
 	@JsonIgnoreProperties("company")
 	private List<Office> offices;
-	
-	@OneToOne(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+	@OneToOne(mappedBy = "company", fetch = FetchType.EAGER)
 	@JsonIgnoreProperties("company")
 	private Website website;
-	
+
 	public Company() {
 		super();
-        this.faqs = new ArrayList<>();
-        this.offices = new ArrayList<>();
+		this.faqs = new ArrayList<>();
+		this.offices = new ArrayList<>();
 	}
 
 	public void assignIdToChildren() {
-		for(FAQs faq : faqs) {
+		for (FAQs faq : faqs) {
 			faq.setCompany(this);
 		}
-		for(Office office : offices) {
+		for (Office office : offices) {
 			office.setCompany(this);
 		}
 		website.setCompany(this);
@@ -132,6 +134,4 @@ public class Company {
 				&& Objects.equals(companyUrl, other.companyUrl);
 	}
 
-	
-	
 }
