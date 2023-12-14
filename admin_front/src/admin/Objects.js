@@ -21,6 +21,28 @@ export const ROLES = {
   ERROR: "ERROR",
 };
 
+export const PageType = {
+  RESOURCE: "RESOURCE",
+  ARTICLE: "ARTICLE",
+  ABOUT: "ABOUT",
+  PRODUCT: "PRODUCT",
+  CONTACT: "CONTACT",
+  FAQS: "FAQS",
+  HOME: "HOME",
+  NEWS: "NEWS",
+  MENU: "MENU",
+  SEARCH: "SEARCH",
+  REGISTRATION: "REGISTRATION",
+  ERROR: "ERROR",
+  BLOG: "BLOG",
+  PORTFOLIO: "PORTFOLIO",
+  SERVICES: "SERVICES",
+  CART: "CART",
+  UNSPECIFIED: "UNSPECIFIED",
+};
+
+export const PageType_Arr = Object.values(PageType);
+
 export const ROLES_ARR = Object.values(ROLES);
 
 // ai, io, .info, .site, .me, .

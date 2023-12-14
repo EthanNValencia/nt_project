@@ -4,11 +4,14 @@ import {
   DOMAINS_ARR,
   FONT_FAMILY,
   FONT_FAMILY_ARR,
+  PageType,
+  PageType_Arr,
 } from "../admin/Objects";
 import Options from "../admin/Options";
 import NssSmallInputText from "../nss/NssSmallInputText";
 import NssButtonAdd from "../nss/NssButtonAdd";
 import Color from "../createwebsite/Color";
+import Page from "../createwebsite/Page";
 
 /*
 What pages do you want? 
@@ -20,6 +23,7 @@ function CreateWebsite() {
   const [domain, setDomain] = useState(DOMAINS.com);
   const [font, setFont] = useState(FONT_FAMILY.mono);
   const [colors, setColors] = useState([]);
+  const [pages, setPages] = useState([]);
 
   const onChangeCompanyName = (val) => {
     setCompanyName(val);
@@ -29,8 +33,8 @@ function CreateWebsite() {
     setUrl(val);
   };
 
-  const onChangeRole = (newRole) => {
-    setDomain(newRole);
+  const onChangeDomain = (newDomain) => {
+    setDomain(newDomain);
   };
 
   const onChangeFont = (newFont) => {
@@ -55,6 +59,30 @@ function CreateWebsite() {
     const updatedColors = [...colors];
     updatedColors.splice(index, 1);
     setColors(updatedColors);
+  };
+
+  const onAddPage = () => {
+    setPages([
+      ...pages,
+      {
+        pageName: "New Page",
+        pageType: PageType.UNSPECIFIED,
+        pageTypesArr: PageType_Arr,
+        text: "",
+      },
+    ]);
+  };
+
+  const updatePage = (page, index) => {
+    const updatedPages = [...pages];
+    updatedPages[index] = { page: page };
+    setPages(updatedPages);
+  };
+
+  const deletePage = (index) => {
+    const updatedPages = [...pages];
+    updatedPages.splice(index, 1);
+    setPages(updatedPages);
   };
 
   return (
@@ -91,7 +119,7 @@ function CreateWebsite() {
                 selected={domain}
                 selectOptions={DOMAINS_ARR}
                 name={""}
-                selectedChange={onChangeRole}
+                selectedChange={onChangeDomain}
               />
             </div>
           </div>
@@ -115,10 +143,10 @@ function CreateWebsite() {
           <div className={`${getDemoFontFamily()} w-48`}>Your font style.</div>
         </div>
       </div>
+      <NssButtonAdd onClick={onAddColor} label="Add Color" />
       <div className="flex justify-center gap-2">
         <div className="flex justify-center items-center gap-1">
-          <NssButtonAdd onClick={onAddColor} label="Add Color" />
-          <div className="columns-2 gap-0">
+          <div className="columns-4 gap-0">
             {colors.map((color, index) => (
               <div className="p-1">
                 <Color
@@ -133,6 +161,18 @@ function CreateWebsite() {
           </div>
         </div>
       </div>
+      <NssButtonAdd onClick={onAddPage} label="Add Page" />
+      {pages.map((page, index) => (
+        <div className="p-1">
+          <Page
+            key={index}
+            index={index}
+            page={page}
+            updatePage={updatePage}
+            deletePage={deletePage}
+          />
+        </div>
+      ))}
       <div></div>
     </div>
   );
