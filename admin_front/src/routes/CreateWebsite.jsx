@@ -21,7 +21,8 @@ function CreateWebsite() {
   const [companyName, setCompanyName] = useState("");
   const [url, setUrl] = useState("");
   const [domain, setDomain] = useState(DOMAINS.com);
-  const [font, setFont] = useState(FONT_FAMILY.mono);
+  const [primaryFont, setPrimaryFont] = useState(FONT_FAMILY.mono);
+  const [secondaryFont, setSecondaryFont] = useState(FONT_FAMILY.mono);
   const [colors, setColors] = useState([]);
   const [pages, setPages] = useState([]);
 
@@ -37,12 +38,20 @@ function CreateWebsite() {
     setDomain(newDomain);
   };
 
-  const onChangeFont = (newFont) => {
-    setFont(newFont);
+  const onChangePrimaryFont = (newFont) => {
+    setPrimaryFont(newFont);
   };
 
-  const getDemoFontFamily = () => {
-    return font;
+  const getDemoPrimaryFontFamily = () => {
+    return primaryFont;
+  };
+
+  const onChangeSecondaryFont = (newFont) => {
+    setSecondaryFont(newFont);
+  };
+
+  const getDemoSecondaryFontFamily = () => {
+    return secondaryFont;
   };
 
   const onAddColor = () => {
@@ -127,20 +136,36 @@ function CreateWebsite() {
       </div>
       <div className="flex justify-center">
         <div className="px-4 py-1">
-          <div className="text-xs font-extrabold">
-            What font family do you want?
-          </div>
+          <div className="text-xs font-extrabold">Select primary font:</div>
           <div className="flex items-center gap-2 accent-nss-300">
             <Options
-              selected={font}
+              selected={primaryFont}
               selectOptions={FONT_FAMILY_ARR}
               name={""}
-              selectedChange={onChangeFont}
+              selectedChange={onChangePrimaryFont}
             />
           </div>
         </div>
         <div className="flex items-center">
-          <div className={`${getDemoFontFamily()} w-48`}>Your font style.</div>
+          <div className={`${getDemoPrimaryFontFamily()} w-48`}>
+            Primary style.
+          </div>
+        </div>
+        <div className="px-4 py-1">
+          <div className="text-xs font-extrabold">Select secondary font:</div>
+          <div className="flex items-center gap-2 accent-nss-300">
+            <Options
+              selected={secondaryFont}
+              selectOptions={FONT_FAMILY_ARR}
+              name={""}
+              selectedChange={onChangeSecondaryFont}
+            />
+          </div>
+        </div>
+        <div className="flex items-center">
+          <div className={`${getDemoSecondaryFontFamily()} w-48`}>
+            Secondary style.
+          </div>
         </div>
       </div>
       <NssButtonAdd onClick={onAddColor} label="Add Color" />
@@ -174,6 +199,18 @@ function CreateWebsite() {
         </div>
       ))}
       <div></div>
+      <div>
+        <div className="flex">
+          <div className="App">
+            <h3>NPT Example</h3>
+            <iframe
+              src="http://localhost:4000"
+              width="800"
+              height="600"
+            ></iframe>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

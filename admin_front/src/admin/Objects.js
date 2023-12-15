@@ -70,6 +70,8 @@ export const FONT_FAMILY = {
   kalnia: "font-kalnia",
   lato: "font-lato",
   helvetica: "font-helvetica",
+  chewy: "font-chewy",
+  montserrat: "font-montserrat"
 };
 
 export const FONT_FAMILY_ARR = Object.values(FONT_FAMILY);

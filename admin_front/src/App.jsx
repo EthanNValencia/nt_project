@@ -1,4 +1,5 @@
 import "./Calendar.css";
+import "./App.css";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { UserProvider, AuthProvider } from "./contexts/context";
@@ -31,8 +32,6 @@ function App() {
         <AuthProvider>
           <UserProvider>
             <Routes>
-              {/* <Route path="*" element={<Navigate to="login" replace />} /> */}
-
               <Route
                 path="admin"
                 element={
@@ -83,6 +82,14 @@ function App() {
                   <APW>
                     <CreateWebsite />
                   </APW>
+                }
+              />
+              <Route
+                path="*"
+                element={
+                  <LW>
+                    <Login />
+                  </LW>
                 }
               />
             </Routes>

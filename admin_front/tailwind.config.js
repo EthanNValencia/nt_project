@@ -40,6 +40,8 @@ module.exports = {
         kalnia: ["Kalnia"],
         lato: ["Lato"],
         helvetica: ["Helvetica"],
+        chewy: ["Chewy"],
+        montserrat: ["Montserrat"], 
       },
     },
   },
