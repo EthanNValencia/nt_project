@@ -8,3 +8,4 @@ cd ../error_service/ && mvn clean install
 cd ../oesa_service/ && mvn clean install
 cd ../admin_front/ && npm install
 cd ../npt_front/ && npm install
+cd ../egi_front/ && npm install

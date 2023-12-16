@@ -19,8 +19,10 @@ terminator --new-tab -e "cd oesa_service/; bash -c 'echo -ne \"\033]0;OESA\007\"
 # sleep 10
 terminator --new-tab -e "cd admin_front/; bash -c 'echo -ne \"\033]0;Admin-Front\007\"'; npm run dev" &
 terminator --new-tab -e "cd npt_front/; bash -c 'echo -ne \"\033]0;Npt-Front\007\"'; npm run dev" &
+terminator --new-tab -e "cd egi_front/; bash -c 'echo -ne \"\033]0;Egi-Front\007\"'; npm run dev" &
 sleep 5
 # firefox --new-tab http://localhost:5050 &
 firefox --new-tab http://localhost:4001/login &
 firefox --new-tab http://localhost:4000 &
+firefox --new-tab http://localhost:4002 &
 # bash curl.sh 

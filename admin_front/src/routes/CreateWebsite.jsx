@@ -199,11 +199,12 @@ function CreateWebsite() {
         </div>
       ))}
       <div></div>
-      <div>
+      <div className="flex">
         <div className="flex">
           <div className="App">
-            <h3>NPT Example</h3>
+            <div className="text-md text-center font-bold">NPT Example</div>
             <iframe
+              className=" border border-nss-300"
               src="http://localhost:4000"
               width="800"
               height="600"

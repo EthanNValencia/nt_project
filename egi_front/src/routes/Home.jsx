@@ -17,69 +17,125 @@ function Home() {
     <div>
       <div className="overflow-hidden mx-auto relative flex items-center max-w-7xl">
         <img src={bannerImage} alt="Image did not load." className="" />
-        <div className="absolute right-12 top-12">
-          <button
-            onClick={getStarted}
-            type="button"
-            className="animate-bounce inline-flex items-center px-8 py-2 font-semibold leading-6 text-sm shadow rounded-md text-white bg-npt_colors-350 hover:bg-npt_colors-10 hover:text-black first-line:transition ease-in-out duration-150 cursor-pointer"
-            disabled=""
-          >
-            Get Started
-          </button>
-        </div>
       </div>
 
       <div className="flex flex-col">
         <div className="p-4">
           <h1 className="text-4xl text-center">
-            Is Pain stopping you from Living YOUR Life?
+            Illuminate Your World, Sustainably.
           </h1>
         </div>
 
         <div className="flex justify-center items-center p-4">
-          <ul className="list-disc grid grid-flow-row grid-cols-2 gap-x-4 tracking-tighter font-light">
-            <li>Do you want to avoid having joint replacement surgery?</li>
+          <ul className="list-none grid grid-flow-row grid-cols-2 gap-x-4 tracking-tighter font-light text-center">
             <li>
-              Has your Doctor told you there is nothing you can do for your pain
-              or arthritis?
+              <div className="text-xl font-bold">
+                Innovative Lighting Solutions
+              </div>
+              <div className="">
+                Specializing in cutting-edge, eco-friendly lighting solutions
+                that merge innovation with sustainability.
+              </div>
             </li>
-            <li>Have you tried physical therapy before and it didn’t work?</li>
-            <li>Does your pain keep you from losing weight?</li>
             <li>
-              Do you keep missing out on adventurers with the kids and
-              grandkids?
+              <div className="text-xl font-bold">Solar-Powered Brilliance</div>
+              <div>
+                SolarGlow Lamps harness solar energy to illuminate outdoor
+                spaces stylishly, reducing carbon footprint.
+              </div>
             </li>
-            <li>Do you believe the lie that pain is normal with age?</li>
             <li>
-              Do you want to avoid expensive tests like MRIs and CAT scans?
+              <div className="text-xl font-bold">Wind-Powered Ambiance</div>
+              <div>
+                WindBrite Lanterns utilize built-in wind turbines to generate
+                energy, creating captivating outdoor lighting.
+              </div>
             </li>
-            <li>Has vertigo stopped you from going to work?</li>
-            <li>Can I go to therapy even if I haven’t had an “injury?”</li>
-            <li>Is your fear of a leaky bladder stopping you?</li>
+            <li>
+              <div className="text-xl font-bold">Water-Powered Efficiency</div>
+              <div>
+                HydroBeam Desk Lamps feature an energy-efficient LED system
+                powered by a water-based energy source for sustainable workspace
+                lighting.
+              </div>
+            </li>
+            <li>
+              <div className="text-xl font-bold">Eco-Chic Interior Design</div>
+              <div>
+                BambooGlo Pendants, crafted from sustainable bamboo, add a touch
+                of natural elegance to interior spaces, promoting an
+                eco-conscious lifestyle.
+              </div>
+            </li>
+            <li>
+              <div className="text-xl font-bold">
+                Functionality and Aesthetics
+              </div>
+              <div>
+                Our lighting products seamlessly blend functionality and
+                aesthetics to enhance both indoor and outdoor environments.
+              </div>
+            </li>
+            <li>
+              <div className="text-xl font-bold">Reducing Carbon Footprint</div>
+              <div>
+                Committed to minimizing environmental impact by offering
+                energy-efficient and renewable energy-powered lighting
+                solutions.
+              </div>
+            </li>
+            <li>
+              <div className="text-xl font-bold">Versatile Applications</div>
+              <div>
+                Lighting solutions designed for various applications, including
+                gardens, patios, pathways, workspaces, and interior decor.
+              </div>
+            </li>
+            <li>
+              <div className="text-xl font-bold">
+                Eco-Conscious Manufacturing
+              </div>
+              <div>
+                Dedicated to sustainable practices in design and manufacturing,
+                ensuring minimal environmental impact throughout the product
+                lifecycle.
+              </div>
+            </li>
+            <li>
+              <div className="text-xl font-bold">Brighter, Greener Future</div>
+              <div>
+                Our mission is to contribute to a brighter, greener future by
+                providing environmentally friendly lighting options for homes
+                and businesses.
+              </div>
+            </li>
+            <li>
+              <div className="text-xl font-bold">
+                Community and Environmental Stewardship
+              </div>
+              <div>
+                Actively involved in initiatives that promote community
+                awareness and environmental stewardship for a more sustainable
+                world.
+              </div>
+            </li>
+            <li>
+              <div className="text-xl font-bold">Join the Movement</div>
+              <div>
+                Illuminate your world with EcoGlow and join us on the journey
+                towards a brighter, greener future.
+              </div>
+            </li>
           </ul>
         </div>
 
-        <div className="mx-auto max-w-4xl text-md tracking-tighter">
-          <p className="font-light">
-            Your body is your{" "}
-            <b className="font-normal underline decoration-npt_colors-350 text-npt_colors-350">
-              most valuable possession
-            </b>{" "}
-            and{" "}
-            <b className="font-normal underline decoration-npt_colors-350 text-npt_colors-350">
-              your greatest asset
-            </b>
-            . Yet, we often spend more of our budget on our cars, homes, and
-            “stuff.” Spending money on health care is an{" "}
-            <b className="font-normal underline decoration-npt_colors-350 text-npt_colors-350">
-              investment
-            </b>
-            , not an expense. Don’t put off to tomorrow what you can do today.
-          </p>
-        </div>
-
         <div>
-        At EcoGlow Innovations, we believe in lighting up lives while minimizing our impact on the planet. Our mission is to provide innovative, sustainable lighting solutions that not only enhance the beauty of your surroundings but also contribute to a more environmentally conscious world. Illuminate your world with EcoGlow and join us on the journey towards a brighter, greener future.
+          At EcoGlow Innovations, we believe in lighting up lives while
+          minimizing our impact on the planet. Our mission is to provide
+          innovative, sustainable lighting solutions that not only enhance the
+          beauty of your surroundings but also contribute to a more
+          environmentally conscious world. Illuminate your world with EcoGlow
+          and join us on the journey towards a brighter, greener future.
         </div>
 
         <div className="text-4xl text-center p-4">
@@ -92,15 +148,15 @@ function Home() {
           <button
             onClick={getStarted}
             type="button"
-            className="inline-flex items-center px-8 py-2 font-semibold leading-6 text-sm shadow rounded-md text-white bg-npt_colors-350 hover:bg-npt_colors-10 hover:text-black first-line:transition ease-in-out duration-150 cursor-pointer"
+            className="inline-flex items-center px-8 py-2 font-semibold leading-6 text-sm shadow rounded-md text-white bg-egi-40 hover:bg-egi-20 hover:text-black first-line:transition ease-in-out duration-150 cursor-pointer"
             disabled=""
           >
-            Get Started
+            Our Products
           </button>
           <button
             onClick={contactUs}
             type="button"
-            className="inline-flex items-center px-8 py-2 font-semibold leading-6 text-sm shadow rounded-md text-white bg-npt_colors-350 hover:bg-npt_colors-10 hover:text-black first-line:transition ease-in-out duration-150 cursor-pointer"
+            className="inline-flex items-center px-8 py-2 font-semibold leading-6 text-sm shadow rounded-md text-white bg-egi-40 hover:bg-egi-20 hover:text-black first-line:transition ease-in-out duration-150 cursor-pointer"
             disabled=""
           >
             Contact Us

@@ -1,7 +1,6 @@
 import "./App.css";
 import "./Calendar.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Everything from "./dev-components/Everything";
 import AboutUs from "./routes/AboutUs";
 import Home from "./routes/Home";
 import ContactUs from "./routes/ContactUs";
@@ -17,6 +16,7 @@ import Notes from "./routes/appointment-process/5_Notes";
 import Services from "./routes/Services";
 import Resources from "./routes/Resources";
 import NotFound from "./routes/NotFound";
+import Products from "./routes/Products";
 
 function App() {
   return (
@@ -66,58 +66,10 @@ function App() {
                 }
               />
               <Route
-                path="resources"
+                path="products"
                 element={
                   <WSW>
-                    <Resources />
-                  </WSW>
-                }
-              />
-              <Route
-                path="request-name"
-                element={
-                  <WSW>
-                    <RequestName />
-                  </WSW>
-                }
-              />
-              <Route
-                path="category"
-                element={
-                  <WSW>
-                    <SelectCategory />
-                  </WSW>
-                }
-              />
-              <Route
-                path="pairing"
-                element={
-                  <WSW>
-                    <TherapistPairing />
-                  </WSW>
-                }
-              />
-              <Route
-                path="contact-information"
-                element={
-                  <WSW>
-                    <ContactInformation />
-                  </WSW>
-                }
-              />
-              <Route
-                path="notes"
-                element={
-                  <WSW>
-                    <Notes />
-                  </WSW>
-                }
-              />
-              <Route
-                path="dev"
-                element={
-                  <WSW>
-                    <Everything />
+                    <Products />
                   </WSW>
                 }
               />
@@ -142,7 +94,7 @@ function WSW({ children }) {
   return (
     <div className="bg-white">
       <div className="py-1 w-11/12 mx-auto h-full">
-        <div className="border rounded-lg shadow-md h-full">
+        <div className="border rounded-lg shadow-md h-full font-montserrat">
           <div>
             <Header />
             <div>
