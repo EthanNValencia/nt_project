@@ -195,8 +195,8 @@ function ContactUs() {
 
     if (dayOfWeek === day) {
       return (
-        <div className="grid grid-cols-9" key={index}>
-          <div className="col-span-1">{day}</div>
+        <div className="grid grid-cols-11" key={index}>
+          <div className="col-span-3">{day}</div>
           <div className="col-span-2 text-right">
             {maskHour(beginHour) +
               ":" +
@@ -222,8 +222,8 @@ function ContactUs() {
     }
 
     return (
-      <div className="grid grid-cols-9" key={index}>
-        <div className="col-span-1">{day}</div>
+      <div className="grid grid-cols-11" key={index}>
+        <div className="col-span-3">{day}</div>
         <div className="col-span-2 text-right">
           {maskHour(beginHour) +
             ":" +

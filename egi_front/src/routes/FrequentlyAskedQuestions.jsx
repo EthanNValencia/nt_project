@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import NtButton from "../components/NtButton";
 import FAQsDiv from "../components/FAQsDiv";
 import { postFaq, getAnsweredFAQs } from "../axios/api";
-import FAQsLoading from "../components/loading/FAQsLoading";
-import RenderFor from "../animations/RenderFor";
 import ApiError from "../components/ApiError";
+import { FAQs } from "../Website";
 
 function FrequentlyAskedQuestions() {
   const [faqs, setFAQs] = useState([]);
@@ -38,7 +37,7 @@ function FrequentlyAskedQuestions() {
         setHasApiError(true);
       }
     }
-    fetchFaqs();
+    // fetchFaqs();
   }, []);
 
   return (
@@ -48,8 +47,8 @@ function FrequentlyAskedQuestions() {
         <h1>Answers</h1>
       </div>
 
-      {faqs.map((faq) => (
-        <FAQsDiv faq={faq} key={faq.key} />
+      {FAQs.map((faq) => (
+        <FAQsDiv faq={faq} key={faq.id} />
       ))}
 
       {/*

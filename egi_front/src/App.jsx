@@ -7,14 +7,8 @@ import ContactUs from "./routes/ContactUs";
 import FrequentlyAskedQuestions from "./routes/FrequentlyAskedQuestions";
 import Header from "./components/Header";
 import { UserProvider, AuthProvider } from "./contexts/context";
-import RequestName from "./routes/appointment-process/1_RequestName";
-import SelectCategory from "./routes/appointment-process/2_SelectCategory";
-import TherapistPairing from "./routes/appointment-process/3_TherapistPairing";
 import Footer from "./components/Footer";
-import ContactInformation from "./routes/appointment-process/4_ContactInformation";
-import Notes from "./routes/appointment-process/5_Notes";
 import Services from "./routes/Services";
-import Resources from "./routes/Resources";
 import NotFound from "./routes/NotFound";
 import Products from "./routes/Products";
 

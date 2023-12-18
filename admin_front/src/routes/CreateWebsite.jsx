@@ -12,10 +12,52 @@ import NssSmallInputText from "../nss/NssSmallInputText";
 import NssButtonAdd from "../nss/NssButtonAdd";
 import Color from "../createwebsite/Color";
 import Page from "../createwebsite/Page";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "./react-tabs.css";
 
 /*
 What pages do you want? 
 */
+
+const TabComponent = (props) => {
+  const { updatePage, deletePage, addPage, pages: providedPages } = props;
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [pages, setPages] = useState(providedPages);
+
+  useEffect(() => {
+    setPages(providedPages);
+  }, [providedPages]);
+
+  const handleTabSelect = (index) => {
+    setSelectedTab(index);
+  };
+
+  return (
+    <div className="p-2">
+      <Tabs selectedIndex={selectedTab} onSelect={handleTabSelect}>
+        <TabList>
+          {pages.map((page, index) => (
+            <Tab key={index}>{page.pageName}</Tab>
+          ))}
+          <Tab onClick={addPage}>Add Page +</Tab>
+        </TabList>
+        {pages.map((page, index) => (
+          <div className="bg-nss-20 -mt-2.5 rounded-sm">
+            <TabPanel key={index}>
+              <Page
+                key={index}
+                index={index}
+                page={page}
+                updatePage={updatePage}
+                deletePage={deletePage}
+              />
+            </TabPanel>
+          </div>
+        ))}
+      </Tabs>
+    </div>
+  );
+};
 
 function CreateWebsite() {
   const [companyName, setCompanyName] = useState("");
@@ -71,20 +113,22 @@ function CreateWebsite() {
   };
 
   const onAddPage = () => {
-    setPages([
-      ...pages,
-      {
-        pageName: "New Page",
-        pageType: PageType.UNSPECIFIED,
-        pageTypesArr: PageType_Arr,
-        text: "",
-      },
-    ]);
+    if (pages.length < 8) {
+      setPages([
+        ...pages,
+        {
+          pageName: "New Page",
+          pageType: PageType.UNSPECIFIED,
+          pageTypesArr: PageType_Arr,
+          text: "",
+        },
+      ]);
+    }
   };
 
   const updatePage = (page, index) => {
     const updatedPages = [...pages];
-    updatedPages[index] = { page: page };
+    updatedPages[index] = { ...page };
     setPages(updatedPages);
   };
 
@@ -186,19 +230,14 @@ function CreateWebsite() {
           </div>
         </div>
       </div>
-      <NssButtonAdd onClick={onAddPage} label="Add Page" />
-      {pages.map((page, index) => (
-        <div className="p-1">
-          <Page
-            key={index}
-            index={index}
-            page={page}
-            updatePage={updatePage}
-            deletePage={deletePage}
-          />
-        </div>
-      ))}
-      <div></div>
+      <div>
+        <TabComponent
+          updatePage={updatePage}
+          deletePage={deletePage}
+          pages={pages}
+          addPage={onAddPage}
+        />
+      </div>
       <div className="flex">
         <div className="flex">
           <div className="App">
@@ -217,5 +256,3 @@ function CreateWebsite() {
 }
 
 export default CreateWebsite;
-
-// <div className="text-xs font-extrabold">Select your colors:</div>

@@ -1,41 +1,88 @@
 import React from "react";
 
-function Article() {
-  return <div>Article</div>;
+const Paragraph = (props) => {
+  const { text } = props;
+  return <div className="text-green-500 indent-2">{text}</div>;
+};
+
+const Quote = (props) => {
+  const { text } = props;
+  return <div className="italic text-red-500 text-center">{text}</div>;
+};
+
+const BulletPoints = (props) => {
+  const { text: points, introduction } = props;
+  return (
+    <div className="flex justify-center w-full">
+      <div className="w-11/12">
+        <div>
+          {introduction ? (
+            <div className="text-orange-500 underline">{introduction}</div>
+          ) : (
+            <></>
+          )}
+        </div>
+        <div className="text-blue-500 flex justify-center">
+          <ul className="list-disc grid grid-flow-row grid-cols-2 gap-x-4 tracking-tighter font-light">
+            {points.map((point, index) => (
+              <BulletPoint point={point} key={index} />
+            ))}{" "}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const BulletPoint = (props) => {
+  const { point } = props;
+  return <li className="text-blue-500">{point}</li>;
+};
+
+const Text = (props) => {
+  const { text, type, introduction } = props.content;
+
+  if (type === TextType.PARAGRAPH) {
+    return <Paragraph text={text} />;
+  }
+  if (type === TextType.QUOTE) {
+    return <Quote text={text} />;
+  }
+  if (type === TextType.BULLETPOINTS) {
+    return (
+      <div>
+        <BulletPoints text={text} introduction={introduction} />
+      </div>
+    );
+  }
+  return null;
+};
+
+function Article(props) {
+  const { article } = props;
+
+  const renderArticle = (article) => {
+    return (
+      <div className="py-1">
+        <div className="shadow-lg p-1 rounded-lg border border-npt_colors-300">
+          <div className="text-lg text-center">{article.title}</div>
+          {article.content.map((content, index) => (
+            <div className="text-sm py-1">
+              <Text content={content} key={index} />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  return <div>{renderArticle(article)}</div>;
 }
 
 export default Article;
 
-/*
-
-Is Your World Spinning Out of Control?
-We’ve got the market cornered on balance.
-Vestibular Rehab
-
-There are some kinds of dizzy we encourage…being dizzy with joy, dizzy with laughter, dizzy with excitement – you get the idea. But we also recognize that dizziness and/or loss of balance in real life is no laughing matter. That’s why we’re thrilled to offer our Vestibular Rehab program, aimed at treating individuals who suffer from acute or chronic vestibular and/or balance dysfunctions. These are symptoms often related to issues like:
-
-» Benign Paroxysmal Positional Vertigo
-» Labarynthitis
-» Vestibular Neuritis
-» Meniere’s Syndrome
-» Perilymph Fistula
-» or any other disease process that affects the vestibular system
-
-Food for thought:
-» 5 – 10% of all physician visits are due to dizziness and balance problems.
-» 40% of people over 40 years old visit the doctor due to dizziness.
-» Dizziness and balances issues are the #1 reason for physician visits in men and women over 45 years of age.
-
-Commonly, a patient who can benefit from Vestibular Rehab will complain of symptoms like dizziness and disequilibrium, which may secondarily cause headaches, de-conditioning and/or muscle tension.
-
-It is our goal to help in the following ways:
-
-    By decreasing feelings of vertigo and/or dizziness,
-    By improving balance and posture control,
-    By improving gaze stability, and
-    By improving overall endurance, depending on the your circumstances
-
-Let us encourage you to talk to your family physician, Neurologist, or Otolaryngologist (ENT) for a referral to physical therapy today. It’s our privilege to put stability and balance back into your life where it belongs!
-
-
-*/
+const TextType = {
+  QUOTE: "QUOTE",
+  PARAGRAPH: "PARAGRAPH",
+  BULLETPOINTS: "BULLETPOINTS",
+};

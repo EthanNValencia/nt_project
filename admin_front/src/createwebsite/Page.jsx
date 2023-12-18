@@ -25,8 +25,7 @@ function Page(props) {
   };
 
   return (
-    <div>
-      {page.pageName}
+    <div className="p-2">
       <div>
         <div className="flex justify-between">
           <div className="flex items-center">
