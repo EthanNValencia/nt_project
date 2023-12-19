@@ -1,4 +1,5 @@
 import React from "react";
+import { WebsiteColors } from "../Website";
 
 function NtButton(props) {
   function onClick() {
@@ -25,7 +26,7 @@ function ActiveButton() {
     <div className="flex">
       <button
         type="button"
-        className="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md text-white bg-npt_colors-350 hover:bg-npt_colors-10 hover:text-black transition ease-in-out duration-150 cursor-not-allowed"
+        className={`${WebsiteColors.buttonColors} inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md transition ease-in-out duration-150 cursor-not-allowed`}
         disabled=""
       >
         <svg
@@ -59,7 +60,7 @@ function DisabledButton(props) {
     <div className="flex">
       <button
         type="button"
-        className="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md text-black bg-npt_colors-1 transition ease-in-out duration-150 cursor-pointer"
+        className={`${WebsiteColors.disabledButtonColors} inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md transition ease-in-out duration-150 cursor-pointer`}
         disabled="disabled"
       >
         {props.label}
@@ -73,7 +74,7 @@ function InactiveButton(props) {
     <div className="flex">
       <button
         type="button"
-        className="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md text-white bg-npt_colors-350 hover:bg-npt_colors-10 hover:text-black transition ease-in-out duration-150 cursor-pointer"
+        className={`${WebsiteColors.buttonColors} inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md transition ease-in-out duration-150 cursor-pointer`}
         disabled=""
       >
         {props.label}

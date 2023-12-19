@@ -19,12 +19,17 @@ export const Fonts = {
   secondaryFont: "font-montserrat",
 };
 
+export const WebsiteColors = {
+  buttonColors: "bg-egi-40 hover:bg-egi-20 text-white hover:text-black",
+  disabledButtonColors: "text-black bg-slate-600",
+};
+
 export const HeaderData = {
   bgColor: BgColors.gold,
   businessNameFont: Fonts.primaryFont,
   sloganFont: Fonts.secondaryFont,
   businessName: "EcoGlow Innovations",
-  slogan: "Illuminate the World",
+  slogan: "Illuminate Your World, Sustainably",
   businessNameSizes: "xl:text-xl lg:text-md md:text-xs sm:text-sm",
   sloganSizes: "xl:text-xl lg:text-sm md:text-xs sm:text-xs",
   textColor: TextColors.blue,
@@ -180,3 +185,86 @@ export const Executives = [
     bio: "Olivia Lumens, the Chief Financial Officer (CFO) of EcoGlow Innovations, is a financial strategist with a keen eye for sustainable business practices. Olivia's extensive background in finance and her commitment to corporate responsibility make her an integral part of EcoGlow's leadership team. With a focus on balancing financial growth and environmental impact, she ensures that the company's financial strategies align with its mission. Olivia is dedicated to fostering financial sustainability while maximizing the positive influence EcoGlow has on both its customers and the planet.",
   },
 ];
+
+const ContactType = {
+  office: "Office",
+  customerSupport: "Customer Support",
+  mediaInquiries: "Media Inquiries",
+  salesAndPartnerships: "Sales and Partnerships",
+};
+
+export const ContactInformation = {
+  contactType: ContactType,
+  contactInformation: [
+    {
+      type: ContactType.office,
+      street: "123 EcoWay",
+      unit: null,
+      city: "Sustainable City",
+      state: "Greenland",
+      zip: null,
+      acceptingWalkIns: true,
+      mapUrl: null,
+      introduction:
+        "Welcome to the heart of innovation at EcoGlow Innovations' Corporate Headquarters. Nestled in the heart of Sustainable City in Greenland, our state-of-the-art facility at 123 EcoWay is more than an office—it's a beacon of sustainability. Here, we channel our commitment to eco-friendly lighting solutions, designing a brighter and greener future. Our headquarters is not just a place of work; it's a manifestation of our mission to illuminate lives while minimizing our impact on the planet. Feel the pulse of innovation at EcoGlow Innovations, where every corner is infused with the spirit of a more environmentally conscious world.",
+      phone: "+1 (555) 123-4567",
+      fax: null,
+      email: "info@ecoglowinnovations.com",
+      schedule: [
+        {
+          id: 2,
+          day: "Wednesday",
+          beginTime: "07:00:00",
+          endTime: "18:30:00",
+          daysArr: null,
+        },
+        {
+          id: 3,
+          day: "Tuesday",
+          beginTime: "07:00:00",
+          endTime: "18:30:00",
+          daysArr: null,
+        },
+        {
+          id: 1,
+          day: "Thursday",
+          beginTime: "07:00:00",
+          endTime: "18:30:00",
+          daysArr: null,
+        },
+        {
+          id: 4,
+          day: "Friday",
+          beginTime: "13:00:00",
+          endTime: "15:00:00",
+          daysArr: null,
+        },
+        {
+          id: 5,
+          day: "Monday",
+          beginTime: "07:00:00",
+          endTime: "18:30:00",
+          daysArr: null,
+        },
+      ],
+    },
+    {
+      type: ContactType.customerSupport,
+      contact: null,
+      phone: "+1 (555) 789-0123",
+      email: "support@ecoglowinnovations.com",
+    },
+    {
+      type: ContactType.mediaInquiries,
+      contact: "Amanda Greenfield",
+      phone: "+1 (555) 987-6543",
+      email: "media@ecoglowinnovations.com",
+    },
+    {
+      type: ContactType.salesAndPartnerships,
+      contact: "Oliver Lumens",
+      phone: "+1 (555) 234-5678",
+      email: "sales@ecoglowinnovations.com",
+    },
+  ],
+};

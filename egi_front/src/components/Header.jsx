@@ -12,7 +12,7 @@ function NavigationBar() {
 
   return (
     <header>
-      <nav className="text-xs font-bold text-center flex xs:flex-col xs:mt-0 xs:gap-1 sm:flex-row sm:gap-4 mt-2 rounded-lg">
+      <nav className="text-xs font-bold text-center flex xs:flex-col xs:mt-0 xs:gap-1 sm:flex-row sm:gap-4 mt-2">
         <NavLink className="hover:text-npt_colors-300" to="/">
           Home
         </NavLink>
@@ -36,7 +36,7 @@ function NavigationBar() {
 function Header() {
   return (
     <div
-      className={`${HeaderData.bgColor} ${HeaderData.textColor} p-4 rounded-t-lg flex justify-between justify-items-center items-center w-full`}
+      className={`${HeaderData.bgColor} ${HeaderData.textColor} p-4 flex justify-between justify-items-center items-center w-full`}
     >
       <div className="flex-nowrap pr-10">
         <div className="">

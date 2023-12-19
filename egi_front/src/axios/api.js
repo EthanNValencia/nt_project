@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const publicUrl = "http://localhost:8765/oesa-service/api/v1/public/npt";
+const publicUrl = "http://localhost:8765/oesa-service/api/v1/public/egi";
 const authUrl = "http://localhost:8765/security-service/api/v1/public";
 const errorReportingUrl =
   "http://localhost:8765/error-service/api/v1/public/error/";

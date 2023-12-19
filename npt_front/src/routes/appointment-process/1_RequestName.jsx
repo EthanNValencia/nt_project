@@ -1,7 +1,62 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "../../contexts/context";
 import { useNavigate } from "react-router-dom";
 import ContinueBack from "../../components/ContinueBack";
+
+const FADE_INTERVAL_MS = 3000;
+const WORD_CHANGE_INTERVAL_MS = FADE_INTERVAL_MS * 2;
+const WORDS_TO_ANIMATE = [
+  "You hurt, and you just don’t know what to do?",
+  "Everyone’s giving you advice and you don’t know who to listen to?",
+  " Tried Physical Therapy before and think it doesn’t work for you?",
+  "We don’t know what we don’t know. That’s why we ask questions.",
+  "Don’t stop doing what you love, no matter what your age!",
+];
+
+const TransitionText = () => {
+  const [isFaded, setIsFaded] = useState(false);
+  const [wordOrder, setWordOrder] = useState(0);
+
+  useEffect(() => {
+    const fadeTimeout = setInterval(() => {
+      setIsFaded((prevIsFaded) => !prevIsFaded);
+    }, FADE_INTERVAL_MS);
+
+    return () => clearInterval(fadeTimeout);
+  }, []);
+
+  useEffect(() => {
+    const wordTimeout = setInterval(() => {
+      setWordOrder(
+        (prevWordOrder) => (prevWordOrder + 1) % WORDS_TO_ANIMATE.length
+      );
+    }, WORD_CHANGE_INTERVAL_MS);
+
+    return () => clearInterval(wordTimeout);
+  }, []);
+
+  return (
+    <div className="text-center text-md mb-4 text-xl">
+      <div
+        className={`${
+          isFaded
+            ? "opacity-0 transition-opacity duration-1000 ease-in-out"
+            : "transition-opacity duration-1500 ease-in-out"
+        }`}
+      >
+        {WORDS_TO_ANIMATE[wordOrder]}
+      </div>
+    </div>
+  );
+};
+
+/*
+
+<div className="text-center text-md mb-4 text-xl">
+              We’ll have about 20 minutes set aside for you.
+            </div>
+
+*/
 
 // Step 1
 
@@ -62,43 +117,13 @@ function RequestName() {
   return (
     <div className="">
       <div className="bg-white px-2 pt-2 pb-2 mb-4 shadow-xl w-fit ring-1 ring-gray-900/5 rounded-lg tracking-tighter">
-        <div className="grid grid-flow-col gap-2 xl:grid-rows-2 md:grid-rows-4 ">
-          <div className="text-center text-md mb-4 text-xl">
-            You hurt, and you just don’t know what to do?
-          </div>
-          <div className="text-center text-md mb-4 text-xl">
-            Everyone’s giving you advice and you don’t know who to listen to?
-          </div>
-          <div className="text-center text-md mb-4 text-xl">
-            Tried Physical Therapy before and think it doesn’t work for you?
-          </div>
-          <div className="text-center text-md mb-4 text-xl">
-            We don’t know what we don’t know. That’s why we ask questions.
-          </div>
-        </div>
-        <div className="grid grid-flow-col grid-cols-2">
-          <div className="text-center text-md mb-4 flex max-w-max">
-            Have a cup of coffee on us and let’s talk about what’s stopping you.
-            We want to hear about your limitations, your aches and pains, and
-            your goals. We want to answer your questions about PT. What an
-            evaluation would look like? What treatments we might use for you?
-            And get a feel for who we are. Ultimately, It’s our job to work
-            ourselves out of a job, so our Therapy will focus on your personal
-            accountability and long term success.
-          </div>
-          <div>
-            <div className="text-center text-md mb-4 text-xl">
-              Don’t stop doing what you love, no matter what your age!
-            </div>
-            <div className="text-center text-md mb-4 text-xl">
-              We’ll have about 20 minutes set aside for you.
-            </div>
-          </div>
-        </div>
         <div className="text-center text-md mb-4 flex max-w-max">
           Welcome to Nephew Physical Therapy. This process will walk you through
           creating a tentative appointment. After your appointment is submitted
           we will reach out to you confirm your appointment.
+        </div>
+        <div>
+          <TransitionText />
         </div>
         <div className="text-center text-md mb-4">
           Please begin by introducing yourself.
@@ -150,6 +175,15 @@ function RequestName() {
                   validateInputFields();
                 }}
               />
+            </div>
+            <div className="text-center text-md mb-4 flex max-w-max">
+              Have a cup of coffee on us and let’s talk about what’s stopping
+              you. We want to hear about your limitations, your aches and pains,
+              and your goals. We want to answer your questions about PT. What an
+              evaluation would look like? What treatments we might use for you?
+              And get a feel for who we are. Ultimately, It’s our job to work
+              ourselves out of a job, so our Therapy will focus on your personal
+              accountability and long term success.
             </div>
           </div>
         </form>

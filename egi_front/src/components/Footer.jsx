@@ -10,7 +10,7 @@ function Footer() {
   const width = 36;
 
   return (
-    <div className={`${FooterData.bgColor} p-4 text-white rounded-b-lg`}>
+    <div className={`${FooterData.bgColor} p-4 text-white`}>
       <div className="flex justify-between justify-items-center items-center ">
         <div className="flex gap-4 invert">
           <a target="_blank" rel="noopener noreferrer" href={instagramUrl}>

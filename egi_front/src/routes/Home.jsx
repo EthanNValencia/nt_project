@@ -1,6 +1,7 @@
 import React from "react";
 import bannerImage from "../assets/ecoglow-innovations-high-resolution-logo.png";
 import { useNavigate } from "react-router-dom";
+import { WebsiteColors } from "../Website";
 
 function Home() {
   const navigate = useNavigate();
@@ -14,9 +15,9 @@ function Home() {
   }
 
   return (
-    <div>
-      <div className="overflow-hidden mx-auto relative flex items-center max-w-7xl">
-        <img src={bannerImage} alt="Image did not load." className="" />
+    <div className="pb-2">
+      <div className="overflow-hidden mx-auto flex items-center">
+        <img src={bannerImage} alt="Image did not load." className="w-full" />
       </div>
 
       <div className="flex flex-col">
@@ -148,7 +149,7 @@ function Home() {
           <button
             onClick={getStarted}
             type="button"
-            className="inline-flex items-center px-8 py-2 font-semibold leading-6 text-sm shadow rounded-md text-white bg-egi-40 hover:bg-egi-20 hover:text-black first-line:transition ease-in-out duration-150 cursor-pointer"
+            className={`${WebsiteColors.buttonColors} inline-flex items-center px-8 py-2 font-semibold leading-6 text-sm shadow rounded-md first-line:transition ease-in-out duration-150 cursor-pointer`}
             disabled=""
           >
             Our Products
@@ -156,7 +157,7 @@ function Home() {
           <button
             onClick={contactUs}
             type="button"
-            className="inline-flex items-center px-8 py-2 font-semibold leading-6 text-sm shadow rounded-md text-white bg-egi-40 hover:bg-egi-20 hover:text-black first-line:transition ease-in-out duration-150 cursor-pointer"
+            className={`${WebsiteColors.buttonColors} inline-flex items-center px-8 py-2 font-semibold leading-6 text-sm shadow rounded-md first-line:transition ease-in-out duration-150 cursor-pointer`}
             disabled=""
           >
             Contact Us
