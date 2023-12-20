@@ -5,14 +5,14 @@ import { WebsiteColors } from "../Website";
 
 function NavigationBar() {
   return (
-    <div className="text-xs font-bold text-center flex xs:flex-col xs:mt-0 xs:gap-1 sm:flex-row sm:gap-4 mt-2">
+    <div className="text-sm font-bold text-center flex xs:flex-col xs:mt-0 xs:gap-1 sm:flex-row sm:gap-4 mt-2">
       <NavLink className={`${WebsiteColors.hoverLight}`} to="/">
         Home
       </NavLink>
       <NavLink className={`${WebsiteColors.hoverLight}`} to="/about">
         About Us
       </NavLink>
-      <NavLink className={`${WebsiteColors.hoverLight}`} to="/faqs">
+      <NavLink className={`${WebsiteColors.hoverLight} `} to="/faqs">
         FAQs
       </NavLink>
       <NavLink className={`${WebsiteColors.hoverLight}`} to="/products">

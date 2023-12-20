@@ -25,6 +25,7 @@ export const WebsiteColors = {
   buttonColors: "bg-egi-40 hover:bg-egi-20 text-white hover:text-black",
   disabledButtonColors: "text-black bg-slate-600",
   hoverLight: "hover:" + TextColors.green,
+  homeTextColor: TextColors.darkBlue,
 };
 
 export const HeaderData = {
@@ -43,6 +44,8 @@ export const FooterData = {
   textColor: TextColors.blue,
   primaryFont: Fonts.primaryFont,
   secondaryFont: Fonts.secondaryFont,
+  iconSizes: "w-9 h-9",
+  iconColors: "hover:text-egi-20 text-egi-40",
 };
 
 export const FAQCategory = {
@@ -206,7 +209,7 @@ export const SocialMediaProfile = {
   x: "https://twitter.com/",
   pinterest: "https://www.pinterest.com/",
   snapchat: "",
-  whatsapp: "",
+  whatsapp: "https://www.whatsapp.com/",
   tumblr: "",
   google: "",
 };

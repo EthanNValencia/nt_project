@@ -24,7 +24,7 @@ function Home() {
         />
       </div>
 
-      <div className="flex flex-col">
+      <div className={`${WebsiteColors.homeTextColor} flex flex-col`}>
         <div className="p-4">
           <h1 className="text-4xl text-center">
             Illuminate Your World, Sustainably.
@@ -144,9 +144,7 @@ function Home() {
         </div>
 
         <div className="text-4xl text-center p-4">
-          <h1>
-            Are you ready to ask for help? You do not need a referral to start.
-          </h1>
+          <h1>CREATE A PRODUCT INTRODUCTION</h1>
         </div>
 
         <div className="flex gap-20 justify-center items-center">

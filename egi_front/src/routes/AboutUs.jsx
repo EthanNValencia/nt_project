@@ -7,16 +7,30 @@ function ExecutiveCard(props) {
   const { executive } = props;
 
   return (
-    <div className="bg-egi-20 shadow-lg p-2 border-2 rounded-lg border-egi-40">
-      <img
-        className="w-40 border border-egi-40 rounded-lg"
-        src={executive.image}
-      ></img>
-      <div className="text-center">{executive.position}</div>
-      <div>
-        {executive.title} {executive.firstName} {executive.lastName}{" "}
-        {executive.credentials}
+    <div>
+      <div className="bg-egi-20 w-full p-4">
+        <div className="flex">
+          <div>
+            <div className="w-40">
+              <img
+                className="w-40 border border-egi-40 rounded-lg"
+                src={executive.image}
+              ></img>
+            </div>
+          </div>
+          <div className="pl-4">
+            <div>
+              <div className="font-bold py-1">{executive.position}</div>
+              <div className="font-bold py-1">
+                {executive.title} {executive.firstName} {executive.lastName}{" "}
+                {executive.credentials}
+              </div>
+            </div>
+            <div className="py-1">{executive.bio}</div>
+          </div>
+        </div>
       </div>
+      <div className="p-1 bg-egi-70"></div>
     </div>
   );
 }
@@ -50,7 +64,7 @@ function AboutUs() {
   }, []);
 
   return (
-    <div className="p-4">
+    <div className="text-egi-60">
       <p className="p-4 tracking-tighter">
         Welcome to EcoGlow Innovations, where sustainability meets brilliance.
         At EcoGlow, we are dedicated to illuminating a brighter and greener
@@ -65,7 +79,7 @@ function AboutUs() {
         this illuminating journey as we pave the way for a brighter, greener
         tomorrow. Illuminate your world sustainably with EcoGlow Innovations.
       </p>
-      <div className="flex gap-4 content-center">
+      <div>
         {Executives.map((executive) => (
           <ExecutiveCard executive={executive} />
         ))}
