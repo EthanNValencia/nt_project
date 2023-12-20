@@ -14,7 +14,7 @@ function ContactUs() {
         const data = await getOffices();
         setOffices(data);
         setHasApiError(false);
-        // console.log(JSON.stringify(data));
+        console.log(JSON.stringify(data));
       } catch (error) {
         // console.error("Error loading offices:", error);
         setHasApiError(true);

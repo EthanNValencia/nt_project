@@ -25,12 +25,12 @@ const Office = (props) => {
   };
 
   return (
-    <div className="flex justify-around flex-row m-2">
+    <div className="flex justify-around flex-row">
       <div>
-        <div className="bg-npt_colors-350 text-white rounded-t-xl px-2 pt-2 text-center break-words">
+        <div className="bg-egi-60 text-white text-center break-words p-2">
           {office.introduction}
         </div>
-        <div className="relative bg-white px-2 pb-2 shadow-xl w-fit ring-1 ring-gray-900/5 rounded-b-xl">
+        <div className="relative bg-white px-2 pb-2 ring-1 ring-gray-900/5">
           <div className="py-2 flex justify-center">
             <div>
               <WalkIns acceptingWalkIns={office.acceptingWalkIns} />
@@ -145,6 +145,8 @@ const WalkIns = (props) => {
   );
 };
 
+const CustomerSupport = (props) => {};
+
 const Schedule = (props) => {
   const { day, beginTime, endTime, index } = props;
   const today = new Date();
@@ -254,6 +256,12 @@ function ContactUs() {
       {contactInformation.map((contact, index) =>
         contact.type === ContactInformation.contactType.office ? (
           <Office key={index} office={contact} hasApiError={hasApiError} />
+        ) : contact.type === ContactInformation.contactType.customerSupport ? (
+          <CustomerSupport
+            key={index}
+            office={contact}
+            hasApiError={hasApiError}
+          />
         ) : (
           <React.Fragment key={index} />
         )

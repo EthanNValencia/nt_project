@@ -23,6 +23,7 @@ function AboutUs() {
         const data = await getEmployees();
         setEmployees(data);
         setHasApiError(false);
+        console.log(JSON.stringify(data));
       } catch (error) {
         // console.error("Error loading FAQ:", error);
         setHasApiError(true);

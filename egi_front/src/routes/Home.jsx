@@ -17,7 +17,11 @@ function Home() {
   return (
     <div className="pb-2">
       <div className="overflow-hidden mx-auto flex items-center">
-        <img src={bannerImage} alt="Image did not load." className="w-full" />
+        <img
+          src={bannerImage}
+          alt="Image did not load."
+          className="w-full h-96 object-cover"
+        />
       </div>
 
       <div className="flex flex-col">

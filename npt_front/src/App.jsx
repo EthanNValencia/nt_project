@@ -1,7 +1,6 @@
 // import "./App.css";
 import "./Calendar.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Everything from "./dev-components/Everything";
 import AboutUs from "./routes/AboutUs";
 import Home from "./routes/Home";
 import ContactUs from "./routes/ContactUs";
@@ -110,14 +109,6 @@ function App() {
                 element={
                   <WSW>
                     <Notes />
-                  </WSW>
-                }
-              />
-              <Route
-                path="dev"
-                element={
-                  <WSW>
-                    <Everything />
                   </WSW>
                 }
               />

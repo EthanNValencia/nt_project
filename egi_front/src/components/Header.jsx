@@ -1,35 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 import { HeaderData } from "../Website";
 import { NavLink } from "react-router-dom";
+import { WebsiteColors } from "../Website";
 
 function NavigationBar() {
-  const [selected, setSelected] = useState(false);
-
-  const onClick = () => {
-    setSelected(!selected);
-    console.log(selected);
-  };
-
   return (
-    <header>
-      <nav className="text-xs font-bold text-center flex xs:flex-col xs:mt-0 xs:gap-1 sm:flex-row sm:gap-4 mt-2">
-        <NavLink className="hover:text-npt_colors-300" to="/">
-          Home
-        </NavLink>
-        <NavLink className="hover:text-npt_colors-300" to="/about">
-          About Us
-        </NavLink>
-        <NavLink className="hover:text-npt_colors-300" to="/faqs">
-          FAQ
-        </NavLink>
-        <NavLink className="hover:text-npt_colors-300" to="/products">
-          Products
-        </NavLink>
-        <NavLink className="hover:text-npt_colors-300" to="/contact">
-          Contact Us
-        </NavLink>
-      </nav>
-    </header>
+    <div className="text-xs font-bold text-center flex xs:flex-col xs:mt-0 xs:gap-1 sm:flex-row sm:gap-4 mt-2">
+      <NavLink className={`${WebsiteColors.hoverLight}`} to="/">
+        Home
+      </NavLink>
+      <NavLink className={`${WebsiteColors.hoverLight}`} to="/about">
+        About Us
+      </NavLink>
+      <NavLink className={`${WebsiteColors.hoverLight}`} to="/faqs">
+        FAQs
+      </NavLink>
+      <NavLink className={`${WebsiteColors.hoverLight}`} to="/products">
+        Products
+      </NavLink>
+      <NavLink className={`${WebsiteColors.hoverLight}`} to="/contact">
+        Contact Us
+      </NavLink>
+    </div>
   );
 }
 

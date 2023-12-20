@@ -6,7 +6,7 @@ module.exports = {
     "./src/pages/**/*.{js,jsx,ts,tsx}",
     "./src/components/**/*.{js,jsx,ts,tsx}",
     "./src/containers/**/*.{js,jsx,ts,tsx}",
-    "./node_modules/tw-elements/dist/js/**/*.js"
+    "./node_modules/tw-elements/dist/js/**/*.js",
   ],
   theme: {
     extend: {
@@ -17,7 +17,7 @@ module.exports = {
         },
         npt_colors: {
           1: "#313b48",
-          2: "#28313d", 
+          2: "#28313d",
           10: "#ffe97d",
           20: "#d1d1e1",
           30: "#c0ebf1",
@@ -39,12 +39,14 @@ module.exports = {
           30: "#2D936C",
           40: "#391463",
           50: "#3A0842",
-        }
+          60: "#331e6d",
+          70: "#ffcf31",
+        },
       },
       fontFamily: {
         lato: ["Lato"],
         chewy: ["Chewy"],
-        montserrat: ["Montserrat"], 
+        montserrat: ["Montserrat"],
       },
     },
   },

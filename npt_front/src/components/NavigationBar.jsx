@@ -1,14 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 
 function NavigationBar() {
-  const [selected, setSelected] = useState(false);
-
-  const onClick = () => {
-    setSelected(!selected);
-    console.log(selected);
-  };
-
   return (
     <header>
       <nav className="bg-npt_colors-325 text-xs font-bold text-center flex xs:flex-col xs:mt-0 xs:gap-1 sm:flex-row sm:gap-4 mt-2 rounded-lg">
@@ -19,7 +12,7 @@ function NavigationBar() {
           About Us
         </NavLink>
         <NavLink className="hover:text-npt_colors-300" to="/faqs">
-          FAQ
+          FAQs
         </NavLink>
         <NavLink className="hover:text-npt_colors-300" to="/services">
           Services
@@ -32,12 +25,6 @@ function NavigationBar() {
           to="/resources"
         >
           Resources
-        </NavLink>
-        <NavLink className="hover:text-npt_colors-300" to="/dev">
-          Dev
-        </NavLink>
-        <NavLink className="hover:text-npt_colors-300" to="/options">
-          Options
         </NavLink>
       </nav>
     </header>

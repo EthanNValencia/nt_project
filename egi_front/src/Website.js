@@ -12,6 +12,8 @@ export const TextColors = {
   green: "text-egi-30",
   blue: "text-egi-40",
   purple: "text-egi-50",
+  darkBlue: "text-egi-60",
+  lightGold: "text-egi-70",
 };
 
 export const Fonts = {
@@ -22,6 +24,7 @@ export const Fonts = {
 export const WebsiteColors = {
   buttonColors: "bg-egi-40 hover:bg-egi-20 text-white hover:text-black",
   disabledButtonColors: "text-black bg-slate-600",
+  hoverLight: "hover:" + TextColors.green,
 };
 
 export const HeaderData = {
@@ -37,10 +40,9 @@ export const HeaderData = {
 
 export const FooterData = {
   bgColor: BgColors.gold,
-};
-
-export const MainFont = {
-  font: "",
+  textColor: TextColors.blue,
+  primaryFont: Fonts.primaryFont,
+  secondaryFont: Fonts.secondaryFont,
 };
 
 export const FAQCategory = {
@@ -191,6 +193,22 @@ const ContactType = {
   customerSupport: "Customer Support",
   mediaInquiries: "Media Inquiries",
   salesAndPartnerships: "Sales and Partnerships",
+};
+
+export const SocialMediaProfile = {
+  linkedin: "",
+  youtube: "https://www.youtube.com/",
+  facebook: "https://www.facebook.com/",
+  myspace: "",
+  instagram: "https://www.instagram.com/",
+  yelp: "https://www.yelp.com/",
+  tiktok: "https://www.tiktok.com/",
+  x: "https://twitter.com/",
+  pinterest: "https://www.pinterest.com/",
+  snapchat: "",
+  whatsapp: "",
+  tumblr: "",
+  google: "",
 };
 
 export const ContactInformation = {
