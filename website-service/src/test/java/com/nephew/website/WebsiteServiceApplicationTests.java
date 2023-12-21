@@ -1,4 +1,4 @@
-package com.nephew.faqs;
+package com.nephew.website;
 
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(properties = "eureka.client.enabled=false")
-class FaqsServiceApplicationTests {
+class WebsiteServiceApplicationTests {
 
 	@Test
 	void contextLoads() {

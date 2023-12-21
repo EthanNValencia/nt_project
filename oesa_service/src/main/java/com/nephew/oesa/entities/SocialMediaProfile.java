@@ -14,7 +14,7 @@ public class SocialMediaProfile {
 	private long id;
 	
 	@Column(length = 120)
-	private String linkedin = ""; // https://www.linkedin.com
+	private String linkedin = "";
 	@Column(length = 120)
 	private String youtube = "";
 	@Column(length = 120)
