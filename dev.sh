@@ -5,3 +5,4 @@
 
 code --new-window --title "Npt" npt_front
 code --new-window --title "Admin" admin_front
+code --new-window --title "Admin" egi_front

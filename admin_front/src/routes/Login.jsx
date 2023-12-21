@@ -12,6 +12,7 @@ import {
   connectEmailService,
   connectSmsService,
   connectGatewayService,
+  connectFaqsService,
 } from "../axios/api";
 import NssButtonChevronMini from "../nss/NssButtonChevronMini";
 import { Transition } from "@headlessui/react";
@@ -49,9 +50,19 @@ function ConnectStatus(props) {
   const [sms, setSms] = useState(false);
   const [gateway, setGateway] = useState(false);
   const [naming, setNaming] = useState(false);
+  const [faqs, setFaqs] = useState(false);
   const [connected, setConnected] = useState(false);
   const intervalTime = useRef(2000);
   const [isShowing, setIsShowing] = useState(false);
+
+  async function checkFaqs() {
+    try {
+      const data = await connectFaqsService();
+      setFaqs(data);
+    } catch (error) {
+      setFaqs(false);
+    }
+  }
 
   async function checkSecurity() {
     try {
@@ -126,6 +137,7 @@ function ConnectStatus(props) {
       checkEmail();
       checkSms();
       checkGateway();
+      checkFaqs();
     };
 
     const startInterval = () => {
@@ -143,14 +155,14 @@ function ConnectStatus(props) {
   }, []);
 
   useEffect(() => {
-    setNaming(security || error || oesa || email || sms || gateway);
-  }, [security, error, oesa, email, sms, gateway]);
+    setNaming(security || error || oesa || email || sms || gateway || faqs);
+  }, [security, error, oesa, email, sms, gateway, faqs]);
 
   useEffect(() => {
     setConnected(
-      security && error && oesa && email && sms && gateway && naming
+      security && error && oesa && email && sms && gateway && naming && faqs
     );
-  }, [security, error, oesa, email, sms, gateway, naming]);
+  }, [security, error, oesa, email, sms, gateway, naming, faqs]);
 
   useEffect(() => {
     setServicesOnline(connected);
@@ -186,6 +198,7 @@ function ConnectStatus(props) {
               <ConnectIcons name={"email"} status={email} />
               <ConnectIcons name={"gateway"} status={gateway} />
               <ConnectIcons name={"naming"} status={naming} />
+              <ConnectIcons name={"faqs"} status={faqs} />
             </div>
           </div>
         </div>

@@ -8,12 +8,12 @@ function ExecutiveCard(props) {
 
   return (
     <div>
-      <div className="bg-egi-20 w-full p-4">
+      <div className="bg-egi-20 w-full p-4 border-t-2 border-b-2 border-egi-60">
         <div className="flex">
           <div>
-            <div className="w-40">
+            <div className="w-56">
               <img
-                className="w-40 border border-egi-40 rounded-lg"
+                className="w-56 border border-egi-40 rounded-lg"
                 src={executive.image}
               ></img>
             </div>
@@ -30,7 +30,7 @@ function ExecutiveCard(props) {
           </div>
         </div>
       </div>
-      <div className="p-1 bg-egi-70"></div>
+      <div className="p-1 bg-egi-30"></div>
     </div>
   );
 }

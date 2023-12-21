@@ -10,7 +10,7 @@
 		<relativePath /> 
 	</parent>
 	<groupId>com.nephew.oesa</groupId>
-	<artifactId>oesa</artifactId>
+	<artifactId>oesa-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>oesa-service</name>
 	<description>Office Employee Service Appointment Service</description>

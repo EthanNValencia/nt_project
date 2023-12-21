@@ -4,6 +4,7 @@ const authUrl = "http://localhost:8765/security-service/api/v1/public/";
 const privateUrl = "http://localhost:8765/oesa-service/api/v1/auth/npt";
 const errorReportingUrl =
   "http://localhost:8765/error-service/api/v1/public/error/";
+
 export async function register(user) {
   const registerUrl = authUrl + "/register";
   const requestBody = {
@@ -494,6 +495,16 @@ const validateResponse = (data) => {
 
 export async function connectSecurityService() {
   const url = "http://localhost:8765/security-service/api/v1/public/health";
+  try {
+    const response = await axios.get(url);
+    return validateResponse(response.data);
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function connectFaqsService() {
+  const url = "http://localhost:8765/faqs-service/api/v1/public/health";
   try {
     const response = await axios.get(url);
     return validateResponse(response.data);

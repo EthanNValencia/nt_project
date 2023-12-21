@@ -30,7 +30,7 @@ const Office = (props) => {
         <div className="bg-egi-60 text-white text-center break-words p-2">
           {office.introduction}
         </div>
-        <div className="relative bg-white px-2 pb-2 ring-1 ring-gray-900/5">
+        <div className="relative px-2 pb-2 ring-1 ring-gray-900/5">
           <div className="py-2 flex justify-center">
             <div>
               <WalkIns acceptingWalkIns={office.acceptingWalkIns} />
