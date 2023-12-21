@@ -1,4 +1,4 @@
-package com.nephew.oesa.dto;
+package com.nephew.faqs.dtos;
 
 // The key is generated and not the id in the database. Trying to keep database info away from the public. 
 public class FAQsDto {

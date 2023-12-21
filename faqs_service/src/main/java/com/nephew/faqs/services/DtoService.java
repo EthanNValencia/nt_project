@@ -1,19 +1,11 @@
-package com.nephew.oesa.services;
+package com.nephew.faqs.services;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
+import com.nephew.faqs.dtos.FAQsDto;
+import com.nephew.faqs.entities.FAQs;
 import org.springframework.stereotype.Service;
 
-import com.nephew.oesa.dto.AppointmentDto;
-import com.nephew.oesa.dto.EmployeeDto;
-import com.nephew.oesa.dto.FAQsDto;
-import com.nephew.oesa.dto.OfficeDto;
-import com.nephew.oesa.entities.Appointment;
-import com.nephew.oesa.entities.FAQs;
-import com.nephew.oesa.entities.Office;
-import com.nephew.oesa.entities.employee.Employee;
+import java.util.ArrayList;
 
 @Service
 public class DtoService {
@@ -40,43 +32,5 @@ public class DtoService {
 		}
 		return faqsDto;
 	}
-
-	public List<EmployeeDto> convertEmployeesDto(Collection<Employee> employees, boolean nullAppointments) {
-		List<EmployeeDto> employeesDto = new ArrayList<>();
-		int key = 0;
-		for(Employee employee: employees) {
-			if(nullAppointments) {
-				employee.setAppointments(null);
-			}
-			employeesDto.add(new EmployeeDto(employee, key));
-			key = key + 1;
-		}
-		return employeesDto;
-	}
-	
-	public EmployeeDto convertEmployeeDto(Employee employee, boolean nullAppointments) {
-		EmployeeDto employeeDto = new EmployeeDto();
-		int key = 0;
-		if(nullAppointments) {
-			employee.setAppointments(null);
-		}
-		employeeDto = new EmployeeDto(employee, key);
-		return employeeDto;
-	}
-
-	public AppointmentDto convertToAppointmentDto(Appointment newAppointment) {
-		AppointmentDto dto = new AppointmentDto(newAppointment);
-		return dto;
-	}
-
-	public List<OfficeDto> convertOfficesToDtos(List<Office> offices) {
-		 List<OfficeDto> officesDto = new ArrayList<>();
-		 for(Office office : offices) {
-			 officesDto.add(new OfficeDto(office));
-		 }
-		return officesDto;
-	}
-	
-	
 	
 }

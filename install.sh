@@ -6,6 +6,8 @@ cd ../security_service/ && mvn clean install
 cd ../sms_service/ && mvn clean install
 cd ../error_service/ && mvn clean install
 cd ../oesa_service/ && mvn clean install
+cd ../website_service/ && mvn clean install
+cd ../faqs_service/ && mvn clean install
 cd ../admin_front/ && npm install
 cd ../npt_front/ && npm install
 cd ../egi_front/ && npm install

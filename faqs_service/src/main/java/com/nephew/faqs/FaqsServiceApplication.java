@@ -1,13 +1,13 @@
-package com.nephew.oesa;
+package com.nephew.faqs;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 @SpringBootApplication
-public class FaqsApplication {
+public class FaqsServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(OesaApplication.class, args);
+		SpringApplication.run(FaqsServiceApplication.class, args);
 	}
-	
 
 }

@@ -1,10 +1,7 @@
-package com.nephew.faqs.entities;
+package com.nephew.website.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -20,21 +17,16 @@ public class Company {
 	@Column(length = 30)
 	private String companyUrl;
 
-	// Removed cascade = CascadeType.ALL,
-
-	@OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "company", fetch = FetchType.EAGER)
 	@JsonIgnoreProperties("company")
-	private List<FAQs> faqs;
+	private Website website;
 
 	public Company() {
 		super();
-		this.faqs = new ArrayList<>();
 	}
 
 	public void assignIdToChildren() {
-		for (FAQs faq : faqs) {
-			faq.setCompany(this);
-		}
+		website.setCompany(this);
 	}
 
 	public long getId() {
@@ -69,18 +61,17 @@ public class Company {
 		this.companyName = companyName;
 	}
 
-	public List<FAQs> getFaqs() {
-		return faqs;
+	public Website getWebsite() {
+		return website;
 	}
 
-	public void setFaqs(List<FAQs> faqs) {
-		this.faqs = faqs;
+	public void setWebsite(Website website) {
+		this.website = website;
 	}
-
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(companyAcronym, companyName, companyUrl, faqs, id);
+		return Objects.hash(companyAcronym, companyName, companyUrl, id, website);
 	}
 
 	@Override

@@ -1,15 +1,14 @@
-package com.nephew.oesa.repositories;
+package com.nephew.faqs.repositories;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
+import com.nephew.faqs.entities.FAQs;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.nephew.oesa.entities.FAQs;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface FAQsRepository extends JpaRepository<FAQs, Long> {

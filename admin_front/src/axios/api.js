@@ -503,6 +503,16 @@ export async function connectSecurityService() {
   }
 }
 
+export async function connectWebsiteService() {
+  const url = "http://localhost:8765/website-service/api/v1/public/health";
+  try {
+    const response = await axios.get(url);
+    return validateResponse(response.data);
+  } catch (error) {
+    return false;
+  }
+}
+
 export async function connectFaqsService() {
   const url = "http://localhost:8765/faqs-service/api/v1/public/health";
   try {
