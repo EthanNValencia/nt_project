@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api/v1/public")
-public class PublicController {
+public class WebsitePublicController {
 
 	@Autowired
 	private DtoService dtoService;
@@ -40,14 +40,14 @@ public class PublicController {
 	public ResponseEntity<FAQsDto> saveNewFAQ(@PathVariable(value = "companyUrl") String companyUrl, @RequestBody FAQs faqs) {
 		FAQs savedFaq = faqsService.saveNewQuestion(faqs);
 		FAQsDto faqsDto = dtoService.convertFAQsDto(savedFaq);
-		return new ResponseEntity<FAQsDto>(faqsDto, HttpStatus.OK);
+		return new ResponseEntity<>(faqsDto, HttpStatus.OK);
 	}
 
 	@GetMapping("{companyUrl}/faqs/")
 	public ResponseEntity<ArrayList<FAQsDto>> getAllAnsweredQuestions(@PathVariable(value = "companyUrl") String companyUrl) {
 		ArrayList<FAQs> faqs = faqsService.getAllAnsweredQuestions();
 		ArrayList<FAQsDto> faqsDto = dtoService.convertFAQsDto(faqs);
-		return new ResponseEntity<ArrayList<FAQsDto>>(faqsDto, HttpStatus.OK);
+		return new ResponseEntity<>(faqsDto, HttpStatus.OK);
 	}
 
 }

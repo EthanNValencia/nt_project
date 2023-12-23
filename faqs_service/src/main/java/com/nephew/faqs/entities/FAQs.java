@@ -18,7 +18,6 @@ public class FAQs {
 	@JoinColumn(name = "company_id", referencedColumnName = "id")
 	private Company company;
 	
-	
 	public Company getCompany() {
 		return company;
 	}

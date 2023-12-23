@@ -23,5 +23,8 @@ public interface FAQsRepository extends JpaRepository<FAQs, Long> {
 	
 	 @Query("SELECT f FROM FAQs f WHERE f.company.companyUrl = :companyUrl")
 	 public List<FAQs> findByCompanyUrl(@Param("companyUrl") String companyUrl);
+
+	@Query("SELECT f FROM FAQs f WHERE f.company IS NULL")
+	public List<FAQs> findAllFaqsWithNullCompanyId();
 	
 }
