@@ -17,7 +17,15 @@ public class FAQs {
 	@ManyToOne
 	@JoinColumn(name = "company_id", referencedColumnName = "id")
 	private Company company;
-	
+
+	public FAQs(long id, boolean questionIsAnswered, String question, String answer, Company company) {
+		this.id = id;
+		this.questionIsAnswered = questionIsAnswered;
+		this.question = question;
+		this.answer = answer;
+		this.company = company;
+	}
+
 	public Company getCompany() {
 		return company;
 	}
@@ -65,7 +73,7 @@ public class FAQs {
 	@Override
 	public String toString() {
 		return "FAQs [id=" + id + ", questionIsAnswered=" + questionIsAnswered + ", question=" + question + ", answer="
-				+ answer + "]";
+				+ answer + "companyId=" + company.getId() + "]";
 	}
 
 }

@@ -4,6 +4,7 @@ import com.nephew.faqs.entities.Company;
 import com.nephew.faqs.entities.FAQs;
 import com.nephew.faqs.repositories.CompanyRepository;
 import com.nephew.faqs.repositories.FAQsRepository;
+import com.nephew.faqs.services.JdbcService;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,22 +44,34 @@ class FaqsServiceApplicationTests {
 	@Autowired
 	private CompanyRepository companyRepository;
 
+	@Autowired
+	private JdbcService jdbcService;
+
+	private final String NPT_URL = "npt";
+
 	@Order(10)
 	@Test
 	void deleteFaqs() {
-		faqsRepository.deleteAll();
-	}
+        try {
+            List<FAQs> faqs = jdbcService.findAllFaqsByCompanyUrl("npt");
+			for(FAQs faq: faqs) {
+				jdbcService.deleteFaqById(faq.getId());
+			}
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 	@Order(20)
 	@Test
 	void checkIfCompanyExists() {
-		Optional<Company> npt = companyRepository.findByCompanyUrl("npt");
+		Optional<Company> npt = companyRepository.findByCompanyUrl(NPT_URL);
 		Optional<Company> egi = companyRepository.findByCompanyUrl("egi");
 		if(npt.isEmpty()) {
 			Company newNpt = new Company();
 			newNpt.setId(1L);
 			newNpt.setCompanyName("Nephew Physical Therapy");
-			newNpt.setCompanyUrl("npt");
+			newNpt.setCompanyUrl(NPT_URL);
 			newNpt.setCompanyAcronym("npt");
 		}
 		if(egi.isEmpty()) {
@@ -99,27 +113,13 @@ class FaqsServiceApplicationTests {
 		faq6.setAnswer(
 				"ZOOM. We’ll email you a link after scheduling. Come to appointment ready with all your questions!");
 		faq6.setQuestionIsAnswered(true);
-		save(faq1);
-		save(faq2);
-		save(faq3);
-		save(faq4);
-		save(faq5);
-		save(faq6);
-	}
 
-	@Order(110)
-	@Test
-	void assignNptFaqsToNptCompany() {
-		Optional<Company> npt = companyRepository.findByCompanyUrl("npt");
-		if(npt.isEmpty()) {
-			fail();
-		}
-		Company nptCompany = npt.get();
-		List<FAQs> faqs = getAllFaqsWithoutCompanyId();
-		for(FAQs faq : faqs) {
-			faq.setCompany(nptCompany);
-		}
-		faqsRepository.saveAll(faqs);
+		jdbcService.insertFaq(faq1, NPT_URL);
+		jdbcService.insertFaq(faq2, NPT_URL);
+		jdbcService.insertFaq(faq3, NPT_URL);
+		jdbcService.insertFaq(faq4, NPT_URL);
+		jdbcService.insertFaq(faq5, NPT_URL);
+		jdbcService.insertFaq(faq6, NPT_URL);
 	}
 
 	@Order(120)

@@ -31,6 +31,11 @@ public class Company {
 		this.faqs = new ArrayList<>();
 	}
 
+	public Company(long id) {
+		super();
+		this.id = id;
+	}
+
 	public void assignIdToChildren() {
 		for (FAQs faq : faqs) {
 			faq.setCompany(this);

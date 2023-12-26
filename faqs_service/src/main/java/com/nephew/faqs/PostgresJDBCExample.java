@@ -1,5 +1,6 @@
 package com.nephew.faqs;
 
+import com.nephew.faqs.entities.Company;
 import com.nephew.faqs.entities.FAQs;
 
 import java.sql.*;
@@ -10,7 +11,7 @@ import java.util.List;
 public class PostgresJDBCExample {
 
     public static void main(String[] args) {
-        // JDBC URL, username, and password of PostgreSQL server
+       // JDBC URL, username, and password of PostgreSQL server
         String url = "jdbc:postgresql://127.0.0.1:5432/nt_db";
         String user = "nt_user";
         String password = "password";
@@ -24,9 +25,9 @@ public class PostgresJDBCExample {
             // Open a connection
             connection = DriverManager.getConnection(url, user, password);
             System.out.println("Connected to the PostgreSQL server successfully.");
-
+            Company company = findCompanyByUrl("npt", connection);
             // Define the SELECT query
-            String selectQuery = "SELECT * FROM faqs";
+            String selectQuery = "SELECT * FROM faqs WHERE company_id=" + company.getId();
 
             // Create a PreparedStatement
             preparedStatement = connection.prepareStatement(selectQuery);
@@ -37,22 +38,20 @@ public class PostgresJDBCExample {
             // Process the result set
             List<FAQs> faqsList = new ArrayList<>();
             while (resultSet.next()) {
-                // Retrieve data from the result set
-                FAQs faqs = new FAQs();
                 boolean isQuestionAnswered = resultSet.getBoolean("question_is_answered");
                 long id = resultSet.getLong("id");
                 long companyId = resultSet.getLong("company_id");
                 String question = resultSet.getString("question");
                 String answer = resultSet.getString("answer");
-                System.out.println("ID: " + id + ", question: " + question);
+                FAQs faqs = new FAQs(id, isQuestionAnswered, question, answer, company);
+                faqsList.add(faqs);
+                System.out.println(faqs);
             }
-
         } catch (SQLException e) {
             System.out.println("Query execution failure.");
             e.printStackTrace();
         } finally {
             try {
-                // Close the resources
                 if (resultSet != null) {
                     resultSet.close();
                 }
@@ -68,4 +67,14 @@ public class PostgresJDBCExample {
             }
         }
     }
+    private static Company findCompanyByUrl(String companyUrl, Connection connection) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT id FROM company WHERE company_url='" + companyUrl + "'");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if(resultSet.next()) {
+            long id = resultSet.getLong("id");
+            return new Company(id);
+        }
+        throw new SQLException("Company with url " + companyUrl + " was not found.");
+    }
+
 }
