@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
@@ -88,6 +89,10 @@ public class JdbcService {
 
     public List<FAQs> findAllFaqsByCompanyUrl(String companyUrl) throws SQLException {
         Company company = findCompanyByUrl(companyUrl);
+        if(company == null) {
+            logger.warning("Company with url: " + companyUrl + " was not found.");
+            return new ArrayList<>();
+        }
         Connection connection = connectionService.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM faqs WHERE company_id=? ORDER BY id");
         preparedStatement.setLong(1, company.getId());
@@ -120,17 +125,19 @@ public class JdbcService {
         try (Connection connection = connectionService.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "INSERT INTO faqs (question, answer, question_is_answered, company_id) VALUES (?, ?, ?, ?)")) {
-
             preparedStatement.setString(1, faq.getQuestion());
             preparedStatement.setString(2, faq.getAnswer());
             preparedStatement.setBoolean(3, faq.isQuestionIsAnswered());
             preparedStatement.setLong(4, faq.getCompany().getId());
             preparedStatement.executeUpdate();
-
         } catch (SQLException e) {
             logger.warning("Something went wrong while attempting to insert faq: " + faq.toString());
             e.printStackTrace();
         }
+    }
+
+    public void insertCompany(Company egi) {
+
     }
 
     private void closeConnection(Connection connection) {
