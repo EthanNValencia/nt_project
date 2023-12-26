@@ -5,10 +5,7 @@ import com.nephew.faqs.entities.FAQs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -26,11 +23,13 @@ public class JdbcService {
 
 
     @Autowired
-    private Connection connection;
+    private ConnectionService connectionService;
 
     public Company findCompanyByUrl(String companyUrl) {
          try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT id FROM company WHERE company_url='" + companyUrl + "'");
+            Connection connection = connectionService.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT id FROM company WHERE company_url=?");
+             preparedStatement.setString(1, companyUrl);
             ResultSet resultSet = preparedStatement.executeQuery();
             Company company;
             if (resultSet.next()) {
@@ -47,6 +46,7 @@ public class JdbcService {
     }
 
     public FAQs findFaqById(long faqId) throws SQLException {
+        Connection connection = connectionService.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM faqs WHERE id=" + faqId);
         ResultSet resultSet = preparedStatement.executeQuery();
         FAQs faq;
@@ -59,12 +59,16 @@ public class JdbcService {
         return faq;
     }
 
-    public void deleteFaqById(long faqId) throws SQLException {
+    public void deleteFaqById(long faqId) {
         PreparedStatement preparedStatement = null;
         try {
+            Connection connection = connectionService.getConnection();
             preparedStatement = connection.prepareStatement("DELETE FROM faqs WHERE id=?");
             preparedStatement.setLong(1, faqId);
             preparedStatement.executeUpdate();
+            closeResources(connection, preparedStatement);
+        } catch (SQLException e) {
+            logger.warning("Something went wrong while attempting to delete faq with id: " + faqId);
         } finally {
             if (preparedStatement != null) {
                 closeResources(preparedStatement);
@@ -84,6 +88,7 @@ public class JdbcService {
 
     public List<FAQs> findAllFaqsByCompanyUrl(String companyUrl) throws SQLException {
         Company company = findCompanyByUrl(companyUrl);
+        Connection connection = connectionService.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM faqs WHERE company_id=? ORDER BY id");
         preparedStatement.setLong(1, company.getId());
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -107,25 +112,28 @@ public class JdbcService {
             faq.setQuestionIsAnswered(false);
         }
 
-        if(faq.getCompany() == null) {
+        if (faq.getCompany() == null) {
             logger.info("The provided faq does not have a company. Getting company by companyUrl: " + companyUrl);
             faq.setCompany(findCompanyByUrl(companyUrl));
         }
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO faqs (question, answer, question_is_answered, company_id) VALUES (?, ?, ?, ?)")) {
+        try (Connection connection = connectionService.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "INSERT INTO faqs (question, answer, question_is_answered, company_id) VALUES (?, ?, ?, ?)")) {
+
             preparedStatement.setString(1, faq.getQuestion());
             preparedStatement.setString(2, faq.getAnswer());
             preparedStatement.setBoolean(3, faq.isQuestionIsAnswered());
             preparedStatement.setLong(4, faq.getCompany().getId());
             preparedStatement.executeUpdate();
+
         } catch (SQLException e) {
             logger.warning("Something went wrong while attempting to insert faq: " + faq.toString());
             e.printStackTrace();
         }
     }
 
-
-    private void closeConnection() {
+    private void closeConnection(Connection connection) {
         try {
         if (connection != null && !connection.isClosed()) {
             connection.close();
@@ -161,15 +169,24 @@ public class JdbcService {
         }
     }
 
+    private void closeResources(Connection connection, ResultSet resultSet, PreparedStatement preparedStatement) {
+        closeResultSet(resultSet);
+        closePreparedStatement(preparedStatement);
+        closeConnection(connection);
+    }
+
+    private void closeResources(Connection connection, PreparedStatement preparedStatement) {
+        closePreparedStatement(preparedStatement);
+        closeConnection(connection);
+    }
+
     private void closeResources(ResultSet resultSet, PreparedStatement preparedStatement) {
         closeResultSet(resultSet);
         closePreparedStatement(preparedStatement);
-        // closeConnection();
     }
 
     private void closeResources(PreparedStatement preparedStatement) {
         closePreparedStatement(preparedStatement);
-        // closeConnection();
     }
 
 }
