@@ -5,10 +5,12 @@ import com.nephew.faqs.entities.FAQs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
@@ -99,7 +101,26 @@ public class JdbcService {
         ResultSet resultSet = preparedStatement.executeQuery();
         List<FAQs> faqsList = new ArrayList<>();
         while (resultSet.next()) {
-            FAQs faqs = assignResultSetToFaq(resultSet); // Will this be out of order?
+            FAQs faqs = assignResultSetToFaq(resultSet);
+            faqsList.add(faqs);
+        }
+        closeResources(resultSet, preparedStatement);
+        return faqsList;
+    }
+
+    public List<FAQs> findAnsweredFaqsByCompanyUrl(String companyUrl) throws SQLException {
+        Company company = findCompanyByUrl(companyUrl);
+        if(company == null) {
+            logger.warning("Company with url: " + companyUrl + " was not found.");
+            return new ArrayList<>();
+        }
+        Connection connection = connectionService.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM faqs WHERE company_id=? AND question_is_answered=true ORDER BY id;");
+        preparedStatement.setLong(1, company.getId());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<FAQs> faqsList = new ArrayList<>();
+        while (resultSet.next()) {
+            FAQs faqs = assignResultSetToFaq(resultSet);
             faqsList.add(faqs);
         }
         closeResources(resultSet, preparedStatement);

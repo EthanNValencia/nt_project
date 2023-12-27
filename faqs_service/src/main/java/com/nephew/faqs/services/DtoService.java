@@ -6,6 +6,7 @@ import com.nephew.faqs.entities.FAQs;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class DtoService {
@@ -32,5 +33,19 @@ public class DtoService {
 		}
 		return faqsDto;
 	}
-	
+
+	public ArrayList<FAQsDto> convertFAQsDto(List<FAQs> faqsList) {
+		ArrayList<FAQsDto> faqsDto = new ArrayList<>();
+		int key = 0;
+		for(FAQs faq : faqsList) {
+			FAQsDto faqDto = new FAQsDto();
+			faqDto.setKey(key); // This is to provide the front-end with a unique key.
+			faqDto.setAnswer(faq.getAnswer());
+			faqDto.setQuestion(faq.getQuestion());
+			faqDto.setQuestionIsAnswered(faq.isQuestionIsAnswered());
+			faqsDto.add(faqDto);
+			key = key +  1;
+		}
+		return faqsDto;
+	}
 }
