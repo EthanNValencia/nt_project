@@ -5,7 +5,7 @@
 #!/bin/sh
 #ls
 
-# xfce4-taskmanager &
+xfce4-taskmanager &
 # systemctl start docker &&
 # sleep 5
 terminator --new-tab -e "cd naming_server/; bash -c 'echo -ne \"\033]0;Naming\007\"'; mvn spring-boot:run" &
@@ -23,7 +23,7 @@ terminator --new-tab -e "cd admin_front/; bash -c 'echo -ne \"\033]0;Admin-Front
 terminator --new-tab -e "cd npt_front/; bash -c 'echo -ne \"\033]0;Npt-Front\007\"'; npm run dev" &
 terminator --new-tab -e "cd egi_front/; bash -c 'echo -ne \"\033]0;Egi-Front\007\"'; npm run dev" &
 sleep 5
-# firefox --new-tab http://localhost:5050 &
+firefox --new-tab http://localhost:5050 &
 firefox --new-tab http://localhost:4001/login &
 firefox --new-tab http://localhost:4000 &
 firefox --new-tab http://localhost:4002 &

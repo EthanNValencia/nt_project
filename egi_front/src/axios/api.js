@@ -4,7 +4,7 @@ const publicUrl = "http://localhost:8765/oesa-service/api/v1/public/egi";
 const authUrl = "http://localhost:8765/security-service/api/v1/public";
 const errorReportingUrl =
   "http://localhost:8765/error-service/api/v1/public/error/";
-const faqsUrl = publicUrl + "/faqs/";
+const faqsUrl = "http://localhost:8765/faqs-service/api/v1/public/egi/faqs/";
 const employeeApiUrl = publicUrl + "/employees/";
 const specialtyApiUrl = publicUrl + "/services";
 const appointmentApiUrl = publicUrl + "/appointment/";

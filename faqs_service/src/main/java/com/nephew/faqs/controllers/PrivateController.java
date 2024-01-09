@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/auth")
-public class WebsitePrivateController {
+public class PrivateController {
 
 	@Autowired
 	private FAQsService faqsService;

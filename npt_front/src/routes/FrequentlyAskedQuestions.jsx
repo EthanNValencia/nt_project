@@ -3,7 +3,6 @@ import NtButton from "../components/NtButton";
 import FAQsDiv from "../components/FAQsDiv";
 import { postFaq, getAnsweredFAQs } from "../axios/api";
 import FAQsLoading from "../components/loading/FAQsLoading";
-import RenderFor from "../animations/RenderFor";
 import ApiError from "../components/ApiError";
 
 function FrequentlyAskedQuestions() {
@@ -16,7 +15,7 @@ function FrequentlyAskedQuestions() {
   async function onClick() {
     try {
       setLoading(true);
-      const response = await postFaq(message);
+      await postFaq(message);
       setLoading(false);
       setQuestionSubmitted(true);
       setHasApiError(false);

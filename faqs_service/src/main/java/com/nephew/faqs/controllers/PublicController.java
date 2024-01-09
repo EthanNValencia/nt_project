@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/public")
-public class WebsitePublicController {
+public class PublicController {
 
 	@Autowired
 	private DtoService dtoService;
@@ -43,15 +43,13 @@ public class WebsitePublicController {
 
 	// Example URL: http://localhost:8765/faqs-service/api/v1/public/npt/faqs/
 	@PostMapping("{companyUrl}/faqs/")
-	public ResponseEntity<FAQsDto> saveNewFAQ(@PathVariable(value = "companyUrl") String companyUrl, @RequestBody FAQs faqs) {
-		FAQs savedFaq = faqsService.saveNewQuestion(faqs);
-		FAQsDto faqsDto = dtoService.convertFAQsDto(savedFaq);
-		return new ResponseEntity<>(faqsDto, HttpStatus.OK);
+	public ResponseEntity<Void> askNewFaq(@PathVariable(value = "companyUrl") String companyUrl, @RequestBody FAQs faqs) {
+		jdbcService.insertFaq(faqs, companyUrl);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@GetMapping("{companyUrl}/faqs/")
 	public ResponseEntity<ArrayList<FAQsDto>> getAllAnsweredQuestions(@PathVariable(value = "companyUrl") String companyUrl) throws SQLException {
-		// ArrayList<FAQs> faqs = faqsService.getAllAnsweredQuestions();
 		List<FAQs> faqsList = jdbcService.findAnsweredFaqsByCompanyUrl(companyUrl);
 		ArrayList<FAQsDto> faqsDto = dtoService.convertFAQsDto(faqsList);
 		return new ResponseEntity<>(faqsDto, HttpStatus.OK);

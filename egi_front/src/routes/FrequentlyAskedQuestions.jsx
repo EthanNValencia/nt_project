@@ -29,7 +29,6 @@ function FrequentlyAskedQuestions() {
     async function fetchFaqs() {
       try {
         const data = await getAnsweredFAQs();
-        // console.log(data);
         setFAQs(data);
         setHasApiError(false);
       } catch (error) {
@@ -37,7 +36,7 @@ function FrequentlyAskedQuestions() {
         setHasApiError(true);
       }
     }
-    // fetchFaqs();
+    fetchFaqs();
   }, []);
 
   return (
@@ -47,7 +46,7 @@ function FrequentlyAskedQuestions() {
         <h1>Answers</h1>
       </div>
 
-      {FAQs.map((faq) => (
+      {faqs.map((faq) => (
         <FAQsDiv faq={faq} key={faq.id} />
       ))}
 
