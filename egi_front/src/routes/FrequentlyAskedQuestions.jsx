@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from "react";
 import NtButton from "../components/NtButton";
-import FAQsDiv from "../components/FAQsDiv";
 import { postFaq, getAnsweredFAQs } from "../axios/api";
 import ApiError from "../components/ApiError";
-import { FAQs } from "../Website";
+
+function FrequentlyAskedQuestion(props) {
+  const { faq } = props;
+
+  return (
+    <div className="grid grid-flow-row grid-cols-2 border-b-2 border-egi-50">
+      <p>{faq.question}</p>
+      <p>{faq.answer}</p>
+    </div>
+  );
+}
 
 function FrequentlyAskedQuestions() {
   const [faqs, setFAQs] = useState([]);
@@ -41,13 +50,13 @@ function FrequentlyAskedQuestions() {
 
   return (
     <div className="p-4">
-      <div className="grid grid-flow-row grid-cols-2 border-b-4 text-2xl tracking-tighter">
+      <div className="grid grid-flow-row grid-cols-2 border-b-4 border-egi-50 text-2xl tracking-tighter">
         <h1>Questions</h1>
         <h1>Answers</h1>
       </div>
 
       {faqs.map((faq) => (
-        <FAQsDiv faq={faq} key={faq.id} />
+        <FrequentlyAskedQuestion faq={faq} key={faq.id} />
       ))}
 
       {/*
@@ -68,7 +77,7 @@ function FrequentlyAskedQuestions() {
           onChange={(e) => setMessage(e.target.value)}
           id="message"
           rows="3"
-          className="block p-2.5 w-full text-sm text-gray-900 bg-gray-200 rounded-lg border border-gray-300 focus:ring-npt_colors-30 focus:border-npt_colors-30 "
+          className="block p-2.5 w-full text-sm placeholder-black text-black bg-egi-70 rounded-lg border border-egi-40 focus:ring-egi-50 focus:border-egi-50"
           placeholder="Write your question here..."
           disabled={loading || questionSubmitted ? "disabled" : ""}
         ></textarea>

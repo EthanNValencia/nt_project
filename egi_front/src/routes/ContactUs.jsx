@@ -76,7 +76,7 @@ const Office = (props) => {
                   <div className="text-xs font-semibold">Address</div>
                   <div className="text-sm text-npt_colors-1">
                     {office.street +
-                      "., " +
+                      ", " +
                       office.unit +
                       ", " +
                       office.city +
@@ -104,11 +104,13 @@ const Office = (props) => {
                 </div>
               </div>
             </div>
+
             <div className="flex justify-center">
               {hasApiError ? <ApiError /> : <></>}
             </div>
           </div>
         </div>
+        <div className="p-2 text-white bg-egi-60">{office.outroduction}</div>
       </div>
     </div>
   );

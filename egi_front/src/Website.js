@@ -54,7 +54,7 @@ export const FAQCategory = {
   hydrobeam: "HydroBeam Desk Lamps",
   bambooglow: "BambooGlo Pendants",
 };
-
+/*
 export const FAQs = [
   {
     id: 1,
@@ -152,6 +152,7 @@ export const FAQs = [
       "Yes, BambooGlo Pendants come equipped with energy-efficient LED bulbs, contributing to a more eco-conscious lifestyle.",
   },
 ];
+*/
 
 // https://unsplash.com/s/photos/fake-ceo
 
@@ -220,14 +221,16 @@ export const ContactInformation = {
     {
       type: ContactType.office,
       street: "123 EcoWay",
-      unit: null,
+      unit: "Unit 12",
       city: "Sustainable City",
       state: "Greenland",
-      zip: null,
+      zip: 85499,
       acceptingWalkIns: true,
       mapUrl: null,
       introduction:
         "Welcome to the heart of innovation at EcoGlow Innovations' Corporate Headquarters. Nestled in the heart of Sustainable City in Greenland, our state-of-the-art facility at 123 EcoWay is more than an office—it's a beacon of sustainability. Here, we channel our commitment to eco-friendly lighting solutions, designing a brighter and greener future. Our headquarters is not just a place of work; it's a manifestation of our mission to illuminate lives while minimizing our impact on the planet. Feel the pulse of innovation at EcoGlow Innovations, where every corner is infused with the spirit of a more environmentally conscious world.",
+      outroduction:
+        "Thank you for taking the time to explore EcoGlow Innovations' Corporate Headquarters with us. We're thrilled to have you experience the heart of our commitment to innovation and sustainability. As we continue to illuminate lives with eco-friendly lighting solutions, we invite you to stay connected and be a part of our journey towards a brighter and greener future. At EcoGlow, our headquarters is more than just a workplace—it's a testament to our dedication to minimizing our impact on the planet. We believe that every corner of our state-of-the-art facility reflects the spirit of a more environmentally conscious world. Your interest and support contribute to the pulse of innovation here, and we're excited to have you with us on this transformative journey. Feel free to reach out if you have any questions or if there's anything you'd like to know more about. Together, let's continue to shine a light on sustainability and create a positive impact on our planet. Thank you for being a part of the EcoGlow Innovations community!",
       phone: "+1 (555) 123-4567",
       fax: null,
       email: "info@ecoglowinnovations.com",
@@ -288,4 +291,67 @@ export const ContactInformation = {
       email: "sales@ecoglowinnovations.com",
     },
   ],
+};
+
+export const ProductData = [
+  {
+    id: 1,
+    name: "SolarGlow Lamps",
+    price: 45.0,
+    quantity: 31,
+    image:
+      "https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?q=80&w=1035&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    description:
+      "Harnessing the power of the sun, our SolarGlow Lamps are stylish outdoor solar-powered lights that illuminate your garden, patio, or pathway while reducing your carbon footprint.",
+  },
+  {
+    id: 2,
+    name: "WindBrite Lanterns",
+    price: 34.99,
+    quantity: 28,
+    image:
+      "https://images.unsplash.com/photo-1511789572382-048ecf529afb?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    description:
+      "Embrace the power of the wind with our WindBrite Lanterns. These decorative lanterns generate energy through a small built-in wind turbine, creating a mesmerizing glow for your outdoor spaces.",
+  },
+  {
+    id: 3,
+    name: "HydroBeam Desk Lamps",
+    price: 38.5,
+    quantity: 14,
+    image:
+      "https://images.unsplash.com/photo-1621447980929-6638614633c8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8ZGVzayUyMGxhbXB8ZW58MHx8MHx8fDA%3D",
+    description:
+      "Transform your workspace with our HydroBeam Desk Lamps. These energy-efficient LED desk lamps are powered by a water-based energy system, providing sustainable and adjustable lighting for your work or study area.",
+  },
+  {
+    id: 4,
+    name: "BambooGlo Pendants",
+    price: 15.75,
+    quantity: 63,
+    image:
+      "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    description:
+      "Elevate your interior decor with our BambooGlo Pendants. Crafted from sustainable bamboo, these pendant lights add a touch of natural elegance to any room while contributing to a more eco-conscious lifestyle.",
+  },
+];
+
+export const PageType = {
+  RESOURCE: "RESOURCE",
+  ARTICLE: "ARTICLE",
+  ABOUT: "ABOUT",
+  PRODUCT: "PRODUCT",
+  CONTACT: "CONTACT",
+  FAQS: "FAQS",
+  HOME: "HOME",
+  NEWS: "NEWS",
+  MENU: "MENU",
+  SEARCH: "SEARCH",
+  REGISTRATION: "REGISTRATION",
+  ERROR: "ERROR",
+  BLOG: "BLOG",
+  PORTFOLIO: "PORTFOLIO",
+  SERVICES: "SERVICES",
+  CART: "CART",
+  UNSPECIFIED: "UNSPECIFIED",
 };

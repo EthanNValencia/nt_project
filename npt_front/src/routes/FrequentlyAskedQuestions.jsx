@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from "react";
 import NtButton from "../components/NtButton";
-import FAQsDiv from "../components/FAQsDiv";
 import { postFaq, getAnsweredFAQs } from "../axios/api";
 import FAQsLoading from "../components/loading/FAQsLoading";
 import ApiError from "../components/ApiError";
+
+function FrequentlyAskedQuestion(props) {
+  const { faq } = props;
+
+  return (
+    <div className="grid grid-flow-row grid-cols-2 border-b-2">
+      <p>{faq.question}</p>
+      <p>{faq.answer}</p>
+    </div>
+  );
+}
 
 function FrequentlyAskedQuestions() {
   const [faqs, setFAQs] = useState([]);
@@ -48,7 +58,7 @@ function FrequentlyAskedQuestions() {
       </div>
 
       {faqs.map((faq) => (
-        <FAQsDiv faq={faq} key={faq.key} />
+        <FrequentlyAskedQuestion faq={faq} key={faq.key} />
       ))}
 
       {/*

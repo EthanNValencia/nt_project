@@ -6,8 +6,8 @@ import { WebsiteColors } from "../Website";
 function Home() {
   const navigate = useNavigate();
 
-  function getStarted() {
-    navigate("/request-name");
+  function products() {
+    navigate("/products");
   }
 
   function contactUs() {
@@ -134,7 +134,7 @@ function Home() {
           </ul>
         </div>
 
-        <div>
+        <div className="text-2xl text-center p-4">
           At EcoGlow Innovations, we believe in lighting up lives while
           minimizing our impact on the planet. Our mission is to provide
           innovative, sustainable lighting solutions that not only enhance the
@@ -143,13 +143,9 @@ function Home() {
           and join us on the journey towards a brighter, greener future.
         </div>
 
-        <div className="text-4xl text-center p-4">
-          <h1>CREATE A PRODUCT INTRODUCTION</h1>
-        </div>
-
         <div className="flex gap-20 justify-center items-center">
           <button
-            onClick={getStarted}
+            onClick={products}
             type="button"
             className={`${WebsiteColors.buttonColors} inline-flex items-center px-8 py-2 font-semibold leading-6 text-sm shadow rounded-md first-line:transition ease-in-out duration-150 cursor-pointer`}
             disabled=""
@@ -165,16 +161,15 @@ function Home() {
             Contact Us
           </button>
         </div>
+        <div className="text-2xl text-center p-4">
+          Welcome to the future of lighting solutions with EcoGlow Innovations'
+          latest breakthrough – the EcoIlluminate Pro Series. We understand that
+          the world is yearning for sustainable brilliance, and our Pro Series
+          is here to deliver just that.
+        </div>
       </div>
     </div>
   );
 }
 
 export default Home;
-
-/*
-<div className="absolute lg:top-32 lg:right-44 md:top-16 md:right-44 sm:top-10 sm:right-44">
-        <NtButton />
-      </div>
-
-*/
