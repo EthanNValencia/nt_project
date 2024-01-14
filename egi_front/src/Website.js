@@ -26,6 +26,7 @@ export const WebsiteColors = {
   disabledButtonColors: "text-black bg-slate-600",
   hoverLight: "hover:" + TextColors.green,
   homeTextColor: TextColors.darkBlue,
+  productsTextColor: TextColors.darkBlue,
 };
 
 export const HeaderData = {
@@ -37,6 +38,7 @@ export const HeaderData = {
   businessNameSizes: "xl:text-xl lg:text-md md:text-xs sm:text-sm",
   sloganSizes: "xl:text-xl lg:text-sm md:text-xs sm:text-xs",
   textColor: TextColors.blue,
+  hoverTextColor: "hover:" + TextColors.lime,
 };
 
 export const FooterData = {
@@ -302,7 +304,7 @@ export const ProductData = [
     image:
       "https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?q=80&w=1035&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description:
-      "Harnessing the power of the sun, our SolarGlow Lamps are stylish outdoor solar-powered lights that illuminate your garden, patio, or pathway while reducing your carbon footprint.",
+      "Harnessing the power of the sun, our SolarGlow Lamps are stylish outdoor solar-powered lights that illuminate your garden, patio, or pathway while reducing your carbon footprint. Illuminate your nights responsibly, embrace style with a conscience – choose SolarGlow Lamps for an outdoor lighting experience that goes beyond mere illumination. Let your garden, patio, or pathway shine in the light of a brighter, greener future.",
   },
   {
     id: 2,
@@ -312,7 +314,7 @@ export const ProductData = [
     image:
       "https://images.unsplash.com/photo-1511789572382-048ecf529afb?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description:
-      "Embrace the power of the wind with our WindBrite Lanterns. These decorative lanterns generate energy through a small built-in wind turbine, creating a mesmerizing glow for your outdoor spaces.",
+      "Embrace the power of the wind with our WindBrite Lanterns. These decorative lanterns generate energy through a small built-in wind turbine, creating a mesmerizing glow for your outdoor spaces. Crafted with durability in mind, these lanterns are built to withstand the whims of nature. Rain or shine, WindBrite Lanterns continue to gracefully illuminate your space, a testament to the resilience of sustainable design. Transform your outdoor evenings into a dance with the wind. Choose WindBrite Lanterns for a harmonious blend of art, nature, and sustainable living, and let the gentle breezes guide your nights into a realm of enchantment.",
   },
   {
     id: 3,
@@ -322,7 +324,7 @@ export const ProductData = [
     image:
       "https://images.unsplash.com/photo-1621447980929-6638614633c8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8ZGVzayUyMGxhbXB8ZW58MHx8MHx8fDA%3D",
     description:
-      "Transform your workspace with our HydroBeam Desk Lamps. These energy-efficient LED desk lamps are powered by a water-based energy system, providing sustainable and adjustable lighting for your work or study area.",
+      "Transform your workspace with our HydroBeam Desk Lamps. These energy-efficient LED desk lamps are powered by a water-based energy system, providing sustainable and adjustable lighting for your work or study area. Revolutionize your workspace with HydroBeam Desk Lamps, where cutting-edge technology meets eco-conscious design. These energy-efficient LED desk lamps redefine how you light up your work or study area, harnessing the power of a water-based energy system for a truly sustainable and adjustable lighting experience.",
   },
   {
     id: 4,
@@ -332,7 +334,7 @@ export const ProductData = [
     image:
       "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description:
-      "Elevate your interior decor with our BambooGlo Pendants. Crafted from sustainable bamboo, these pendant lights add a touch of natural elegance to any room while contributing to a more eco-conscious lifestyle.",
+      "Elevate your interior decor with our BambooGlo Pendants. Crafted from sustainable bamboo, these pendant lights add a touch of natural elegance to any room while contributing to a more eco-conscious lifestyle. Make a statement with BambooGlo Pendants – a commitment to elegance, a celebration of nature, and a step towards a brighter, greener tomorrow. Illuminate your spaces with the glow of sustainability, and let the natural charm of bamboo light up your life.",
   },
 ];
 

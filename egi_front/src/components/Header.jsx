@@ -6,19 +6,19 @@ import { WebsiteColors } from "../Website";
 function NavigationBar() {
   return (
     <div className="text-sm font-bold text-center flex xs:flex-col xs:mt-0 xs:gap-1 sm:flex-row sm:gap-4 mt-2">
-      <NavLink className={`${WebsiteColors.hoverLight}`} to="/">
+      <NavLink className={`${HeaderData.hoverTextColor}`} to="/">
         Home
       </NavLink>
-      <NavLink className={`${WebsiteColors.hoverLight}`} to="/about">
+      <NavLink className={`${HeaderData.hoverTextColor}`} to="/about">
         About Us
       </NavLink>
-      <NavLink className={`${WebsiteColors.hoverLight} `} to="/faqs">
+      <NavLink className={`${HeaderData.hoverTextColor}`} to="/faqs">
         FAQs
       </NavLink>
-      <NavLink className={`${WebsiteColors.hoverLight}`} to="/products">
+      <NavLink className={`${HeaderData.hoverTextColor}`} to="/products">
         Products
       </NavLink>
-      <NavLink className={`${WebsiteColors.hoverLight}`} to="/contact">
+      <NavLink className={`${HeaderData.hoverTextColor}`} to="/contact">
         Contact Us
       </NavLink>
     </div>

@@ -14,7 +14,7 @@ import Products from "./routes/Products";
 
 function App() {
   return (
-    <>
+    <div className="">
       <BrowserRouter>
         <AuthProvider>
           <UserProvider>
@@ -79,7 +79,7 @@ function App() {
           </UserProvider>
         </AuthProvider>
       </BrowserRouter>
-    </>
+    </div>
   );
 }
 
@@ -87,7 +87,7 @@ function WSW({ children }) {
   // WSW stands for WebSiteWrap, it is meant to wrap all the routes in the NPT website.
   return (
     <div className="bg-egi-30">
-      <div className="mx-auto h-full ">
+      <div className="mx-auto h-full">
         <div className="border rounded-lg shadow-md h-full font-montserrat">
           <div>
             <Header />
