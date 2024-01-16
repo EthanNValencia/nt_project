@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import { HeaderData } from "../Website";
 import { NavLink } from "react-router-dom";
-import { WebsiteColors } from "../Website";
+import { CartContext } from "../contexts/CartContext";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function NavigationBar() {
+  const cartContext = useContext(CartContext);
+
+  const totalItems = () => {
+    if (cartContext.totalItems == 0) {
+      return;
+    }
+    return "(" + cartContext.totalItems + ")";
+  };
+
   return (
     <div className="text-sm font-bold text-center flex xs:flex-col xs:mt-0 xs:gap-1 sm:flex-row sm:gap-4 mt-2">
       <NavLink className={`${HeaderData.hoverTextColor}`} to="/">
@@ -20,6 +31,9 @@ function NavigationBar() {
       </NavLink>
       <NavLink className={`${HeaderData.hoverTextColor}`} to="/contact">
         Contact Us
+      </NavLink>
+      <NavLink className={`${HeaderData.hoverTextColor}`} to="/cart">
+        <FontAwesomeIcon icon={faShoppingCart} /> Cart {totalItems()}
       </NavLink>
     </div>
   );

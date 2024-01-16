@@ -5,10 +5,11 @@ import AboutUs from "./routes/AboutUs";
 import Home from "./routes/Home";
 import ContactUs from "./routes/ContactUs";
 import FrequentlyAskedQuestions from "./routes/FrequentlyAskedQuestions";
+import Cart from "./routes/Cart";
 import Header from "./components/Header";
-import { UserProvider, AuthProvider } from "./contexts/context";
+import { AuthProvider } from "./contexts/AuthContext";
+import { CartProvider } from "./contexts/CartContext";
 import Footer from "./components/Footer";
-import Services from "./routes/Services";
 import NotFound from "./routes/NotFound";
 import Products from "./routes/Products";
 
@@ -17,7 +18,7 @@ function App() {
     <div className="">
       <BrowserRouter>
         <AuthProvider>
-          <UserProvider>
+          <CartProvider>
             <Routes>
               <Route
                 path="/"
@@ -44,14 +45,6 @@ function App() {
                 }
               />
               <Route
-                path="services"
-                element={
-                  <WSW>
-                    <Services />
-                  </WSW>
-                }
-              />
-              <Route
                 path="faqs"
                 element={
                   <WSW>
@@ -68,6 +61,14 @@ function App() {
                 }
               />
               <Route
+                path="cart"
+                element={
+                  <WSW>
+                    <Cart />
+                  </WSW>
+                }
+              />
+              <Route
                 path="*"
                 element={
                   <WSW>
@@ -76,7 +77,7 @@ function App() {
                 }
               />
             </Routes>
-          </UserProvider>
+          </CartProvider>
         </AuthProvider>
       </BrowserRouter>
     </div>
@@ -88,7 +89,7 @@ function WSW({ children }) {
   return (
     <div className="bg-egi-30">
       <div className="mx-auto h-full">
-        <div className="border rounded-lg shadow-md h-full font-montserrat">
+        <div className="h-full font-montserrat">
           <div>
             <Header />
             <div>

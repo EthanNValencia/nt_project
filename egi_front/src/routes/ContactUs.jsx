@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { getOffices } from "../axios/api";
-// import { Disclosure } from "@headlessui/react";
-import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import ApiError from "../components/ApiError";
 import { ContactInformation } from "../Website";
 import PhoneButton from "../components/PhoneButton";
