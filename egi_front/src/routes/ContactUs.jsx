@@ -25,7 +25,7 @@ const Office = (props) => {
   return (
     <div className="flex justify-around flex-row">
       <div>
-        <div className="bg-egi-60 text-white text-center break-words p-2">
+        <div className="bg-egi-60 text-white text-center break-words p-2 text-2xl">
           {office.introduction}
         </div>
         <div className="relative px-2 pb-2 ring-1 ring-gray-900/5">
@@ -108,7 +108,9 @@ const Office = (props) => {
             </div>
           </div>
         </div>
-        <div className="p-2 text-white bg-egi-60">{office.outroduction}</div>
+        <div className="p-2 text-white bg-egi-60 text-2xl text-center">
+          {office.outroduction}
+        </div>
       </div>
     </div>
   );

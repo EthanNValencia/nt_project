@@ -85,6 +85,10 @@ function App() {
 }
 
 function WSW({ children }) {
+  const style = {
+    minHeight: "85vh",
+  };
+
   // WSW stands for WebSiteWrap, it is meant to wrap all the routes in the NPT website.
   return (
     <div className="bg-egi-30">
@@ -92,7 +96,7 @@ function WSW({ children }) {
         <div className="h-full font-montserrat">
           <div>
             <Header />
-            <div>
+            <div style={style}>
               <div>{children}</div>
             </div>
             <Footer />

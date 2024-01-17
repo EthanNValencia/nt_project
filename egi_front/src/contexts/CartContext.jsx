@@ -18,7 +18,7 @@ export function CartProvider({ children }) {
       if (item.id === product.id) {
         return { ...item, cartQuantity: item.cartQuantity - 1 };
       }
-      return {};
+      return { ...item };
     });
     setCart(updatedCart);
     findSum(updatedCart);

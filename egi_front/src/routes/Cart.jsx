@@ -3,12 +3,13 @@ import { CartContext } from "../contexts/CartContext";
 import { WebsiteColors } from "../Website";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router-dom";
 
 function NssButtonAddSubtract(props) {
   const { onAdd, onSubtract, disableSubtract, disableAdd, cartQuantity } =
     props;
 
-  const pickDivColor = (disabled) => {
+  const getButtonColor = (disabled) => {
     if (disabled) {
       return "bg-black text-white";
     }
@@ -21,7 +22,7 @@ function NssButtonAddSubtract(props) {
     <div className="flex flex-col items-center justify-center">
       <button
         type="button"
-        className={`${pickDivColor(
+        className={`${getButtonColor(
           disableAdd
         )} inline-flex items-center px-4 py-1 font-semibold leading-6 text-sm shadow rounded-t-xl transition ease-in-out duration-500 cursor-pointer`}
         onClick={onAdd}
@@ -34,7 +35,7 @@ function NssButtonAddSubtract(props) {
       <div>{cartQuantity}</div>
       <button
         type="button"
-        className={`${pickDivColor(
+        className={`${getButtonColor(
           disableSubtract
         )} inline-flex items-center px-4 py-1 font-semibold leading-6 text-sm shadow rounded-b-xl transition ease-in-out duration-500 cursor-pointer`}
         onClick={onSubtract}
@@ -106,10 +107,18 @@ const CartItem = (props) => {
 
 function Cart() {
   const cartContext = useContext(CartContext);
-
+  const navigate = useNavigate();
   const proceedToCheckout = () => {};
 
-  const checkoutButtonItems = () => {
+  const goToFaqs = () => {
+    navigate("/faqs");
+  };
+
+  const goToProducts = () => {
+    navigate("/products");
+  };
+
+  const checkoutButtonText = () => {
     return "Proceed to Checkout (" + cartContext.totalItems + " items)";
   };
 
@@ -119,8 +128,38 @@ function Cart() {
 
   return (
     <div className="p-2">
+      <div className="flex justify-between p-2">
+        <div>
+          <div className="font-chewy text-2xl">
+            Have questions about these products?
+          </div>
+          <div className="text-center">
+            <button
+              onClick={goToFaqs}
+              type="button"
+              className={`${WebsiteColors.buttonColors} inline-flex items-center px-8 py-2 font-semibold leading-6 text-sm shadow rounded-md first-line:transition ease-in-out duration-150 cursor-pointer`}
+              disabled=""
+            >
+              Go to FAQs
+            </button>
+          </div>
+        </div>
+        <div>
+          <div className="font-chewy text-2xl">Not finished shopping?</div>
+          <div className="text-center">
+            <button
+              onClick={goToProducts}
+              type="button"
+              className={`${WebsiteColors.buttonColors} inline-flex items-center px-8 py-2 font-semibold leading-6 text-sm shadow rounded-md first-line:transition ease-in-out duration-150 cursor-pointer`}
+              disabled=""
+            >
+              Go to Products
+            </button>
+          </div>
+        </div>
+      </div>
       <div className="flex content-center justify-center text-center gap-2">
-        <div className="mt-auto mb-auto">{cartTotalCost()}</div>
+        <div className="mt-auto mb-auto text-2xl">{cartTotalCost()}</div>
         <div>
           <button
             onClick={proceedToCheckout}
@@ -128,7 +167,7 @@ function Cart() {
             className={`${WebsiteColors.buttonColors} inline-flex items-center px-8 py-2 font-semibold leading-6 text-sm shadow rounded-md first-line:transition ease-in-out duration-150 cursor-pointer`}
             disabled=""
           >
-            {checkoutButtonItems()}
+            {checkoutButtonText()}
           </button>
         </div>
       </div>
