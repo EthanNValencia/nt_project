@@ -117,7 +117,7 @@ function LW({ children }) {
   // Login Wrap
   return (
     <div className="font-ubuntu">
-      <div className="bg-nss-20 h-screen w-screen flex items-center justify-center">
+      <div className="bg-nss-20 min-h-screen w-screen flex items-center justify-center">
         <div className="bg-nss-21 mx-auto border rounded-lg shadow-md w-fit border-nss-1">
           <div className="p-2">{children}</div>
         </div>

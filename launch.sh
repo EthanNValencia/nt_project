@@ -5,7 +5,7 @@
 #!/bin/sh
 #ls
 
-xfce4-taskmanager &
+# xfce4-taskmanager &
 # systemctl start docker &&
 # sleep 5
 terminator --new-tab -e "cd naming_server/; bash -c 'echo -ne \"\033]0;Naming\007\"'; mvn spring-boot:run" &

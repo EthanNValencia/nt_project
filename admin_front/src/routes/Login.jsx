@@ -14,6 +14,7 @@ import {
   connectGatewayService,
   connectFaqsService,
   connectWebsiteService,
+  connectStripeService,
 } from "../axios/api";
 import NssButtonChevronMini from "../nss/NssButtonChevronMini";
 import { Transition } from "@headlessui/react";
@@ -53,6 +54,7 @@ function ConnectStatus(props) {
   const [naming, setNaming] = useState(false);
   const [faqs, setFaqs] = useState(false);
   const [website, setWebsite] = useState(false);
+  const [stripe, setStripe] = useState(false);
   const [connected, setConnected] = useState(false);
   const intervalTime = useRef(2000);
   const [isShowing, setIsShowing] = useState(false);
@@ -129,6 +131,15 @@ function ConnectStatus(props) {
     }
   }
 
+  async function checkStripe() {
+    try {
+      const data = await connectStripeService();
+      setStripe(data);
+    } catch (error) {
+      setStripe(false);
+    }
+  }
+
   const printStatuses = () => {
     console.log(`Security: ${security}
       Error: ${error}
@@ -150,6 +161,7 @@ function ConnectStatus(props) {
       checkGateway();
       checkFaqs();
       checkWebsite();
+      checkStripe();
     };
 
     const startInterval = () => {
@@ -168,9 +180,17 @@ function ConnectStatus(props) {
 
   useEffect(() => {
     setNaming(
-      security || error || oesa || email || sms || gateway || faqs || website
+      security ||
+        error ||
+        oesa ||
+        email ||
+        sms ||
+        gateway ||
+        faqs ||
+        website ||
+        stripe
     );
-  }, [security, error, oesa, email, sms, gateway, faqs, website]);
+  }, [security, error, oesa, email, sms, gateway, faqs, website, stripe]);
 
   useEffect(() => {
     setConnected(
@@ -182,9 +202,21 @@ function ConnectStatus(props) {
         gateway &&
         naming &&
         faqs &&
-        website
+        website &&
+        stripe
     );
-  }, [security, error, oesa, email, sms, gateway, naming, faqs, website]);
+  }, [
+    security,
+    error,
+    oesa,
+    email,
+    sms,
+    gateway,
+    naming,
+    faqs,
+    website,
+    stripe,
+  ]);
 
   useEffect(() => {
     setServicesOnline(connected);
@@ -222,6 +254,7 @@ function ConnectStatus(props) {
               <ConnectIcons name={"naming"} status={naming} />
               <ConnectIcons name={"faqs"} status={faqs} />
               <ConnectIcons name={"website"} status={website} />
+              <ConnectIcons name={"stripe"} status={stripe} />
             </div>
           </div>
         </div>

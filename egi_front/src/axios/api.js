@@ -1,3 +1,4 @@
+import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 
 const publicUrl = "http://localhost:8765/oesa-service/api/v1/public/egi";
@@ -9,6 +10,9 @@ const employeeApiUrl = publicUrl + "/employees/";
 const specialtyApiUrl = publicUrl + "/services";
 const appointmentApiUrl = publicUrl + "/appointment/";
 const officeApiUrl = publicUrl + "/office/";
+const stripeUrl = "http://localhost:8765/stripe-service/api/v1/public";
+
+// http://localhost:8765/stripe-service/api/v1/public/published-key
 
 export async function postFaq(message) {
   const requestBody = {
@@ -174,5 +178,36 @@ export async function validateAction(token, action) {
     handleErrorReporting(error);
     // console.error("Error fetching data:", error);
     throw error;
+  }
+}
+
+export async function getPublishedKey() {
+  const url = stripeUrl + "/key";
+  try {
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function makePayment(cart) {
+  const publishedKey = await getPublishedKey();
+  console.log(cart);
+  const stripe = await loadStripe(publishedKey);
+
+  const url = stripeUrl + "/create-checkout-session";
+
+  const requestBody = [...cart];
+
+  console.log(requestBody);
+  try {
+    const response = await axios.post(url, requestBody);
+    const session = await response.json();
+    const result = stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
+  } catch (error) {
+    return false;
   }
 }

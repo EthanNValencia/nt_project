@@ -523,6 +523,16 @@ export async function connectFaqsService() {
   }
 }
 
+export async function connectStripeService() {
+  const url = "http://localhost:8765/stripe-service/api/v1/public/health";
+  try {
+    const response = await axios.get(url);
+    return validateResponse(response.data);
+  } catch (error) {
+    return false;
+  }
+}
+
 export async function connectErrorService() {
   const url = "http://localhost:8765/error-service/api/v1/public/health";
   try {

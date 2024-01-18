@@ -4,6 +4,7 @@ import { WebsiteColors } from "../Website";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
+import { makePayment } from "../axios/api";
 
 function NssButtonAddSubtract(props) {
   const { onAdd, onSubtract, disableSubtract, disableAdd, cartQuantity } =
@@ -108,7 +109,10 @@ const CartItem = (props) => {
 function Cart() {
   const cartContext = useContext(CartContext);
   const navigate = useNavigate();
-  const proceedToCheckout = () => {};
+
+  const proceedToCheckout = () => {
+    makePayment(cartContext.cart);
+  };
 
   const goToFaqs = () => {
     navigate("/faqs");
@@ -171,6 +175,7 @@ function Cart() {
           </button>
         </div>
       </div>
+
       <div>
         <div className="grid grid-cols-1 gap-1 pt-1">
           {cartContext.cart.map((item) => (
