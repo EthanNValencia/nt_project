@@ -191,9 +191,22 @@ export async function getPublishedKey() {
   }
 }
 
+// /create-payment-intent
+
+export async function getClientSecret() {
+  const url = stripeUrl + "/create-payment-intent";
+  try {
+    const response = await axios.post(url);
+    return response.data;
+  } catch (error) {
+    return false;
+  }
+}
+
 export async function makePayment(cart) {
   const publishedKey = await getPublishedKey();
   console.log(cart);
+
   const stripe = await loadStripe(publishedKey);
 
   const url = stripeUrl + "/create-checkout-session";

@@ -18,6 +18,7 @@ terminator --new-tab -e "cd error_service/; bash -c 'echo -ne \"\033]0;Error\007
 terminator --new-tab -e "cd oesa_service/; bash -c 'echo -ne \"\033]0;OESA\007\"'; mvn spring-boot:run" &
 terminator --new-tab -e "cd faqs_service/; bash -c 'echo -ne \"\033]0;Faqs\007\"'; mvn spring-boot:run" &
 terminator --new-tab -e "cd website_service/; bash -c 'echo -ne \"\033]0;Website\007\"'; mvn spring-boot:run" &
+terminator --new-tab -e "cd stripe_service/; bash -c 'echo -ne \"\033]0;Stripe\007\"'; mvn spring-boot:run" &
 # sleep 10
 terminator --new-tab -e "cd admin_front/; bash -c 'echo -ne \"\033]0;Admin-Front\007\"'; npm run dev" &
 terminator --new-tab -e "cd npt_front/; bash -c 'echo -ne \"\033]0;Npt-Front\007\"'; npm run dev" &

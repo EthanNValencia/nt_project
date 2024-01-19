@@ -5,8 +5,10 @@ import com.nephew.stripe.ProductDto;
 import com.nephew.stripe.services.StripeService;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
+import com.stripe.model.PaymentIntent;
 import com.stripe.model.Product;
 import com.stripe.model.checkout.Session;
+import com.stripe.param.PaymentIntentCreateParams;
 import com.stripe.param.ProductCreateParams;
 import com.stripe.param.checkout.SessionCreateParams;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +40,6 @@ public class PublicController {
     }
 
     @PostMapping("/create-checkout-session")
-    @ResponseBody
     public String createCheckoutSession(@RequestBody ArrayList<ProductDto> products) {
         System.out.println(products);
         String YOUR_DOMAIN = "http://localhost:8765/stripe-service/api/v1/public/"; // Adjust the port if necessary
@@ -53,7 +54,7 @@ public class PublicController {
                             .setEnabled(true).build()).addLineItem(SessionCreateParams.LineItem.builder()
                             .setQuantity(1L)
                     // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-                    .setPrice("{{PRICE_ID}}") // So I need
+                    // .setPrice("{{PRICE_ID}}") // So I need
                     .build()).build();
 
             Session session = Session.create(params);
@@ -63,6 +64,29 @@ public class PublicController {
             e.printStackTrace();
             return "Error creating checkout session: " + e.getMessage();
         }
+    }
+
+    // This will return the client secret.
+    @PostMapping("/create-payment-intent")
+    public ResponseEntity<String> createPaymentIntent() {
+        try {
+            Stripe.apiKey = stripeService.getPrivateKey();
+            PaymentIntentCreateParams params =
+                    PaymentIntentCreateParams.builder()
+                            .setAmount(2000L)
+                            .setCurrency("usd")
+                            .setAutomaticPaymentMethods(
+                                    PaymentIntentCreateParams.AutomaticPaymentMethods.builder()
+                                            .setEnabled(true)
+                                            .build()
+                            )
+                            .build();
+            PaymentIntent paymentIntent = PaymentIntent.create(params);
+            return new ResponseEntity<>(paymentIntent.getClientSecret(), HttpStatus.OK);
+        } catch (StripeException stripeException) {
+            stripeException.printStackTrace();
+        }
+        return new ResponseEntity<>("Failed to create the payment intent.", HttpStatus.BAD_REQUEST);
     }
 
     public void productExample() throws StripeException {

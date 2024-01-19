@@ -21,7 +21,7 @@ const Product = (props) => {
 
   return (
     <div className="">
-      <div className="border-2 border-egi-20 bg-egi-30 rounded-sm p-2">
+      <div className="border-2 border-egi-20 bg-egi-30 rounded-sm p-2 shadow-lg">
         <div className="flex flex-col justify-between">
           <div className="p-2">
             <div className="flex justify-between">

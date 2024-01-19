@@ -5,6 +5,7 @@ import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import { makePayment } from "../axios/api";
+import Payment from "./Payment";
 
 function NssButtonAddSubtract(props) {
   const { onAdd, onSubtract, disableSubtract, disableAdd, cartQuantity } =
@@ -63,26 +64,12 @@ const CartItem = (props) => {
   };
 
   return (
-    <div className="text-white">
-      <div className="border-2 border-egi-50 bg-egi-60 rounded-sm p-1">
+    <div>
+      <div className="text-white border bg-egi-30 border-egi-30 rounded-sm p-1 shadow-xl">
         <div className="flex flex-col justify-between">
           <div className="p-2">
             <div className="flex justify-between">
-              <div className="w-10/12">
-                <div className="font-chewy text-2xl xl:text-5xl">
-                  {product.name}
-                </div>
-                <div className="pr-2 xl:text-2xl pt-2">
-                  {product.description}
-                </div>
-              </div>
-              <div className="w-1/12">
-                <img
-                  className="border border-egi-20 rounded-lg object-contain"
-                  src={product.image}
-                ></img>
-              </div>
-              <div>
+              <div className="pr-2">
                 <NssButtonAddSubtract
                   onAdd={onAdd}
                   onSubtract={onSubtract}
@@ -93,11 +80,24 @@ const CartItem = (props) => {
                   cartQuantity={product.cartQuantity}
                 />
               </div>
-            </div>
-            <div className="flex justify-between xl:text-2xl pt-2">
-              <div>Price: ${product.price.toFixed(2)}</div>
-              <div>Available Units: {product.quantity}</div>
-              <div>Amount in Cart: {product.cartQuantity}</div>
+              <div className="w-3/4 flex flex-row justify-between p-2 text-center">
+                <div className="text-2xl xl:text-5xl">{product.name}</div>
+                <div className="text-xl">
+                  Price: ${product.price.toFixed(2)}
+                </div>
+                <div className="text-xl">
+                  Available Units: {product.quantity}
+                </div>
+                <div className="text-xl">
+                  Amount in Cart: {product.cartQuantity}
+                </div>
+              </div>
+              <div className="w-24">
+                <img
+                  className="border border-egi-20 rounded-lg object-contain"
+                  src={product.image}
+                ></img>
+              </div>
             </div>
           </div>
         </div>
@@ -175,7 +175,7 @@ function Cart() {
           </button>
         </div>
       </div>
-
+      <Payment />
       <div>
         <div className="grid grid-cols-1 gap-1 pt-1">
           {cartContext.cart.map((item) => (

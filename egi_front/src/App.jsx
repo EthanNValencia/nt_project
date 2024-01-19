@@ -12,6 +12,7 @@ import { CartProvider } from "./contexts/CartContext";
 import Footer from "./components/Footer";
 import NotFound from "./routes/NotFound";
 import Products from "./routes/Products";
+import Complete from "./routes/Complete";
 
 function App() {
   return (
@@ -33,6 +34,14 @@ function App() {
                 element={
                   <WSW>
                     <AboutUs />
+                  </WSW>
+                }
+              />
+              <Route
+                path="completion"
+                element={
+                  <WSW>
+                    <Complete />
                   </WSW>
                 }
               />
