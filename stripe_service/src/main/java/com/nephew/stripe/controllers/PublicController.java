@@ -69,6 +69,7 @@ public class PublicController {
     // This will return the client secret.
     @PostMapping("/create-payment-intent")
     public ResponseEntity<String> createPaymentIntent() {
+        Product product = new Product();
         try {
             Stripe.apiKey = stripeService.getPrivateKey();
             PaymentIntentCreateParams params =
