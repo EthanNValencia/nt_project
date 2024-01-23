@@ -1,5 +1,7 @@
 package com.nephew.products.entities;
 
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +9,7 @@ import java.util.Map;
 /**
  * I removed List<Price.Tier> tiers and TransformQuantity transformQuantity.
  */
+@Entity
 public class Price {
     /** Whether the price can be used for new purchases. */
     private Boolean active;
@@ -37,18 +40,24 @@ public class Price {
      * href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a> and a <a
      * href="https://stripe.com/docs/currencies">supported currency</a>.
      */
+    @ElementCollection
+    @CollectionTable(name = "currency_options_mapping", joinColumns = @JoinColumn(name = "price_id"))
+    @MapKeyColumn(name = "currency_key")
     private Map<String, CurrencyOption> currencyOptions;
 
     /**
      * When set, provides configuration for the amount to be adjusted by the customer during Checkout
      * Sessions and Payment Links.
      */
+    @Embedded
     private CustomUnitAmount customUnitAmount;
 
     /** Always true for a deleted object. */
     private Boolean deleted;
 
     /** Unique identifier for the object. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     /**
@@ -80,8 +89,10 @@ public class Price {
      */
     private String object;
 
-    /** The ID of the product this price is associated with. */
-    private Long productId;
+    /** The product this price is associated with. */
+    @OneToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    private Product product;
 
     /** The recurring components of a price such as {@code interval} and {@code usage_type}. */
     private Recurring recurring;
@@ -122,4 +133,166 @@ public class Price {
      * with at most 12 decimal places. Only set if {@code billing_scheme=per_unit}.
      */
     private BigDecimal unitAmountDecimal;
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public String getBillingScheme() {
+        return billingScheme;
+    }
+
+    public void setBillingScheme(String billingScheme) {
+        this.billingScheme = billingScheme;
+    }
+
+    public Long getCreated() {
+        return created;
+    }
+
+    public void setCreated(Long created) {
+        this.created = created;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public Map<String, CurrencyOption> getCurrencyOptions() {
+        return currencyOptions;
+    }
+
+    public void setCurrencyOptions(Map<String, CurrencyOption> currencyOptions) {
+        this.currencyOptions = currencyOptions;
+    }
+
+    public CustomUnitAmount getCustomUnitAmount() {
+        return customUnitAmount;
+    }
+
+    public void setCustomUnitAmount(CustomUnitAmount customUnitAmount) {
+        this.customUnitAmount = customUnitAmount;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Boolean getLivemode() {
+        return livemode;
+    }
+
+    public void setLivemode(Boolean livemode) {
+        this.livemode = livemode;
+    }
+
+    public String getLookupKey() {
+        return lookupKey;
+    }
+
+    public void setLookupKey(String lookupKey) {
+        this.lookupKey = lookupKey;
+    }
+
+    public Map<String, String> getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(Map<String, String> metadata) {
+        this.metadata = metadata;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getObject() {
+        return object;
+    }
+
+    public void setObject(String object) {
+        this.object = object;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Recurring getRecurring() {
+        return recurring;
+    }
+
+    public void setRecurring(Recurring recurring) {
+        this.recurring = recurring;
+    }
+
+    public String getTaxBehavior() {
+        return taxBehavior;
+    }
+
+    public void setTaxBehavior(String taxBehavior) {
+        this.taxBehavior = taxBehavior;
+    }
+
+    public String getTiersMode() {
+        return tiersMode;
+    }
+
+    public void setTiersMode(String tiersMode) {
+        this.tiersMode = tiersMode;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Long getUnitAmount() {
+        return unitAmount;
+    }
+
+    public void setUnitAmount(Long unitAmount) {
+        this.unitAmount = unitAmount;
+    }
+
+    public BigDecimal getUnitAmountDecimal() {
+        return unitAmountDecimal;
+    }
+
+    public void setUnitAmountDecimal(BigDecimal unitAmountDecimal) {
+        this.unitAmountDecimal = unitAmountDecimal;
+    }
 }
+
+

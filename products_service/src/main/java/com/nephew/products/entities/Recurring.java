@@ -1,6 +1,15 @@
 package com.nephew.products.entities;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 public class Recurring {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     /**
      * Specifies a usage aggregation strategy for prices of {@code usage_type=metered}. Allowed
      * values are {@code sum} for summing up all usage during a period, {@code last_during_period}
@@ -39,4 +48,52 @@ public class Recurring {
      * Defaults to {@code licensed}.
      */
     private String usageType;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getAggregateUsage() {
+        return aggregateUsage;
+    }
+
+    public void setAggregateUsage(String aggregateUsage) {
+        this.aggregateUsage = aggregateUsage;
+    }
+
+    public String getInterval() {
+        return interval;
+    }
+
+    public void setInterval(String interval) {
+        this.interval = interval;
+    }
+
+    public Long getIntervalCount() {
+        return intervalCount;
+    }
+
+    public void setIntervalCount(Long intervalCount) {
+        this.intervalCount = intervalCount;
+    }
+
+    public Long getTrialPeriodDays() {
+        return trialPeriodDays;
+    }
+
+    public void setTrialPeriodDays(Long trialPeriodDays) {
+        this.trialPeriodDays = trialPeriodDays;
+    }
+
+    public String getUsageType() {
+        return usageType;
+    }
+
+    public void setUsageType(String usageType) {
+        this.usageType = usageType;
+    }
 }
