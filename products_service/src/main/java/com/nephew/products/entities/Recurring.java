@@ -1,9 +1,8 @@
 package com.nephew.products.entities;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+@Entity
 public class Recurring {
 
     @Id
@@ -48,6 +47,10 @@ public class Recurring {
      * Defaults to {@code licensed}.
      */
     private String usageType;
+
+    @ManyToOne
+    @JoinColumn(name = "recurring_id")
+    private Recurring recurring;
 
     public Long getId() {
         return id;

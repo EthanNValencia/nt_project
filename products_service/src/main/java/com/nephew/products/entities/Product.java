@@ -2,12 +2,24 @@ package com.nephew.products.entities;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 // https://stripe.com/docs/api/products/object
 
 @Entity
 public class Product {
+
+    /**
+     * Set of <a href="https://stripe.com/docs/api/metadata">key-value pairs</a> that you can attach
+     * to an object. This can be useful for storing additional information about the object in a
+     * structured format.
+     */
+    @ElementCollection
+    @CollectionTable(name = "product_metadata", joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"))
+    @MapKeyColumn(name = "key")
+    private Map<String, String> metadata;
+
+    // Could not determine recommended JdbcType for Java type 'java.util.Map<java.lang.String, java.lang.String>'
+
     /** Whether the product is currently available for purchase. */
     private Boolean active;
 
@@ -51,17 +63,6 @@ public class Product {
      * object exists in test mode.
      */
     private Boolean livemode;
-
-    /**
-     * Set of <a href="https://stripe.com/docs/api/metadata">key-value pairs</a> that you can attach
-     * to an object. This can be useful for storing additional information about the object in a
-     * structured format.
-     */
-    @ElementCollection(targetClass = String.class)
-    @CollectionTable(name = "metadata_mapping", joinColumns = @JoinColumn(name = "product_id"))
-    @MapKeyColumn(name = "metadata_key", columnDefinition = "VARCHAR(120)")
-    @Column(name = "metadata_value", columnDefinition = "VARCHAR(120)")
-    private Map<String, String> metadata;
 
     /** The product's name, meant to be displayable to the customer. */
     private String name;

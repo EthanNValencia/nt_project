@@ -3,7 +3,6 @@ package com.nephew.products.entities;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,9 +39,11 @@ public class Price {
      * href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a> and a <a
      * href="https://stripe.com/docs/currencies">supported currency</a>.
      */
+
     @ElementCollection
-    @CollectionTable(name = "currency_options_mapping", joinColumns = @JoinColumn(name = "price_id"))
-    @MapKeyColumn(name = "currency_key")
+    @CollectionTable(name = "currencyOptions", joinColumns = @JoinColumn(name = "price_id", referencedColumnName = "id"))
+    @MapKeyColumn(name = "key", columnDefinition = "VARCHAR(120)")
+    @Enumerated(EnumType.STRING)
     private Map<String, CurrencyOption> currencyOptions;
 
     /**
@@ -77,6 +78,9 @@ public class Price {
      * to an object. This can be useful for storing additional information about the object in a
      * structured format.
      */
+    @ElementCollection
+    @CollectionTable(name = "price_metadata", joinColumns = @JoinColumn(name = "price_id", referencedColumnName = "id"))
+    @MapKeyColumn(name = "key")
     private Map<String, String> metadata;
 
     /** A brief description of the price, hidden from customers. */
@@ -95,6 +99,7 @@ public class Price {
     private Product product;
 
     /** The recurring components of a price such as {@code interval} and {@code usage_type}. */
+    @ManyToOne
     private Recurring recurring;
 
     /**
