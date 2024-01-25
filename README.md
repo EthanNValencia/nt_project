@@ -1,3 +1,5 @@
+# Status: Pause ~ Continue Jan-31
+
 # Local Setup
 
 ## Run Docker Compose
