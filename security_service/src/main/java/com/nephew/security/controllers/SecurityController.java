@@ -71,7 +71,7 @@ public class SecurityController {
 	@PostMapping("/authenticate")
 	public ResponseEntity<Token> authenticate(HttpServletRequest httpServletRequest,
 			@RequestBody AuthenticationRequest request) throws BadCredentialsException {
-		Token token = new Token();
+		Token token;
 		try {
 			token = authenticationService.generateToken(request);
 		} catch (BadCredentialsException bce) {
