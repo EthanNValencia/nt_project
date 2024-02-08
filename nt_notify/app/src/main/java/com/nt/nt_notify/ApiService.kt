@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
-
+// Maybe it just time to enable https.
 // added android:usesCleartextTraffic="true" in manifest
 // socket failed: EPERM (Operation not permitted)
 private val retrofit = Retrofit.Builder().baseUrl("http://localhost:8765/")
