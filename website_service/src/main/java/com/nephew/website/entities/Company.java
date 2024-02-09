@@ -25,6 +25,10 @@ public class Company {
 		super();
 	}
 
+	public Company(long id) {
+		this.id = id;
+	}
+
 	public void assignIdToChildren() {
 		website.setCompany(this);
 	}

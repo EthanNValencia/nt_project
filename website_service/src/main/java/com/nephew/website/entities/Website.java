@@ -22,6 +22,9 @@ public class Website {
 	@Column(length = 80)
 	private String url;
 
+	@Enumerated(EnumType.STRING)
+	private WebsiteVersion websiteVersion;
+
 	@OneToOne(mappedBy = "website", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("website")
 	private WebsiteSocialMediaProfile profile;
@@ -34,6 +37,14 @@ public class Website {
 	@OneToMany(mappedBy = "website", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@JsonIgnoreProperties("website")
 	private List<Page> pages = new ArrayList<>();
+
+	public WebsiteVersion getWebsiteVersion() {
+		return websiteVersion;
+	}
+
+	public void setWebsiteVersion(WebsiteVersion websiteVersion) {
+		this.websiteVersion = websiteVersion;
+	}
 
 	public Company getCompany() {
 		return company;

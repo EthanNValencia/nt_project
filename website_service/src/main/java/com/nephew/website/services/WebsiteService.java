@@ -5,7 +5,6 @@ import com.nephew.website.dtos.WebsiteDto;
 import com.nephew.website.repositories.PageRepository;
 import com.nephew.website.repositories.WebsiteSocialMediaProfileRepository;
 import com.nephew.website.entities.Page;
-import com.nephew.website.entities.PageText;
 import com.nephew.website.entities.Website;
 import com.nephew.website.repositories.WebsiteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class WebsiteService {
 	private PageRepository pageRepository;
 	
 	public Website getWebsite() {
-		Website website = websiteRepository.findAll().get(0);
+		Website website = websiteRepository.findAll().getFirst();
 		return website;
 	}
 	
@@ -32,9 +31,6 @@ public class WebsiteService {
 		website.getProfile().setWebsite(website);
 		for(Page page: website.getPages()) {
 			page.setWebsite(website);
-			for(PageText pageTexts : page.getPageTexts()) {
-				pageTexts.setPage(page);
-			}
 		}
 	}
 
@@ -58,9 +54,6 @@ public class WebsiteService {
 
 	public Website createParagraph(Page page) {
 		page = pageRepository.findById(page.getId()).get();
-		PageText pageText = new PageText();
-		pageText.setPage(page);
-		page.getPageTexts().add(pageText);
 		pageRepository.save(page);
 		Website website = websiteRepository.findById(page.getWebsite().getId()).get();
 		return website;

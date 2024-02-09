@@ -1,10 +1,7 @@
 package com.nephew.website.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -15,23 +12,39 @@ public class Page {
 	@Column(name = "id")
 	private long id;
 
-	@Column(length = 15)
+	/***
+	 * The pageName is used to specify a custom page name in the website. For example, perhaps
+	 * there is page of PageType.PRODUCT and the client wants that page to be Our Stuff, this
+	 * field will support that requirement.
+	 */
+	@Column(length = 25)
 	private String pageName;
+
+	/***
+	 * I want to support the functionality to easily active and deactive pages. I also want
+	 * the navigation on the front end to be able to quickly determine if a route should
+	 * be accessible.
+	 */
+	private Boolean active;
 
 	@Enumerated(EnumType.STRING)
 	@Column(length = 15, nullable = false)
-	private PageType pageType = PageType.UNSPECIFIED;
-	
-	@Transient
-	private PageType[] pageTypeArr = PageType.values();
+	private PageType pageType = PageType.Unspecified;
+
+	@Enumerated(EnumType.STRING)
+	private PageVersion pageVersion;
 
 	@ManyToOne
 	@JoinColumn(name = "website_id", referencedColumnName = "id")
 	private Website website;
 
-	@OneToMany(mappedBy = "page", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-	@JsonIgnoreProperties("page")
-	private List<PageText> pageTexts = new ArrayList<>();
+	public PageVersion getPageVersion() {
+		return pageVersion;
+	}
+
+	public void setPageVersion(PageVersion pageVersion) {
+		this.pageVersion = pageVersion;
+	}
 
 	public long getId() {
 		return id;
@@ -54,7 +67,11 @@ public class Page {
 	}
 
 	public void setPageName(String pageName) {
-		this.pageName = pageName;
+		if(pageName == null) {
+			this.pageName = this.pageType.toString();
+		} else {
+			this.pageName = pageName;
+		}
 	}
 
 	public PageType getPageType() {
@@ -65,25 +82,17 @@ public class Page {
 		this.pageType = pageType;
 	}
 
-	public List<PageText> getPageTexts() {
-		return pageTexts;
+	public Boolean getActive() {
+		return active;
 	}
 
-	public void setPageTexts(List<PageText> pageTexts) {
-		this.pageTexts = pageTexts;
-	}
-
-	public PageType[] getPageTypeArr() {
-		return pageTypeArr;
-	}
-
-	public void setPageTypeArr(PageType[] pageTypeArr) {
-		this.pageTypeArr = pageTypeArr;
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, pageName, pageTexts, pageType);
+		return Objects.hash(id, pageName, pageType);
 	}
 
 	@Override
@@ -95,14 +104,13 @@ public class Page {
 		if (getClass() != obj.getClass())
 			return false;
 		Page other = (Page) obj;
-		return id == other.id && Objects.equals(pageName, other.pageName) && Objects.equals(pageTexts, other.pageTexts)
+		return id == other.id && Objects.equals(pageName, other.pageName)
 				&& pageType == other.pageType;
 	}
 
 	@Override
 	public String toString() {
-		return "Page [id=" + id + ", pageName=" + pageName + ", pageType=" + pageType + ", pageTexts="
-				+ pageTexts.size() + "]";
+		return "Page [id=" + id + ", pageName=" + pageName + ", pageType=" + pageType + "]";
 	}
 
 }

@@ -1,5 +1,17 @@
 # Status: Back in black!
 
+### TODO
+- Bring react uis together. Create a versioning system. 
+- Notify
+
+# Recruiter/HR/Interview Password
+
+#### What is this? If you are a recruiter, hr, or someone involved in a hiring process in any way, and my resume wound up in front of you. If you choose to contact me, then I will ask you what the password is. 
+
+```bash
+password = jammy jellyfish
+```
+
 # Local Setup
 
 ## Run Docker Compose
