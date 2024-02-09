@@ -2,6 +2,7 @@ package com.nephew.website.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.annotation.PostConstruct;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -29,6 +30,10 @@ public class Website {
 	@JsonIgnoreProperties("website")
 	private WebsiteSocialMediaProfile profile;
 
+	@OneToOne(mappedBy = "website", cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("website")
+	private WebsiteTheme websiteTheme;
+
 	@OneToOne
 	@JoinColumn(name = "company_id")
 	@JsonIgnore
@@ -37,6 +42,21 @@ public class Website {
 	@OneToMany(mappedBy = "website", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@JsonIgnoreProperties("website")
 	private List<Page> pages = new ArrayList<>();
+
+	/***
+	 * I want to only use this method when the client first creates their website data.
+	 */
+	public void initializePages(PageVersion pageVersion) {
+		for (PageType type : PageType.values()) {
+			Page page = new Page();
+			page.setPageType(type);
+			page.setPageName(null);
+			page.setPageVersion(pageVersion);
+			page.setActive(true);
+			page.setWebsite(this);
+			pages.add(page);
+		}
+	}
 
 	public WebsiteVersion getWebsiteVersion() {
 		return websiteVersion;

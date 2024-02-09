@@ -1,18 +1,12 @@
 package com.nephew.oesa;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
+import com.nephew.oesa.entities.*;
+import com.nephew.oesa.entities.employee.*;
+import com.nephew.oesa.entities.services.ServiceText;
+import com.nephew.oesa.entities.services.Services;
+import com.nephew.oesa.entities.text.TextType;
+import com.nephew.oesa.repositories.*;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -20,36 +14,11 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.nephew.oesa.entities.Appointment;
-import com.nephew.oesa.entities.Company;
-import com.nephew.oesa.entities.Day;
-import com.nephew.oesa.entities.FAQs;
-import com.nephew.oesa.entities.Office;
-import com.nephew.oesa.entities.OfficeDailySchedule;
-import com.nephew.oesa.entities.OfficeSocialMediaProfile;
-import com.nephew.oesa.entities.States;
-import com.nephew.oesa.entities.employee.BiographicalText;
-import com.nephew.oesa.entities.employee.Employee;
-import com.nephew.oesa.entities.employee.EmployeeDailySchedule;
-import com.nephew.oesa.entities.employee.EmployeeSocialMediaProfile;
-import com.nephew.oesa.entities.employee.InformationalText;
-import com.nephew.oesa.entities.services.ServiceText;
-import com.nephew.oesa.entities.services.Services;
-import com.nephew.oesa.entities.text.TextType;
-import com.nephew.oesa.entities.website.Website;
-import com.nephew.oesa.entities.website.WebsiteSocialMediaProfile;
-import com.nephew.oesa.repositories.AppointmentRepository;
-import com.nephew.oesa.repositories.CompanyRepository;
-import com.nephew.oesa.repositories.EmployeeDailyScheduleRepository;
-import com.nephew.oesa.repositories.EmployeeRepository;
-import com.nephew.oesa.repositories.EmployeeSocialMediaProfileRepository;
-import com.nephew.oesa.repositories.FAQsRepository;
-import com.nephew.oesa.repositories.OfficeRepository;
-import com.nephew.oesa.repositories.OfficeSocialMediaProfileRepository;
-import com.nephew.oesa.repositories.ServiceRepository;
-import com.nephew.oesa.repositories.WebsiteRepository;
-import com.nephew.oesa.repositories.WebsiteSocialMediaProfileRepository;
-import jakarta.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(properties = "eureka.client.enabled=false")
@@ -75,12 +44,6 @@ public class RepositoryTests {
 
 	@Autowired
 	private OfficeSocialMediaProfileRepository officeSocialMediaProfileRepository;
-
-	@Autowired
-	private WebsiteRepository websiteRepository;
-
-	@Autowired
-	private WebsiteSocialMediaProfileRepository websiteSocialMediaProfileRepository;
 
 	@Autowired
 	private FAQsRepository faqsRepository;
@@ -134,21 +97,6 @@ public class RepositoryTests {
 
 	private final String HEAD_AND_NECK_TEXT = "This is test text for the head and neck service.";
 
-	private final String WEBSITE_NAME = "Nephew Physical Therapy";
-	private final String WEBSITE_URL = "/";
-	private final String WEBSITE_PROFILE_YOUTUBE = "https://www.youtube.com/channel/UCP0_SudzP9_KQQKsUXOJPRg";
-	private final String WEBSITE_PROFILE_FACEBOOK = "https://www.facebook.com/nephewpt";
-	private final String WEBSITE_PROFILE_INSTAGRAM = "https://www.instagram.com/nephewpt/";
-	private final String WEBSITE_PROFILE_YELP = "https://www.yelp.com/biz/nephew-physical-therapy-holland";
-
-	private Website findWebsiteById(long id) {
-		return websiteRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Website not found."));
-	}
-
-	private Optional<Website> findWebsiteOptionalById(long id) {
-		return websiteRepository.findById(id);
-	}
-
 	private Company findCompanyById(long id) {
 		return companyRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Company not found."));
 	}
@@ -157,17 +105,8 @@ public class RepositoryTests {
 		return companyRepository.findById(id);
 	}
 
-	private WebsiteSocialMediaProfile findWebsiteProfileById(long id) {
-		return websiteSocialMediaProfileRepository.findById(WEBSITE_ID)
-				.orElseThrow(() -> new EntityNotFoundException("Website profile not found."));
-	}
-
-	private Optional<WebsiteSocialMediaProfile> findWebsiteProfileOptionalById(long id) {
-		return websiteSocialMediaProfileRepository.findById(id);
-	}
-
 	private Employee findEmployeeById(long id) {
-		return employeeRepository.findById(WEBSITE_ID)
+		return employeeRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Employee not found."));
 	}
 
@@ -191,16 +130,8 @@ public class RepositoryTests {
 		return officeRepository.findById(id);
 	}
 
-	private Website save(Website website) {
-		return websiteRepository.save(website);
-	}
-
 	private Company save(Company company) {
 		return companyRepository.save(company);
-	}
-
-	private WebsiteSocialMediaProfile save(WebsiteSocialMediaProfile profile) {
-		return websiteSocialMediaProfileRepository.save(profile);
 	}
 
 	private Employee save(Employee employee) {
@@ -370,112 +301,6 @@ public class RepositoryTests {
 	void verifyMessageTherapyService() {
 		Services service = findServiceByName(MESSAGE_THERAPY);
 		assertEquals(MESSAGE_THERAPY, service.getName());
-	}
-
-	@Order(280)
-	@Test
-	void createWebsite() {
-		if (findWebsiteOptionalById(WEBSITE_ID).isEmpty()) {
-			Website website = new Website();
-			website.setId(WEBSITE_ID);
-			website.setName(WEBSITE_NAME);
-			website.setUrl(WEBSITE_URL);
-			save(website);
-		}
-	}
-
-	@Order(285)
-	@Test
-	void createWebsiteProfile() {
-		if (findWebsiteProfileOptionalById(WEBSITE_ID).isEmpty()) {
-			WebsiteSocialMediaProfile profile = new WebsiteSocialMediaProfile();
-			profile.setId(WEBSITE_PROFILE_ID);
-			profile.setYoutube(WEBSITE_PROFILE_YOUTUBE);
-			profile.setFacebook(WEBSITE_PROFILE_FACEBOOK);
-			profile.setInstagram(WEBSITE_PROFILE_INSTAGRAM);
-			profile.setYelp(WEBSITE_PROFILE_YELP);
-			save(profile);
-		}
-	}
-
-	@Order(288)
-	@Test
-	void attachWebsiteAndProfile() {
-		Website website = findWebsiteById(WEBSITE_ID);
-		WebsiteSocialMediaProfile profile = findWebsiteProfileById(WEBSITE_PROFILE_ID);
-		profile.setWebsite(website);
-		website.setProfile(profile);
-		save(website);
-	}
-
-	@Order(290)
-	@Test
-	void verifyWebsiteProfileYoutube() {
-		Website website = findWebsiteById(WEBSITE_ID);
-		assertEquals(WEBSITE_PROFILE_YOUTUBE, website.getProfile().getYoutube());
-	}
-
-	@Order(291)
-	@Test
-	void verifyWebsiteProfileFacebook() {
-		Website website = findWebsiteById(WEBSITE_ID);
-		assertEquals(WEBSITE_PROFILE_FACEBOOK, website.getProfile().getFacebook());
-	}
-
-	@Order(292)
-	@Test
-	void verifyWebsiteProfileInstagram() {
-		Website website = findWebsiteById(WEBSITE_ID);
-		assertEquals(WEBSITE_PROFILE_INSTAGRAM, website.getProfile().getInstagram());
-	}
-
-	@Order(293)
-	@Test
-	void verifyWebsiteProfileYelp() {
-		Website website = findWebsiteById(WEBSITE_ID);
-		assertEquals(WEBSITE_PROFILE_YELP, website.getProfile().getYelp());
-	}
-
-	@Order(294)
-	@Test
-	void verifyWebsiteName() {
-		Website website = findWebsiteById(WEBSITE_ID);
-		assertEquals(WEBSITE_NAME, website.getName());
-	}
-
-	@Order(295)
-	@Test
-	void verifyWebsiteProfileUrl() {
-		Website website = findWebsiteById(WEBSITE_ID);
-		assertEquals(WEBSITE_URL, website.getUrl());
-	}
-
-	@Order(300)
-	@Test
-	void attachWebsiteToCompany() {
-		Website website = findWebsiteById(WEBSITE_ID);
-		Company company = findCompanyById(COMPANY_ID);
-		company.setWebsite(website);
-		company.assignIdToChildren();
-		save(company);
-		save(website);
-	}
-
-	@Order(301)
-	@Test
-	void verifyCompanyWebsiteIsNotNull() {
-		Company company = findCompanyById(COMPANY_ID);
-		assertNotNull(company.getWebsite());
-	}
-
-	@Order(305)
-	@Test
-	void saveCompanyDoesNotRemoveWebsite() {
-		Company company = findCompanyById(COMPANY_ID);
-		company.assignIdToChildren();
-		save(company);
-		Website website = findWebsiteById(WEBSITE_ID);
-		assertNotNull(website.getCompany());
 	}
 
 	@Order(350)
@@ -1239,20 +1064,6 @@ public class RepositoryTests {
 		}
 		assertEquals(MELISSA_FIRST_NAME, melissa.getFirstName());
 		assertEquals(MELISSA_LAST_NAME, melissa.getLastName());
-	}
-
-	@Order(2800)
-	@Test
-	void websiteShouldBeNpt() {
-		Website website = findWebsiteById(WEBSITE_ID);
-		assertEquals(COMPANY_URL, website.getCompany().getCompanyUrl());
-	}
-
-	@Order(2801)
-	@Test
-	void websiteShouldHaveWebsiteId() {
-		Website website = findWebsiteById(WEBSITE_ID);
-		assertEquals(WEBSITE_ID, website.getId());
 	}
 
 	@Order(3000)

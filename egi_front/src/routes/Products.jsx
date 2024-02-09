@@ -19,6 +19,16 @@ const Product = (props) => {
     navigate("/cart");
   };
 
+  /*
+          10: "#BFAE48",
+          20: "#5FAD41",
+          30: "#2D936C",
+          40: "#391463",
+          50: "#3A0842",
+          60: "#331e6d",
+          70: "#ffcf31",
+    */
+
   return (
     <div className="">
       <div className="border-2 border-egi-20 bg-egi-30 rounded-sm p-2 shadow-lg">
