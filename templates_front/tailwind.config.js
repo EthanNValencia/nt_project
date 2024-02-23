@@ -11,6 +11,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        btn_light: {
+          text: "#FFFFFF",
+          hover_text: "#000000",
+          bg: "#256c70",
+          hover: "#ffe97d",
+        },
+        btn_dark: {
+          1: "",
+          2: "",
+          3: "",
+        },
         vuejs: {
           100: "#49e659",
           932: "#434252",

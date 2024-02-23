@@ -79,8 +79,11 @@ export async function getServices() {
   }
 }
 
-export async function getWebsite() {
-  const url = publicUrl + "/website";
+export async function getWebsite(companyUrl) {
+  const url =
+    "http://localhost:8765/website-service/api/v1/public/" +
+    companyUrl +
+    "/website/";
   try {
     const response = await axios.get(url);
     return response.data;

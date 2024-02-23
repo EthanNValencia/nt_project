@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -18,7 +17,7 @@ public class PrivateController {
 
 	@GetMapping("{companyUrl}/website/")
 	public ResponseEntity<Website> getWebsite(@PathVariable(value = "companyUrl") String companyUrl) {
-		return new ResponseEntity<Website>(websiteService.getWebsite(), HttpStatus.OK);
+		return new ResponseEntity<Website>(websiteService.getFirstWebsite(), HttpStatus.OK);
 	}
 
 	@PostMapping("{companyUrl}/website/")

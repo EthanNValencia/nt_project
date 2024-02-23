@@ -22,7 +22,7 @@ public class WebsiteService {
 	@Autowired
 	private PageRepository pageRepository;
 	
-	public Website getWebsite() {
+	public Website getFirstWebsite() {
 		Website website = websiteRepository.findAll().getFirst();
 		return website;
 	}
@@ -63,5 +63,10 @@ public class WebsiteService {
 		Website website = websiteRepository.findByCompanyUrl(companyUrl);
 		WebsiteDto websiteDto = new WebsiteDto(website);
 		return websiteDto;
+	}
+
+	public Website getWebsiteByCompanyUrl(String companyUrl) {
+		Website website = websiteRepository.findByCompanyUrl(companyUrl);
+		return website;
 	}
 }

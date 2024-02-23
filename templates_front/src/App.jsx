@@ -13,109 +13,28 @@ import Footer from "./components/Footer";
 import NotFound from "./routes2/NotFound";
 import Products from "./routes2/Products";
 import Complete from "./routes2/Complete";
+import { WebsiteContext, WebsiteProvider } from "./contexts/WebsiteContext";
+import { useContext } from "react";
 
 function App() {
   return (
-    <div className="">
+    <>
       <BrowserRouter>
-        <WebsiteContext>
+        <WebsiteProvider>
           <AuthProvider>
             <CartProvider>
-              <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <WSW>
-                      <Home />
-                    </WSW>
-                  }
-                />
-                <Route
-                  path="about"
-                  element={
-                    <WSW>
-                      <AboutUs />
-                    </WSW>
-                  }
-                />
-                <Route
-                  path="completion"
-                  element={
-                    <WSW>
-                      <Complete />
-                    </WSW>
-                  }
-                />
-                <Route
-                  path="contact"
-                  element={
-                    <WSW>
-                      <ContactUs />
-                    </WSW>
-                  }
-                />
-                <Route
-                  path="faqs"
-                  element={
-                    <WSW>
-                      <FrequentlyAskedQuestions />
-                    </WSW>
-                  }
-                />
-                <Route
-                  path="products"
-                  element={
-                    <WSW>
-                      <Products />
-                    </WSW>
-                  }
-                />
-                <Route
-                  path="cart"
-                  element={
-                    <WSW>
-                      <Cart />
-                    </WSW>
-                  }
-                />
-                <Route
-                  path="*"
-                  element={
-                    <WSW>
-                      <NotFound />
-                    </WSW>
-                  }
-                />
-              </Routes>
+              <Navigation />
             </CartProvider>
           </AuthProvider>
-        </WebsiteContext>
+        </WebsiteProvider>
       </BrowserRouter>
-    </div>
+    </>
   );
 }
 
-function WSW({ children }) {
-  const style = {
-    minHeight: "85vh",
-  };
-
-  // WSW stands for WebSiteWrap, it is meant to wrap all the routes in the NPT website.
-  return (
-    <div className="bg-egi-30">
-      <div className="mx-auto h-full">
-        <div className="h-full font-montserrat">
-          <div>
-            <Header />
-            <div style={style}>
-              <div>{children}</div>
-            </div>
-            <Footer />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+function Navigation() {
+  const websiteContext = useContext(WebsiteContext);
+  return <></>;
 }
 
 export default App;

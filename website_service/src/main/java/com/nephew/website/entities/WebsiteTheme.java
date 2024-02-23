@@ -8,9 +8,6 @@ public class WebsiteTheme {
     @Column(name = "id")
     private long id;
 
-    @Column
-    private String buttonColor;
-
     @OneToOne
     @JoinColumn(name = "website_id", referencedColumnName = "id")
     private Website website;

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { createContext } from "react";
 import { getWebsite } from "../axios/api";
 
@@ -11,7 +11,9 @@ export function WebsiteProvider({ children }) {
 
   const fetchWebsite = async () => {
     try {
-      const websiteData = await getWebsite();
+      const companyUrl = "npt";
+      const websiteData = await getWebsite(companyUrl);
+      console.log(websiteData);
       setWebsite(websiteData);
       return true;
     } catch (error) {

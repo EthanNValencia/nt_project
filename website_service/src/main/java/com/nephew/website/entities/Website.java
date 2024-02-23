@@ -30,9 +30,11 @@ public class Website {
 	@JsonIgnoreProperties("website")
 	private WebsiteSocialMediaProfile profile;
 
+	/*
 	@OneToOne(mappedBy = "website", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("website")
 	private WebsiteTheme websiteTheme;
+	*/
 
 	@OneToOne
 	@JoinColumn(name = "company_id")
